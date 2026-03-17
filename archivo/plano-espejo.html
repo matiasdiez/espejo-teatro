@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plano Técnico: Espejo Camarín 1500x700</title>
+    <style>
+      :root {
+        --bg-color: #0b192c;
+        --line-color: #4a90e2;
+        --text-color: #a0c3d2;
+        --highlight: #f39c12;
+        --glass: rgba(160, 195, 210, 0.2);
+        --mdf: #8b5a2b;
+        --wood: #cd853f;
+        --led: #f1c40f;
+        --danger: #e74c3c;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        color: var(--line-color);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border-bottom: 2px solid var(--line-color);
+        padding-bottom: 10px;
+        width: 100%;
+        max-width: 1200px;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        max-width: 1200px;
+        width: 100%;
+        margin-top: 20px;
+      }
+      .view-panel {
+        border: 1px solid var(--line-color);
+        padding: 15px;
+        background-image:
+          linear-gradient(rgba(74, 144, 226, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(74, 144, 226, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        position: relative;
+      }
+      .view-title {
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background-color: var(--bg-color);
+        padding: 0 10px;
+        color: var(--highlight);
+        font-weight: bold;
+      }
+      svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .part {
+        transition: all 0.3s ease;
+        cursor: crosshair;
+      }
+      .part:hover {
+        fill: var(--highlight) !important;
+        stroke: #fff !important;
+        stroke-width: 2 !important;
+        opacity: 0.8;
+      }
+      .measure-line {
+        stroke: var(--text-color);
+        stroke-width: 1;
+        stroke-dasharray: 4;
+      }
+      .measure-text {
+        fill: var(--text-color);
+        font-size: 14px;
+        text-anchor: middle;
+      }
+      .led-glow {
+        filter: drop-shadow(0 0 8px var(--led));
+      }
+      .full-width {
+        grid-column: 1 / -1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Esquema Técnico: Proyecto Espejo 150x70</h1>
+
+    <div class="grid-container">
+      <div class="view-panel">
+        <div class="view-title">VISTA FRONTAL (Proporción Escala)</div>
+        <svg viewBox="0 0 800 1600" preserveAspectRatio="xMidYMid meet">
+          <rect
+            class="part"
+            x="30"
+            y="30"
+            width="740"
+            height="1540"
+            fill="none"
+            stroke="var(--wood)"
+            stroke-width="20"
+          >
+            <title>
+              Marco de Madera: 1540x740mm (Excedente de 20mm por lado)
+            </title>
+          </rect>
+
+          <rect
+            class="part"
+            x="50"
+            y="50"
+            width="700"
+            height="1500"
+            fill="var(--glass)"
+            stroke="var(--line-color)"
+            stroke-width="2"
+          >
+            <title>Espejo 3mm: 1500x700mm</title>
+          </rect>
+
+          <path
+            class="part led-glow"
+            d="M 100 100 L 700 100 L 700 1500 L 100 1500 Z M 112 112 L 112 1488 L 688 1488 L 688 112 Z"
+            fill="rgba(255, 255, 255, 0.8)"
+            fill-rule="evenodd"
+            stroke="var(--led)"
+            stroke-width="1"
+          >
+            <title>
+              Franja Transparente: 12mm de espesor, a 50mm del borde del
+              cristal. Luz difusa saliendo.
+            </title>
+          </path>
+
+          <line class="measure-line" x1="50" y1="20" x2="750" y2="20" />
+          <text class="measure-text" x="400" y="15">700 mm (Ancho Espejo)</text>
+
+          <line class="measure-line" x1="20" y1="50" x2="20" y2="1550" />
+          <text
+            class="measure-text"
+            x="-800"
+            y="15"
+            transform="rotate(-90)"
+            text-anchor="middle"
+          >
+            1500 mm (Alto Espejo)
+          </text>
+        </svg>
+      </div>
+
+      <div class="view-panel">
+        <div class="view-title">VISTA TRASERA (Chasis MDF 18mm)</div>
+        <svg viewBox="0 0 800 1600" preserveAspectRatio="xMidYMid meet">
+          <rect
+            class="part"
+            x="100"
+            y="100"
+            width="600"
+            height="1400"
+            fill="rgba(139, 90, 43, 0.3)"
+            stroke="var(--mdf)"
+            stroke-width="3"
+          >
+            <title>
+              Placa MDF 18mm: 1400x600mm. Centrada detrás del espejo.
+            </title>
+          </rect>
+
+          <polygon
+            class="part"
+            points="150,150 650,150 650,200 150,200"
+            fill="none"
+            stroke="var(--wood)"
+            stroke-width="2"
+          >
+            <title>
+              Listón Francés (French Cleat): Corte a 45°. Ancho 500mm.
+            </title>
+          </polygon>
+
+          <rect
+            class="part"
+            x="300"
+            y="1300"
+            width="200"
+            height="100"
+            fill="none"
+            stroke="var(--danger)"
+            stroke-width="2"
+            stroke-dasharray="5"
+          >
+            <title>
+              Calado (Agujero pasante) en MDF para empotrar fuente Switching 12V
+              5A. Medida aprox: 160x100mm.
+            </title>
+          </rect>
+
+          <circle
+            class="part"
+            cx="350"
+            cy="1250"
+            r="10"
+            fill="none"
+            stroke="var(--line-color)"
+          />
+          <circle
+            class="part"
+            cx="450"
+            cy="1250"
+            r="10"
+            fill="none"
+            stroke="var(--line-color)"
+          />
+          <title>
+            Perforaciones 20mm para ventilación convectiva de la fuente.
+          </title>
+
+          <path
+            d="M 400 1400 L 400 1450"
+            fill="none"
+            stroke="var(--highlight)"
+            stroke-width="4"
+            stroke-dasharray="10"
+          >
+            <title>Salida de cable 220V hacia el enchufe de pared.</title>
+          </path>
+
+          <rect
+            x="96"
+            y="96"
+            width="608"
+            height="1408"
+            fill="none"
+            stroke="var(--led)"
+            stroke-width="4"
+            stroke-dasharray="15 5"
+          >
+            <title>
+              Tira LED SMD 2835 pegada en el CANTO del MDF 18mm, apuntando hacia
+              afuera.
+            </title>
+          </rect>
+
+          <line class="measure-line" x1="100" y1="80" x2="700" y2="80" />
+          <text class="measure-text" x="400" y="70">600 mm (Ancho MDF)</text>
+          <text class="measure-text" x="400" y="1520">
+            Espacio de 50mm por lado para rebote de luz
+          </text>
+        </svg>
+      </div>
+
+      <div class="view-panel full-width">
+        <div class="view-title">
+          CORTE TRANSVERSAL DETALLADO (Topes / Rebotes de luz)
+        </div>
+        <svg
+          viewBox="0 0 500 300"
+          preserveAspectRatio="xMidYMid meet"
+          style="background-color: rgba(0, 0, 0, 0.2)"
+        >
+          <rect x="0" y="0" width="20" height="300" fill="#333" stroke="none">
+            <title>Pared de la habitación</title>
+          </rect>
+
+          <polygon
+            class="part"
+            points="20,50 40,50 40,90 20,70"
+            fill="var(--wood)"
+          >
+            <title>Listón Francés amurado a la pared (Corte 45°)</title>
+          </polygon>
+
+          <polygon
+            class="part"
+            points="20,72 40,92 40,120 20,120"
+            fill="var(--wood)"
+          >
+            <title>Listón Francés atornillado al MDF</title>
+          </polygon>
+
+          <rect
+            class="part"
+            x="40"
+            y="40"
+            width="18"
+            height="260"
+            fill="var(--mdf)"
+            stroke="#000"
+            stroke-width="1"
+          >
+            <title>Placa base MDF 18mm</title>
+          </rect>
+
+          <rect
+            class="part"
+            x="58"
+            y="0"
+            width="4"
+            height="300"
+            fill="var(--glass)"
+            stroke="#fff"
+            stroke-width="0.5"
+          >
+            <title>Espejo 3mm</title>
+          </rect>
+
+          <polygon
+            class="part"
+            points="30,-10 90,-10 90,0 62,0 62,20 30,20"
+            fill="var(--wood)"
+            stroke="#000"
+            stroke-width="1"
+          >
+            <title>
+              Marco perfil caja. Contiene el "sandwich" completo. Fondo pintado
+              de blanco mate.
+            </title>
+          </polygon>
+
+          <rect
+            class="part led-glow"
+            x="42"
+            y="36"
+            width="14"
+            height="4"
+            fill="var(--led)"
+          >
+            <title>
+              Tira LED pegada en el canto superior del MDF. Apunta hacia el
+              marco de madera.
+            </title>
+          </rect>
+
+          <path
+            d="M 50 34 Q 50 10 70 5"
+            fill="none"
+            stroke="var(--led)"
+            stroke-width="1"
+            stroke-dasharray="3"
+          />
+          <path
+            d="M 46 34 Q 40 10 70 15"
+            fill="none"
+            stroke="var(--led)"
+            stroke-width="1"
+            stroke-dasharray="3"
+          />
+
+          <rect
+            x="58"
+            y="10"
+            width="4"
+            height="12"
+            fill="rgba(255,255,255,0.8)"
+            stroke="none"
+          >
+            <title>
+              Zona decapada 12mm. La luz rebota en la madera blanca y sale por
+              aquí.
+            </title>
+          </rect>
+
+          <text x="100" y="20" fill="var(--text-color)" font-size="12">
+            1. Salida de luz difusa (12mm)
+          </text>
+          <text x="100" y="40" fill="var(--text-color)" font-size="12">
+            2. Tira LED en el canto del MDF
+          </text>
+          <text x="100" y="60" fill="var(--text-color)" font-size="12">
+            3. MDF 18mm (Estructura)
+          </text>
+          <text x="100" y="100" fill="var(--text-color)" font-size="12">
+            4. Sistema French Cleat (Soporte pesado)
+          </text>
+
+          <line class="measure-line" x1="20" y1="280" x2="40" y2="280" />
+          <text class="measure-text" x="30" y="275" font-size="10">20mm</text>
+
+          <line class="measure-line" x1="40" y1="280" x2="58" y2="280" />
+          <text class="measure-text" x="49" y="275" font-size="10">18mm</text>
+        </svg>
+      </div>
+    </div>
+
+    <p
+      style="
+        margin-top: 30px;
+        border-top: 1px solid var(--line-color);
+        padding-top: 10px;
+      "
+    >
+      <strong>Nota de ensamblaje:</strong> Pegar el espejo al MDF utilizando
+      silicona neutra apta para espejos (no usar adhesivos de montaje con
+      solventes porque se comerán la capa de plata restante por detrás).
+    </p>
+  </body>
+</html>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plano Técnico: Espejo Camarín 1500x700</title>
+    <style>
+      :root {
+        --bg-color: #0b192c;
+        --line-color: #4a90e2;
+        --text-color: #a0c3d2;
+        --highlight: #f39c12;
+        --glass: rgba(160, 195, 210, 0.2);
+        --mdf: #8b5a2b;
+        --wood: #cd853f;
+        --led: #f1c40f;
+        --danger: #e74c3c;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        color: var(--line-color);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border-bottom: 2px solid var(--line-color);
+        padding-bottom: 10px;
+        width: 100%;
+        max-width: 1200px;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        max-width: 1200px;
+        width: 100%;
+        margin-top: 20px;
+      }
+      .view-panel {
+        border: 1px solid var(--line-color);
+        padding: 15px;
+        background-image:
+          linear-gradient(rgba(74, 144, 226, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(74, 144, 226, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        position: relative;
+      }
+      .view-title {
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background-color: var(--bg-color);
+        padding: 0 10px;
+        color: var(--highlight);
+        font-weight: bold;
+      }
+      svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .part {
+        transition: all 0.3s ease;
+        cursor: crosshair;
+      }
+      .part:hover {
+        fill: var(--highlight) !important;
+        stroke: #fff !important;
+        stroke-width: 2 !important;
+        opacity: 0.8;
+      }
+      .measure-line {
+        stroke: var(--text-color);
+        stroke-width: 1;
+        stroke-dasharray: 4;
+      }
+      .measure-text {
+        fill: var(--text-color);
+        font-size: 14px;
+        text-anchor: middle;
+      }
+      .led-glow {
+        filter: drop-shadow(0 0 8px var(--led));
+      }
+      .full-width {
+        grid-column: 1 / -1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Esquema Técnico: Proyecto Espejo 150x70</h1>
+
+    <div class="grid-container">
+      <div class="view-panel">
+        <div class="view-title">VISTA FRONTAL (Proporción Escala)</div>
+        <svg viewBox="0 0 800 1600" preserveAspectRatio="xMidYMid meet">
+          <rect
+            class="part"
+            x="30"
+            y="30"
+            width="740"
+            height="1540"
+            fill="none"
+            stroke="var(--wood)"
+            stroke-width="20"
+          >
+            <title>
+              Marco de Madera: 1540x740mm (Excedente de 20mm por lado)
+            </title>
+          </rect>
+
+          <rect
+            class="part"
+            x="50"
+            y="50"
+            width="700"
+            height="1500"
+            fill="var(--glass)"
+            stroke="var(--line-color)"
+            stroke-width="2"
+          >
+            <title>Espejo 3mm: 1500x700mm</title>
+          </rect>
+
+          <path
+            class="part led-glow"
+            d="M 100 100 L 700 100 L 700 1500 L 100 1500 Z M 112 112 L 112 1488 L 688 1488 L 688 112 Z"
+            fill="rgba(255, 255, 255, 0.8)"
+            fill-rule="evenodd"
+            stroke="var(--led)"
+            stroke-width="1"
+          >
+            <title>
+              Franja Transparente: 12mm de espesor, a 50mm del borde del
+              cristal. Luz difusa saliendo.
+            </title>
+          </path>
+
+          <line class="measure-line" x1="50" y1="20" x2="750" y2="20" />
+          <text class="measure-text" x="400" y="15">700 mm (Ancho Espejo)</text>
+
+          <line class="measure-line" x1="20" y1="50" x2="20" y2="1550" />
+          <text
+            class="measure-text"
+            x="-800"
+            y="15"
+            transform="rotate(-90)"
+            text-anchor="middle"
+          >
+            1500 mm (Alto Espejo)
+          </text>
+        </svg>
+      </div>
+
+      <div class="view-panel">
+        <div class="view-title">VISTA TRASERA (Chasis MDF 18mm)</div>
+        <svg viewBox="0 0 800 1600" preserveAspectRatio="xMidYMid meet">
+          <rect
+            class="part"
+            x="100"
+            y="100"
+            width="600"
+            height="1400"
+            fill="rgba(139, 90, 43, 0.3)"
+            stroke="var(--mdf)"
+            stroke-width="3"
+          >
+            <title>
+              Placa MDF 18mm: 1400x600mm. Centrada detrás del espejo.
+            </title>
+          </rect>
+
+          <polygon
+            class="part"
+            points="150,150 650,150 650,200 150,200"
+            fill="none"
+            stroke="var(--wood)"
+            stroke-width="2"
+          >
+            <title>
+              Listón Francés (French Cleat): Corte a 45°. Ancho 500mm.
+            </title>
+          </polygon>
+
+          <rect
+            class="part"
+            x="300"
+            y="1300"
+            width="200"
+            height="100"
+            fill="none"
+            stroke="var(--danger)"
+            stroke-width="2"
+            stroke-dasharray="5"
+          >
+            <title>
+              Calado (Agujero pasante) en MDF para empotrar fuente Switching 12V
+              5A. Medida aprox: 160x100mm.
+            </title>
+          </rect>
+
+          <circle
+            class="part"
+            cx="350"
+            cy="1250"
+            r="10"
+            fill="none"
+            stroke="var(--line-color)"
+          />
+          <circle
+            class="part"
+            cx="450"
+            cy="1250"
+            r="10"
+            fill="none"
+            stroke="var(--line-color)"
+          />
+          <title>
+            Perforaciones 20mm para ventilación convectiva de la fuente.
+          </title>
+
+          <path
+            d="M 400 1400 L 400 1450"
+            fill="none"
+            stroke="var(--highlight)"
+            stroke-width="4"
+            stroke-dasharray="10"
+          >
+            <title>Salida de cable 220V hacia el enchufe de pared.</title>
+          </path>
+
+          <rect
+            x="96"
+            y="96"
+            width="608"
+            height="1408"
+            fill="none"
+            stroke="var(--led)"
+            stroke-width="4"
+            stroke-dasharray="15 5"
+          >
+            <title>
+              Tira LED SMD 2835 pegada en el CANTO del MDF 18mm, apuntando hacia
+              afuera.
+            </title>
+          </rect>
+
+          <line class="measure-line" x1="100" y1="80" x2="700" y2="80" />
+          <text class="measure-text" x="400" y="70">600 mm (Ancho MDF)</text>
+          <text class="measure-text" x="400" y="1520">
+            Espacio de 50mm por lado para rebote de luz
+          </text>
+        </svg>
+      </div>
+
+      <div class="view-panel full-width">
+        <div class="view-title">
+          CORTE TRANSVERSAL DETALLADO (Topes / Rebotes de luz)
+        </div>
+        <svg
+          viewBox="0 0 500 300"
+          preserveAspectRatio="xMidYMid meet"
+          style="background-color: rgba(0, 0, 0, 0.2)"
+        >
+          <rect x="0" y="0" width="20" height="300" fill="#333" stroke="none">
+            <title>Pared de la habitación</title>
+          </rect>
+
+          <polygon
+            class="part"
+            points="20,50 40,50 40,90 20,70"
+            fill="var(--wood)"
+          >
+            <title>Listón Francés amurado a la pared (Corte 45°)</title>
+          </polygon>
+
+          <polygon
+            class="part"
+            points="20,72 40,92 40,120 20,120"
+            fill="var(--wood)"
+          >
+            <title>Listón Francés atornillado al MDF</title>
+          </polygon>
+
+          <rect
+            class="part"
+            x="40"
+            y="40"
+            width="18"
+            height="260"
+            fill="var(--mdf)"
+            stroke="#000"
+            stroke-width="1"
+          >
+            <title>Placa base MDF 18mm</title>
+          </rect>
+
+          <rect
+            class="part"
+            x="58"
+            y="0"
+            width="4"
+            height="300"
+            fill="var(--glass)"
+            stroke="#fff"
+            stroke-width="0.5"
+          >
+            <title>Espejo 3mm</title>
+          </rect>
+
+          <polygon
+            class="part"
+            points="30,-10 90,-10 90,0 62,0 62,20 30,20"
+            fill="var(--wood)"
+            stroke="#000"
+            stroke-width="1"
+          >
+            <title>
+              Marco perfil caja. Contiene el "sandwich" completo. Fondo pintado
+              de blanco mate.
+            </title>
+          </polygon>
+
+          <rect
+            class="part led-glow"
+            x="42"
+            y="36"
+            width="14"
+            height="4"
+            fill="var(--led)"
+          >
+            <title>
+              Tira LED pegada en el canto superior del MDF. Apunta hacia el
+              marco de madera.
+            </title>
+          </rect>
+
+          <path
+            d="M 50 34 Q 50 10 70 5"
+            fill="none"
+            stroke="var(--led)"
+            stroke-width="1"
+            stroke-dasharray="3"
+          />
+          <path
+            d="M 46 34 Q 40 10 70 15"
+            fill="none"
+            stroke="var(--led)"
+            stroke-width="1"
+            stroke-dasharray="3"
+          />
+
+          <rect
+            x="58"
+            y="10"
+            width="4"
+            height="12"
+            fill="rgba(255,255,255,0.8)"
+            stroke="none"
+          >
+            <title>
+              Zona decapada 12mm. La luz rebota en la madera blanca y sale por
+              aquí.
+            </title>
+          </rect>
+
+          <text x="100" y="20" fill="var(--text-color)" font-size="12">
+            1. Salida de luz difusa (12mm)
+          </text>
+          <text x="100" y="40" fill="var(--text-color)" font-size="12">
+            2. Tira LED en el canto del MDF
+          </text>
+          <text x="100" y="60" fill="var(--text-color)" font-size="12">
+            3. MDF 18mm (Estructura)
+          </text>
+          <text x="100" y="100" fill="var(--text-color)" font-size="12">
+            4. Sistema French Cleat (Soporte pesado)
+          </text>
+
+          <line class="measure-line" x1="20" y1="280" x2="40" y2="280" />
+          <text class="measure-text" x="30" y="275" font-size="10">20mm</text>
+
+          <line class="measure-line" x1="40" y1="280" x2="58" y2="280" />
+          <text class="measure-text" x="49" y="275" font-size="10">18mm</text>
+        </svg>
+      </div>
+    </div>
+
+    <p
+      style="
+        margin-top: 30px;
+        border-top: 1px solid var(--line-color);
+        padding-top: 10px;
+      "
+    >
+      <strong>Nota de ensamblaje:</strong> Pegar el espejo al MDF utilizando
+      silicona neutra apta para espejos (no usar adhesivos de montaje con
+      solventes porque se comerán la capa de plata restante por detrás).
+    </p>
+  </body>
+</html>
+o
