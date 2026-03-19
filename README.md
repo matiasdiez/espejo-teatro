@@ -4,7 +4,7 @@ Este repositorio contiene la documentación técnica, lista de materiales y plan
 
 El objetivo central del proyecto es la construcción de un espejo iluminado por retroproyección (luz rebotada), montado mediante sistema _French Cleat_, asegurando rigidez estructural, transportabilidad y una estética impecable sin luces deslumbrantes directas hacia el actor.
 
-> [!note] Nota
+> [!NOTE] Nota
 > Próximamente se agregará la documentación técnica, lista de materiales y planos interactivos para la construcción física del espejo de camarín del Teatro Machado.
 
 ## 🪞 El Objeto Construido
