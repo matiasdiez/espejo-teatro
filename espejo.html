@@ -68,6 +68,12 @@
         --c-wall: #1e293b;
       }
 
+      /* Tipografía técnica para Desglose y Planos */
+      aside#sidebar,
+      main svg text {
+        font-family: 'Courier New', 'Courier', monospace;
+      }
+
       /* SVG Element Interactions */
       .svg-layer {
         transition:
@@ -134,6 +140,62 @@
       .dim-text-m {
         fill: currentColor;
         font-size: 6px;
+      }
+
+      /* Interactive toggles */
+      .blueprint-mode svg {
+        background-color: #0f172a !important;
+        border-radius: 0.5rem;
+      }
+      .blueprint-mode [stroke="currentColor"],
+      .blueprint-mode .dim-line {
+        stroke: #bae6fd !important;
+        opacity: 0.8 !important;
+      }
+      .blueprint-mode text,
+      .blueprint-mode .dim-text-m,
+      .blueprint-mode .fill-current {
+        fill: #bae6fd !important;
+        color: #bae6fd !important;
+      }
+      .blueprint-mode .layer-mdf,
+      .blueprint-mode .layer-kiri,
+      .blueprint-mode .layer-cleat,
+      .blueprint-mode .layer-pino,
+      .blueprint-mode .layer-mdf5,
+      .blueprint-mode polygon:not(.layer-decapado) {
+        fill: url(#blueprintHatch) !important;
+        stroke: #bae6fd !important;
+        stroke-width: 0.5px !important;
+      }
+      .blueprint-mode .layer-cristal {
+        fill: rgba(186, 230, 253, 0.1) !important;
+        stroke: #bae6fd !important;
+        stroke-width: 1px !important;
+      }
+      .blueprint-mode .layer-decapado {
+        fill: rgba(255, 255, 255, 0.3) !important;
+        filter: none !important;
+        stroke: #bae6fd !important;
+        stroke-width: 0.5px !important;
+      }
+      .hide-dims .dim-line,
+      .hide-dims .dim-text-m,
+      .hide-dims g.dim-line {
+        opacity: 0 !important;
+        transition: opacity 0.3s ease;
+      }
+      .lights-off .layer-led,
+      .lights-off [fill="url(#lightConeGrad)"] {
+        opacity: 0 !important;
+        transition: opacity 0.4s ease;
+      }
+      .lights-off .layer-decapado {
+        filter: none !important;
+        fill: rgba(255, 255, 255, 0.4) !important;
+      }
+      svg {
+        transition: background-color 0.4s ease;
       }
     </style>
   </head>
@@ -265,7 +327,7 @@
             >
             <span
               class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
-              >12mm ancho</span
+              >30mm ancho</span
             >
           </div>
           <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
@@ -402,7 +464,8 @@
 
       <!-- Main Content -->
       <main
-        class="flex-1 flex flex-col bg-base-200 dark:bg-base-950 relative overlay-pattern"
+        id="main-canvas"
+        class="flex-1 flex flex-col bg-base-200 dark:bg-base-950 relative overlay-pattern transition-colors duration-500"
       >
         <div
           class="absolute inset-0 pointer-events-none"
@@ -422,18 +485,33 @@
           "
         ></div>
 
-        <div
-          class="tabs tabs-box bg-base-100 dark:bg-base-900 border-b border-base-200 dark:border-base-800 justify-center sm:justify-start px-4 pt-4 rounded-none shadow-sm z-10 w-full overflow-x-auto no-scrollbar"
-        >
-          <a class="tab tab-btn tab-active font-medium" data-view="view-corte"
-            >Perfil (Corte Transversal)</a
-          >
-          <a class="tab tab-btn font-medium" data-view="view-frontal"
-            >Vista Frontal (Plan)</a
-          >
-          <a class="tab tab-btn font-medium" data-view="view-despiece"
-            >Explosión Isométrica</a
-          >
+        <div class="flex flex-col sm:flex-row w-full bg-base-100 dark:bg-base-900 border-b border-base-200 dark:border-base-800 shadow-sm z-10">
+          <div class="tabs tabs-box flex-1 justify-center sm:justify-start px-4 pt-4 rounded-none overflow-x-auto no-scrollbar border-b-0 bg-transparent">
+            <a class="tab tab-btn tab-active font-medium" data-view="view-corte">Perfil (Corte Transversal)</a>
+            <a class="tab tab-btn font-medium" data-view="view-frontal">Vista Frontal (Plan)</a>
+            <a class="tab tab-btn font-medium" data-view="view-despiece">Explosión Isométrica</a>
+          </div>
+          <div class="flex items-center justify-center gap-2 px-4 py-3 sm:py-0 border-t border-base-200 dark:border-base-800 sm:border-t-0 bg-base-100 dark:bg-base-900">
+            <!-- Zoom Controls -->
+            <div class="hidden sm:flex items-center gap-1 border-r border-base-200 dark:border-base-800 pr-2 mr-1">
+              <i data-lucide="zoom-out" class="w-4 h-4 text-base-500"></i>
+              <input id="zoom-slider" type="range" min="0.5" max="3" step="0.1" value="1" class="range range-xs range-primary w-24" />
+              <i data-lucide="zoom-in" class="w-4 h-4 text-base-500"></i>
+              <button id="zoom-reset" class="btn btn-xs btn-ghost btn-circle ml-1" title="Reset Zoom">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+            
+            <button id="btn-blueprint" class="btn btn-sm btn-ghost btn-square" title="Modo Blueprint">
+              <i data-lucide="drafting-compass" class="w-4 h-4 text-sky-500"></i>
+            </button>
+            <button id="btn-lights" class="btn btn-sm btn-ghost btn-square" title="Alternar Luces LED">
+              <i id="icon-lights" data-lucide="lightbulb" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i>
+            </button>
+            <button id="btn-dims" class="btn btn-sm btn-ghost btn-square" title="Ocultar/Mostrar Cotas">
+              <i id="icon-dims" data-lucide="ruler" class="w-4 h-4 text-base-500"></i>
+            </button>
+          </div>
         </div>
 
         <svg width="0" height="0" class="absolute pointer-events-none">
@@ -447,6 +525,13 @@
               <stop offset="0%" stop-color="#bae6fd" />
               <stop offset="100%" stop-color="#0284c7" />
             </linearGradient>
+            <linearGradient id="lightConeGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#fef08a" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="#fef08a" stop-opacity="0" />
+            </linearGradient>
+            <pattern id="blueprintHatch" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="4" stroke="#bae6fd" stroke-width="0.5" />
+            </pattern>
             <pattern
               id="mdfTex"
               patternUnits="userSpaceOnUse"
@@ -486,8 +571,9 @@
           <!-- TAB 1: PERFIL (CORTE) -->
           <div
             id="view-corte"
-            class="view-panel active text-base-500 w-full h-full max-w-5xl"
+            class="view-panel active text-base-500 w-full h-full max-w-5xl zoom-area cursor-grab active:cursor-grabbing"
           >
+           <div id="zoom-container-corte" class="w-full h-full" style="transform-origin: center center">
             <svg
               viewBox="280 10 570 180"
               xmlns="http://www.w3.org/2000/svg"
@@ -680,9 +766,9 @@
               <!-- Decapado -->
               <rect
                 class="svg-layer layer-decapado"
-                x="738"
+                x="720"
                 y="92"
-                width="12"
+                width="30"
                 height="4"
                 fill="rgba(255,255,255,0.9)"
                 filter="url(#glow)"
@@ -749,10 +835,10 @@
                 filter="url(#glow)"
               />
               <!-- Escape de Luz -->
-              <path
-                class="svg-layer layer-led"
-                d="M 742,92 L 742,60 L 760,60 L 760,92 Z"
-                fill="rgba(253, 224, 71, 0.15)"
+              <polygon
+                class="svg-layer layer-decapado"
+                points="720,92 750,92 765,35 705,35"
+                fill="url(#lightConeGrad)"
                 filter="url(#glow)"
               />
 
@@ -847,16 +933,18 @@
                 text-anchor="end"
                 fill="currentColor"
               >
-                Decapado 12mm
+                Decapado 30mm
               </text>
             </svg>
+           </div>
           </div>
 
           <!-- TAB 2: FRONTAL -->
           <div
             id="view-frontal"
-            class="view-panel w-full h-full max-w-4xl text-base-500"
+            class="view-panel w-full h-full max-w-4xl text-base-500 zoom-area cursor-grab active:cursor-grabbing"
           >
+           <div id="zoom-container-frontal" class="w-full h-full flex items-center justify-center" style="transform-origin: center center">
             <svg
               viewBox="0 0 1700 900"
               xmlns="http://www.w3.org/2000/svg"
@@ -881,7 +969,7 @@
 
               <path
                 class="svg-layer layer-decapado"
-                d="M 100,100 h 1500 v 700 h -1500 Z M 112,112 v 676 h 1476 v -676 Z"
+                d="M 100,100 h 1500 v 700 h -1500 Z M 130,130 v 640 h 1440 v -640 Z"
                 fill="rgba(255,255,255,0.8)"
                 fill-rule="evenodd"
                 filter="url(#glow)"
@@ -981,41 +1069,14 @@
                 </text>
               </g>
             </svg>
+           </div>
           </div>
 
           <!-- TAB 3: DESPIECE 3D -->
           <div
             id="view-despiece"
-            class="view-panel w-full h-full max-w-5xl text-base-500 relative overflow-hidden flex-col"
+            class="view-panel w-full h-full max-w-5xl text-base-500 relative overflow-hidden flex-col zoom-area cursor-grab active:cursor-grabbing"
           >
-            <!-- Zoom Controls -->
-            <div
-              class="absolute top-4 right-4 z-20 bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md border border-base-200 dark:border-base-800 p-3 rounded-2xl shadow-lg flex items-center gap-3"
-            >
-              <i data-lucide="zoom-out" class="w-4 h-4 text-base-500"></i>
-              <input
-                type="range"
-                id="zoom-slider"
-                min="0.5"
-                max="2.5"
-                step="0.1"
-                value="1"
-                class="range range-xs range-primary w-32"
-              />
-              <i data-lucide="zoom-in" class="w-4 h-4 text-base-500"></i>
-              <button
-                id="zoom-reset"
-                class="btn btn-xs btn-ghost btn-circle ml-1"
-                title="Reset Zoom"
-              >
-                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
-
-            <div
-              class="w-full h-full relative cursor-grab active:cursor-grabbing"
-              id="zoom-area"
-            >
               <svg
                 viewBox="-200 0 2000 1300"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1023,7 +1084,7 @@
               >
                 <!-- Contenedor general para el paneo y zoom -->
                 <g
-                  id="zoom-container"
+                  id="zoom-container-despiece"
                   style="
                     transform-origin: center;
                     transition: transform 0.1s ease-out;
@@ -1129,7 +1190,7 @@
                     />
                     <path
                       class="svg-layer layer-decapado"
-                      d="M -750,-350 h 1500 v 700 h -1500 Z M -738,-338 v 676 h 1476 v -676 Z"
+                      d="M -750,-350 h 1500 v 700 h -1500 Z M -720,-320 v 640 h 1440 v -640 Z"
                       fill="rgba(255,255,255,0.95)"
                       filter="url(#glow)"
                       fill-rule="evenodd"
@@ -1218,6 +1279,17 @@
             btn.classList.add("tab-active");
             const targetView = document.getElementById(btn.dataset.view);
             if (targetView) targetView.classList.add("active");
+
+            // Reset zoom when switching tabs
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            if (typeof zoomSlider !== "undefined" && zoomSlider) {
+              zoomSlider.value = 1;
+            }
+            if (typeof updateTransform === "function") {
+              updateTransform();
+            }
           });
         });
 
@@ -1258,6 +1330,173 @@
           });
         });
 
+        // TWO-WAY HOVER (SVG -> SIDEBAR)
+        const svgLayers = document.querySelectorAll(".svg-layer");
+        svgLayers.forEach((layer) => {
+          layer.addEventListener("mouseenter", () => {
+            const classList = Array.from(layer.classList);
+            const targetClass = classList.find((c) => c.startsWith("layer-"));
+            if (targetClass) {
+              const specItem = document.querySelector(
+                `.spec-item[data-target="${targetClass}"]`,
+              );
+              if (specItem) {
+                const mainColorClass = specItem.dataset.color;
+                document.body.classList.add("layer-highlight-mode");
+                specItem.classList.add("active-hover");
+
+                // --- TRIGGER TAILWIND HOVER CLASSES ---
+                if (!specItem.dataset.hoverClassesCached) {
+                  const hClass = [];
+                  Array.from(specItem.classList).forEach((c) => {
+                    if (c.startsWith("hover:"))
+                      hClass.push(c.replace("hover:", ""));
+                    if (c.startsWith("dark:hover:"))
+                      hClass.push(c.replace("dark:hover:", "dark:"));
+                  });
+                  specItem.dataset.hoverClasses = JSON.stringify(hClass);
+
+                  const titleSpan = specItem.querySelector("span");
+                  if (titleSpan) {
+                    const tClass = [];
+                    Array.from(titleSpan.classList).forEach((c) => {
+                      if (c.startsWith("group-hover:"))
+                        tClass.push(c.replace("group-hover:", ""));
+                      if (c.startsWith("dark:group-hover:"))
+                        tClass.push(c.replace("dark:group-hover:", "dark:"));
+                    });
+                    titleSpan.dataset.hoverClasses = JSON.stringify(tClass);
+                  }
+                  specItem.dataset.hoverClassesCached = "true";
+                }
+
+                const hoverClasses = JSON.parse(
+                  specItem.dataset.hoverClasses || "[]",
+                );
+                specItem.classList.remove(
+                  "bg-base-50",
+                  "dark:bg-base-800/50",
+                  "border-base-200",
+                  "dark:border-base-700",
+                );
+                specItem.classList.add(...hoverClasses);
+
+                const titleSpan = specItem.querySelector("span");
+                if (titleSpan) {
+                  const titleHover = JSON.parse(
+                    titleSpan.dataset.hoverClasses || "[]",
+                  );
+                  titleSpan.classList.remove(
+                    "text-base-900",
+                    "dark:text-base-100",
+                  );
+                  titleSpan.classList.add(...titleHover);
+                }
+                // --- END TRIGGER ---
+
+                document.querySelectorAll("." + targetClass).forEach((el) => {
+                  el.classList.add("highlighted");
+                  if (mainColorClass) el.classList.add(mainColorClass);
+                });
+                // Ensure it's partially into view quietly
+                specItem.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+              }
+            }
+          });
+
+          layer.addEventListener("mouseleave", () => {
+            const classList = Array.from(layer.classList);
+            const targetClass = classList.find((c) => c.startsWith("layer-"));
+            if (targetClass) {
+              const specItem = document.querySelector(
+                `.spec-item[data-target="${targetClass}"]`,
+              );
+              if (specItem) {
+                const mainColorClass = specItem.dataset.color;
+                document.body.classList.remove("layer-highlight-mode");
+                specItem.classList.remove("active-hover");
+
+                // --- RESTORE BASE CLASSES ---
+                const hoverClasses = JSON.parse(
+                  specItem.dataset.hoverClasses || "[]",
+                );
+                specItem.classList.remove(...hoverClasses);
+                specItem.classList.add(
+                  "bg-base-50",
+                  "dark:bg-base-800/50",
+                  "border-base-200",
+                  "dark:border-base-700",
+                );
+
+                const titleSpan = specItem.querySelector("span");
+                if (titleSpan) {
+                  const titleHover = JSON.parse(
+                    titleSpan.dataset.hoverClasses || "[]",
+                  );
+                  titleSpan.classList.remove(...titleHover);
+                  titleSpan.classList.add(
+                    "text-base-900",
+                    "dark:text-base-100",
+                  );
+                }
+                // --- END RESTORE ---
+
+                document.querySelectorAll("." + targetClass).forEach((el) => {
+                  el.classList.remove("highlighted");
+                  if (mainColorClass) el.classList.remove(mainColorClass);
+                });
+              }
+            }
+          });
+        });
+
+        // TOOLBAR BUTTONS
+        const mainCanvas = document.getElementById("main-canvas");
+        const btnBlueprint = document.getElementById("btn-blueprint");
+        const btnLights = document.getElementById("btn-lights");
+        const btnDims = document.getElementById("btn-dims");
+
+        if (btnBlueprint) {
+          btnBlueprint.addEventListener("click", () => {
+            mainCanvas.classList.toggle("blueprint-mode");
+            btnBlueprint.classList.toggle("bg-sky-500/20");
+          });
+        }
+
+        if (btnLights) {
+          btnLights.addEventListener("click", () => {
+            mainCanvas.classList.toggle("lights-off");
+            const icon = document.getElementById("icon-lights");
+            if (mainCanvas.classList.contains("lights-off")) {
+              icon.classList.remove("fill-yellow-500", "text-yellow-500");
+              icon.classList.add("text-base-500");
+              btnLights.classList.add("bg-base-200", "dark:bg-base-800");
+            } else {
+              icon.classList.add("fill-yellow-500", "text-yellow-500");
+              icon.classList.remove("text-base-500");
+              btnLights.classList.remove("bg-base-200", "dark:bg-base-800");
+            }
+          });
+        }
+
+        if (btnDims) {
+          btnDims.addEventListener("click", () => {
+            mainCanvas.classList.toggle("hide-dims");
+            const icon = document.getElementById("icon-dims");
+            if (mainCanvas.classList.contains("hide-dims")) {
+              icon.setAttribute("data-lucide", "eye-off");
+              btnDims.classList.add("bg-base-200", "dark:bg-base-800");
+            } else {
+              icon.setAttribute("data-lucide", "ruler");
+              btnDims.classList.remove("bg-base-200", "dark:bg-base-800");
+            }
+            lucide.createIcons();
+          });
+        }
+
         // THEME TOGGLE LOGIC
         const themeToggle = document.getElementById("theme-toggle");
         const htmlTag = document.documentElement;
@@ -1287,8 +1526,7 @@
         // --- ZOOM & PAN LOGIC ---
         const zoomSlider = document.getElementById("zoom-slider");
         const zoomReset = document.getElementById("zoom-reset");
-        const zoomContainer = document.getElementById("zoom-container");
-        const zoomArea = document.getElementById("zoom-area");
+        const zoomAreas = document.querySelectorAll(".zoom-area");
 
         let currentScale = 1;
         let currentX = 0;
@@ -1297,13 +1535,18 @@
         let startX, startY;
 
         function updateTransform() {
-          // Remove transition during drag for smoothness, add it back otherwise
-          if (isDragging) {
-            zoomContainer.style.transition = "none";
-          } else {
-            zoomContainer.style.transition = "transform 0.1s ease-out";
-          }
-          zoomContainer.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+          const containers = [
+            document.getElementById("zoom-container-corte"),
+            document.getElementById("zoom-container-frontal"),
+            document.getElementById("zoom-container-despiece")
+          ];
+
+          containers.forEach(container => {
+            if (container) {
+              container.style.transition = isDragging ? "none" : "transform 0.1s ease-out";
+              container.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+            }
+          });
         }
 
         if (zoomSlider) {
@@ -1320,11 +1563,32 @@
             updateTransform();
           });
 
-          // Mouse/Touch drag for panning
-          zoomArea.addEventListener("mousedown", (e) => {
-            isDragging = true;
-            startX = e.clientX - currentX;
-            startY = e.clientY - currentY;
+          zoomAreas.forEach(zoomArea => {
+            // Mouse/Touch drag for panning
+            zoomArea.addEventListener("mousedown", (e) => {
+              isDragging = true;
+              startX = e.clientX - currentX;
+              startY = e.clientY - currentY;
+            });
+
+            // Add scroll wheel to zoom
+            zoomArea.addEventListener("wheel", (e) => {
+              e.preventDefault();
+              const zoomStep = 0.1;
+              if (e.deltaY < 0) {
+                currentScale = Math.min(
+                  parseFloat(zoomSlider.max),
+                  currentScale + zoomStep,
+                );
+              } else {
+                currentScale = Math.max(
+                  parseFloat(zoomSlider.min),
+                  currentScale - zoomStep,
+                );
+              }
+              zoomSlider.value = currentScale;
+              updateTransform();
+            });
           });
 
           window.addEventListener("mousemove", (e) => {
@@ -1337,25 +1601,6 @@
           window.addEventListener("mouseup", () => {
             isDragging = false;
             updateTransform(); // Re-apply transition
-          });
-
-          // Add scroll wheel to zoom
-          zoomArea.addEventListener("wheel", (e) => {
-            e.preventDefault();
-            const zoomStep = 0.1;
-            if (e.deltaY < 0) {
-              currentScale = Math.min(
-                parseFloat(zoomSlider.max),
-                currentScale + zoomStep,
-              );
-            } else {
-              currentScale = Math.max(
-                parseFloat(zoomSlider.min),
-                currentScale - zoomStep,
-              );
-            }
-            zoomSlider.value = currentScale;
-            updateTransform();
           });
         }
       });

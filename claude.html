@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Espejo de Camarín LED - Planos Técnicos</title>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FlyonUI CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flyonui@1.3.0/dist/full.min.css"
+    />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+      tailwind.config = {
+        darkMode: ["class", '[data-theme="dark"]'],
+        theme: {
+          extend: {
+            colors: {
+              base: {
+                50: "#f8fafc",
+                100: "#f1f5f9",
+                200: "#e2e8f0",
+                300: "#cbd5e1",
+                400: "#94a3b8",
+                500: "#64748b",
+                600: "#475569",
+                700: "#334155",
+                800: "#1e293b",
+                900: "#0f172a",
+                950: "#020617",
+              },
+              blueprint: {
+                50: "#e0f2fe",
+                100: "#bae6fd",
+                200: "#7dd3fc",
+                300: "#38bdf8",
+                400: "#0ea5e9",
+                500: "#0284c7",
+                600: "#0369a1",
+                700: "#075985",
+                800: "#0c4a6e",
+                900: "#082f49",
+                950: "#0a1628",
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Tipografía técnica */
+      body {
+        font-family: 'Courier New', 'Courier', monospace;
+      }
+
+      /* SVG Element Interactions */
+      .svg-layer {
+        transition:
+          opacity 0.4s ease,
+          filter 0.4s ease,
+          stroke-width 0.4s ease;
+      }
+
+      .layer-highlight-mode .svg-layer:not(.highlighted) {
+        opacity: 0.15 !important;
+        filter: grayscale(100%) !important;
+      }
+
+      .layer-highlight-mode .svg-layer.highlighted {
+        filter: brightness(1.3) drop-shadow(0 0 12px currentColor) !important;
+        stroke: currentColor !important;
+        stroke-width: 2px !important;
+      }
+
+      .spec-item {
+        transition:
+          transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          background-color 0.2s;
+        transform-origin: left center;
+      }
+
+      .spec-item:hover,
+      .spec-item.active-hover {
+        transform: scale(1.02);
+      }
+
+      .view-panel {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .view-panel.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      svg {
+        max-width: 100%;
+        height: auto;
+        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.15));
+      }
+
+      [data-theme="dark"] svg {
+        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.6));
+      }
+
+      .dim-line {
+        stroke: currentColor;
+        opacity: 0.4;
+        stroke-width: 0.5;
+        stroke-dasharray: 2;
+      }
+      
+      .dim-text {
+        fill: currentColor;
+        font-size: 8px;
+        font-family: 'Courier New', monospace;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-blueprint-950 text-blueprint-100 h-screen flex flex-col overflow-hidden transition-colors duration-300"
+  >
+    <!-- Navbar -->
+    <nav
+      class="navbar bg-base-900 border-b border-blueprint-800 shadow-sm z-50"
+    >
+      <div class="navbar-start w-auto">
+        <a
+          class="btn btn-ghost text-xl tracking-tight gap-3 px-2"
+        >
+          <div>
+            <span class="text-blueprint-400 font-bold">Espejo de Camarín</span>
+            <span class="text-blueprint-600"> - Planos Técnicos</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-end w-full justify-end gap-2 pr-2">
+        <!-- Dark Mode Toggle -->
+        <label class="swap swap-rotate btn btn-sm btn-circle btn-ghost">
+          <input type="checkbox" id="theme-toggle" />
+          <i
+            data-lucide="sun"
+            class="swap-off fill-current w-4 h-4 text-blueprint-400"
+          ></i>
+          <i
+            data-lucide="moon"
+            class="swap-on fill-current w-4 h-4 text-base-400"
+          ></i>
+        </label>
+      </div>
+    </nav>
+
+    <div class="flex flex-col-reverse lg:flex-row flex-1 overflow-hidden">
+      <!-- Sidebar with Specs -->
+      <aside
+        class="w-full lg:w-[420px] h-2/5 lg:h-auto bg-base-900 border-t lg:border-t-0 lg:border-r border-blueprint-800 flex flex-col p-4 lg:p-6 gap-2 lg:gap-3 overflow-y-auto z-10 shadow-lg shrink-0"
+        id="sidebar"
+      >
+        <div class="flex justify-between items-center mb-2">
+          <h2
+            class="text-xs font-bold uppercase tracking-widest text-blueprint-400"
+          >
+            Componentes del Espejo
+          </h2>
+          <span class="text-xs text-blueprint-600">Pasa el ratón</span>
+        </div>
+
+        <!-- Cristal -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-sky-400 hover:bg-sky-900/20"
+          data-target="layer-cristal"
+          data-color="text-sky-400"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-sky-400">Cristal Espejo</h3>
+            <span class="text-xs text-blueprint-500">4mm</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            1500×700 mm - Espesor 4 mm<br />
+            Área opaca central para reflejar
+          </p>
+        </div>
+
+        <!-- Franja Translúcida -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-cyan-400 hover:bg-cyan-900/20"
+          data-target="layer-franja"
+          data-color="text-cyan-400"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-cyan-400">Franja Translúcida</h3>
+            <span class="text-xs text-blueprint-500">12mm</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            Perímetro exterior del espejo<br />
+            10mm visibles desde el frente<br />
+            Emite la luz difusa hacia el usuario
+          </p>
+        </div>
+
+        <!-- Cámara de Luz -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-yellow-300 hover:bg-yellow-900/20"
+          data-target="layer-camara"
+          data-color="text-yellow-300"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-yellow-300">Cámara de Luz</h3>
+            <span class="text-xs text-blueprint-500">18×12mm</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            Espacio entre borde espejo y bastidor<br />
+            Detrás de franja translúcida<br />
+            Difunde luz LED reflejada
+          </p>
+        </div>
+
+        <!-- Marco Kiri -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-amber-600 hover:bg-amber-900/20"
+          data-target="layer-kiri"
+          data-color="text-amber-600"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-amber-600">Marco Kiri</h3>
+            <span class="text-xs text-blueprint-500">70×20mm</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            Moldura estilo italiano<br />
+            Galce 10mm profundidad<br />
+            Agarra solo 2mm del espejo
+          </p>
+        </div>
+
+        <!-- Bastidor Pino -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-gray-200 hover:bg-gray-900/20"
+          data-target="layer-pino"
+          data-color="text-gray-200"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-gray-200">Bastidor Pino</h3>
+            <span class="text-xs text-blueprint-500">18×18mm</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            1536×736 mm exterior<br />
+            Varillas pintadas blanco titanio<br />
+            Refleja luz LED difusamente
+          </p>
+        </div>
+
+        <!-- Placa Base -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-orange-700 hover:bg-orange-900/20"
+          data-target="layer-base"
+          data-color="text-orange-700"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-orange-700">Placa Base MDF</h3>
+            <span class="text-xs text-blueprint-500">18mm</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            1440×640 mm centrada<br />
+            Tira LED en cantos perimetrales<br />
+            Fuente Slim embutida
+          </p>
+        </div>
+
+        <!-- LED -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-orange-500 hover:bg-orange-900/20"
+          data-target="layer-led"
+          data-color="text-orange-500"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-orange-500">Tira LED</h3>
+            <span class="text-xs text-blueprint-500">12V</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            Montada en canto placa base<br />
+            Ilumina lateralmente hacia cámara<br />
+            Luz indirecta reflejada
+          </p>
+        </div>
+
+        <!-- Placa Fondo -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-orange-900 hover:bg-orange-950/20"
+          data-target="layer-fondo"
+          data-color="text-orange-900"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-orange-900">Placa Fondo MDF</h3>
+            <span class="text-xs text-blueprint-500">5.5mm</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            1536×736 mm - Base estructural<br />
+            Soporta bastidor y placa base
+          </p>
+        </div>
+
+        <!-- Fuente -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-slate-500 hover:bg-slate-900/20"
+          data-target="layer-fuente"
+          data-color="text-slate-500"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-slate-500">Fuente Slim</h3>
+            <span class="text-xs text-blueprint-500">12V 60W</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            140×50×23 mm<br />
+            Embutida centrada en placa base
+          </p>
+        </div>
+
+        <!-- Listón Francés -->
+        <div
+          class="spec-item group bg-blueprint-900/30 border border-blueprint-800 rounded-lg p-3 cursor-pointer hover:border-gray-600 hover:bg-gray-900/20"
+          data-target="layer-liston"
+          data-color="text-gray-600"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-bold text-sm text-gray-600">Listón Francés</h3>
+            <span class="text-xs text-blueprint-500">4 unid.</span>
+          </div>
+          <p class="text-xs text-blueprint-400 leading-relaxed">
+            250×150 mm cada uno<br />
+            Anclaje a pared - Corte 45°<br />
+            Montados en placa fondo
+          </p>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 flex flex-col overflow-hidden bg-blueprint-950">
+        <!-- Tabs -->
+        <div
+          role="tablist"
+          class="tabs tabs-lifted bg-base-900 border-b border-blueprint-800 px-4 shrink-0"
+        >
+          <button
+            role="tab"
+            class="tab tab-btn tab-active text-blueprint-300 hover:text-blueprint-100"
+            data-view="view-frontal"
+          >
+            Vista Frontal
+          </button>
+          <button
+            role="tab"
+            class="tab tab-btn text-blueprint-300 hover:text-blueprint-100"
+            data-view="view-corte"
+          >
+            Corte Transversal
+          </button>
+          <button
+            role="tab"
+            class="tab tab-btn text-blueprint-300 hover:text-blueprint-100"
+            data-view="view-trasera"
+          >
+            Vista Trasera
+          </button>
+        </div>
+
+        <!-- Zoom Controls -->
+        <div
+          class="flex items-center gap-3 bg-base-900 border-b border-blueprint-800 px-4 py-2 shrink-0"
+        >
+          <i data-lucide="zoom-out" class="w-4 h-4 text-blueprint-500"></i>
+          <input
+            id="zoom-slider"
+            type="range"
+            min="0.5"
+            max="3"
+            step="0.1"
+            value="1"
+            class="range range-xs range-primary flex-1"
+          />
+          <i data-lucide="zoom-in" class="w-4 h-4 text-blueprint-500"></i>
+          <button
+            id="zoom-reset"
+            class="btn btn-xs btn-ghost text-blueprint-400 hover:text-blueprint-100"
+          >
+            Reset
+          </button>
+        </div>
+
+        <!-- View Panels -->
+        <div
+          class="flex-1 overflow-hidden bg-blueprint-950 relative"
+          id="zoom-area"
+        >
+          <!-- VISTA FRONTAL -->
+          <div id="view-frontal" class="view-panel active h-full">
+            <div
+              id="zoom-container-frontal"
+              class="w-full h-full flex items-center justify-center"
+              style="transform-origin: center center"
+            >
+              <svg width="800" height="500" viewBox="0 0 800 500">
+                <defs>
+                  <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(79, 195, 247, 0.05)" stroke-width="0.5"/>
+                  </pattern>
+                </defs>
+                <rect width="800" height="500" fill="url(#grid)"/>
+
+                <g transform="translate(250, 150)">
+                  <!-- Marco exterior Kiri -->
+                  <rect class="svg-layer layer-kiri" x="0" y="0" width="150" height="70" fill="#b45309" stroke="#78350f" stroke-width="1" opacity="0.8"/>
+                  
+                  <!-- Franja translúcida -->
+                  <rect class="svg-layer layer-franja" x="7" y="7" width="136" height="56" fill="#81d4fa" stroke="#0288d1" stroke-width="0.5" opacity="0.6"/>
+                  
+                  <!-- Cristal espejo -->
+                  <rect class="svg-layer layer-cristal" x="8.2" y="8.2" width="133.6" height="53.6" fill="#bae6fd" stroke="#0277bd" stroke-width="1" opacity="0.4"/>
+
+                  <!-- Cotas -->
+                  <line class="dim-line" x1="0" y1="-20" x2="150" y2="-20"/>
+                  <line class="dim-line" x1="0" y1="-25" x2="0" y2="-15"/>
+                  <line class="dim-line" x1="150" y1="-25" x2="150" y2="-15"/>
+                  <text class="dim-text" x="75" y="-23" text-anchor="middle">1500 mm</text>
+
+                  <line class="dim-line" x1="0" y1="85" x2="7" y2="85"/>
+                  <text class="dim-text" x="3.5" y="95" text-anchor="middle" font-size="7">12</text>
+
+                  <line class="dim-line" x1="170" y1="0" x2="170" y2="70"/>
+                  <text class="dim-text" x="190" y="35" transform="rotate(90, 190, 35)" text-anchor="middle">700 mm</text>
+
+                  <line class="dim-line" x1="-20" y1="0" x2="-20" y2="7"/>
+                  <text class="dim-text" x="-35" y="3.5" transform="rotate(90, -35, 3.5)" text-anchor="middle" font-size="7">70</text>
+
+                  <text class="dim-text" x="75" y="-40" text-anchor="middle" font-size="12" fill="#4fc3f7">VISTA FRONTAL</text>
+                  <text class="dim-text" x="75" y="-28" text-anchor="middle" font-size="8" fill="#64b5f6">Escala 1:10</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- VISTA CORTE TRANSVERSAL -->
+          <div id="view-corte" class="view-panel h-full">
+            <div
+              id="zoom-container-corte"
+              class="w-full h-full flex items-center justify-center"
+              style="transform-origin: center center"
+            >
+              <svg width="1000" height="650" viewBox="0 0 1000 650">
+                <rect width="1000" height="650" fill="url(#grid)"/>
+
+                <g transform="translate(100, 220)">
+                  <!-- Placa fondo -->
+                  <rect class="svg-layer layer-fondo" x="0" y="-36" width="11" height="212" fill="#5d4037" stroke="#3e2723" stroke-width="1" opacity="0.8"/>
+                  
+                  <!-- Bastidor pino -->
+                  <rect class="svg-layer layer-pino" x="11" y="-36" width="36" height="36" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="0.5" opacity="0.9"/>
+                  <rect class="svg-layer layer-pino" x="11" y="140" width="36" height="36" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="0.5" opacity="0.9"/>
+                  
+                  <!-- Placa base -->
+                  <rect class="svg-layer layer-base" x="11" y="12" width="36" height="128" fill="#6d4c41" stroke="#4e342e" stroke-width="1" opacity="0.8"/>
+                  
+                  <!-- LED -->
+                  <rect class="svg-layer layer-led" x="11" y="10" width="36" height="2" fill="#ff6f00" stroke="#e65100" stroke-width="0.5"/>
+                  <rect class="svg-layer layer-led" x="11" y="140" width="36" height="2" fill="#ff6f00" stroke="#e65100" stroke-width="0.5"/>
+                  
+                  <!-- CÁMARA DE LUZ (DETRÁS de franja translúcida) -->
+                  <rect class="svg-layer layer-camara" x="47" y="-36" width="24" height="36" fill="#fff9c4" stroke="#fbc02d" stroke-width="0.5" opacity="0.3"/>
+                  <rect class="svg-layer layer-camara" x="47" y="140" width="24" height="36" fill="#fff9c4" stroke="#fbc02d" stroke-width="0.5" opacity="0.3"/>
+                  
+                  <!-- Cristal espejo (área opaca) -->
+                  <rect class="svg-layer layer-cristal" x="47" y="0" width="8" height="140" fill="#b3e5fc" stroke="#0277bd" stroke-width="1" opacity="0.4"/>
+                  
+                  <!-- Franja translúcida (DELANTE de cámara) -->
+                  <rect class="svg-layer layer-franja" x="47" y="-24" width="8" height="24" fill="#81d4fa" stroke="#0288d1" stroke-width="0.5" opacity="0.7"/>
+                  <rect class="svg-layer layer-franja" x="47" y="140" width="8" height="24" fill="#81d4fa" stroke="#0288d1" stroke-width="0.5" opacity="0.7"/>
+                  
+                  <!-- Marco Kiri -->
+                  <polygon class="svg-layer layer-kiri" points="55,-70 95,-70 95,-10 85,0 75,0 55,0 55,4 51,4 51,0 55,0" fill="#b45309" stroke="#78350f" stroke-width="1" opacity="0.8"/>
+                  <polygon class="svg-layer layer-kiri" points="55,210 95,210 95,150 85,140 75,140 55,140 55,136 51,136 51,140 55,140" fill="#b45309" stroke="#78350f" stroke-width="1" opacity="0.8"/>
+                  
+                  <!-- Listón -->
+                  <polygon class="svg-layer layer-liston" points="-25,30 0,30 0,55 -12.5,42.5" fill="#424242" stroke="#212121" stroke-width="1" opacity="0.8"/>
+                  <polygon class="svg-layer layer-liston" points="-25,118 -12.5,130.5 0,118 0,143 -25,143" fill="#424242" stroke="#212121" stroke-width="1" opacity="0.8"/>
+
+                  <!-- Flechas luz -->
+                  <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+                      <polygon points="0 0, 6 3, 0 6" fill="#ffa726" opacity="0.7"/>
+                    </marker>
+                  </defs>
+                  <line x1="29" y1="11" x2="58" y2="-18" stroke="#ffa726" stroke-width="2" opacity="0.7" marker-end="url(#arrowhead)"/>
+                  <line x1="29" y1="141" x2="58" y2="158" stroke="#ffa726" stroke-width="2" opacity="0.7" marker-end="url(#arrowhead)"/>
+                  <line x1="58" y1="-18" x2="52" y2="-8" stroke="#fff9c4" stroke-width="1.5" opacity="0.5" stroke-dasharray="2,2"/>
+                  <line x1="58" y1="158" x2="52" y2="148" stroke="#fff9c4" stroke-width="1.5" opacity="0.5" stroke-dasharray="2,2"/>
+
+                  <!-- Cotas -->
+                  <line class="dim-line" x1="0" y1="195" x2="11" y2="195"/>
+                  <text class="dim-text" x="5.5" y="208" text-anchor="middle">5.5</text>
+                  
+                  <line class="dim-line" x1="11" y1="195" x2="47" y2="195"/>
+                  <text class="dim-text" x="29" y="208" text-anchor="middle">18</text>
+                  
+                  <line class="dim-line" x1="47" y1="-50" x2="71" y2="-50"/>
+                  <text class="dim-text" x="59" y="-53" text-anchor="middle">12</text>
+                  
+                  <line class="dim-line" x1="85" y1="-36" x2="85" y2="0"/>
+                  <text class="dim-text" x="95" y="-18" transform="rotate(90, 95, -18)" text-anchor="middle">18</text>
+                  
+                  <line class="dim-line" x1="47" y1="195" x2="55" y2="195"/>
+                  <text class="dim-text" x="51" y="208" text-anchor="middle">4</text>
+                  
+                  <line x1="51" y1="8" x2="71" y2="8" stroke="#81d4fa" stroke-width="1.5"/>
+                  <text class="dim-text" x="61" y="5" text-anchor="middle" fill="#81d4fa">10mm visible</text>
+                  
+                  <line x1="47" y1="15" x2="51" y2="15" stroke="#ff6f00" stroke-width="1"/>
+                  <text class="dim-text" x="49" y="12" text-anchor="middle" fill="#ff6f00" font-size="7">2mm agarre</text>
+                  
+                  <line class="dim-line" x1="110" y1="-70" x2="110" y2="0"/>
+                  <text class="dim-text" x="120" y="-35" transform="rotate(90, 120, -35)" text-anchor="middle">70</text>
+
+                  <!-- Etiquetas -->
+                  <text class="dim-text" x="5" y="90" text-anchor="middle" font-size="7">Fondo</text>
+                  <text class="dim-text" x="29" y="-40" text-anchor="middle" font-size="7">Bastidor</text>
+                  <text class="dim-text" x="29" y="70" text-anchor="middle" font-size="7">Base</text>
+                  <text class="dim-text" x="29" y="5" text-anchor="middle" font-size="7" fill="#ff9800">LED</text>
+                  <text class="dim-text" x="59" y="-15" text-anchor="middle" font-size="7" fill="#fff9c4">Cámara</text>
+                  <text class="dim-text" x="51" y="70" text-anchor="middle" font-size="7">Espejo</text>
+                  <text class="dim-text" x="59" y="30" text-anchor="middle" font-size="7" fill="#81d4fa">Franja</text>
+                  <text class="dim-text" x="75" y="-80" text-anchor="middle" font-size="7">Marco</text>
+
+                  <text class="dim-text" x="40" y="-130" text-anchor="middle" font-size="12" fill="#4fc3f7">CORTE TRANSVERSAL</text>
+                  <text class="dim-text" x="40" y="-118" text-anchor="middle" font-size="8" fill="#64b5f6">Escala 2:1</text>
+                  <text class="dim-text" x="40" y="250" text-anchor="middle" font-size="7" fill="#4fc3f7">← PARED | FRENTE →</text>
+                </g>
+
+                <!-- Nota -->
+                <g transform="translate(600, 200)">
+                  <rect x="0" y="0" width="350" height="200" fill="rgba(10, 22, 40, 0.9)" stroke="#4fc3f7" stroke-width="0.5"/>
+                  <text class="dim-text" x="175" y="20" text-anchor="middle" font-size="10" fill="#4fc3f7">FUNCIONAMIENTO</text>
+                  <text class="dim-text" x="10" y="45" text-anchor="start" font-size="8">1. LED en canto placa base</text>
+                  <text class="dim-text" x="10" y="60" text-anchor="start" font-size="8">2. Luz lateral → cámara 18×12mm</text>
+                  <text class="dim-text" x="10" y="75" text-anchor="start" font-size="8">3. Bastidor pino refleja luz</text>
+                  <text class="dim-text" x="10" y="90" text-anchor="start" font-size="8">4. Difusión en cámara cerrada</text>
+                  <text class="dim-text" x="10" y="105" text-anchor="start" font-size="8">5. Emisión por franja translúcida</text>
+                  <line x1="10" y1="120" x2="340" y2="120" stroke="#1e88e5" stroke-width="0.5"/>
+                  <text class="dim-text" x="10" y="140" text-anchor="start" font-size="8" fill="#81d4fa">DETALLE CRÍTICO:</text>
+                  <text class="dim-text" x="10" y="155" text-anchor="start" font-size="7">• Cámara DETRÁS de franja</text>
+                  <text class="dim-text" x="10" y="168" text-anchor="start" font-size="7">• Galce agarra solo 2mm</text>
+                  <text class="dim-text" x="10" y="181" text-anchor="start" font-size="7">• 10mm franja visibles</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- VISTA TRASERA -->
+          <div id="view-trasera" class="view-panel h-full">
+            <div
+              id="zoom-container-trasera"
+              class="w-full h-full flex items-center justify-center"
+              style="transform-origin: center center"
+            >
+              <svg width="850" height="600" viewBox="0 0 850 600">
+                <rect width="850" height="600" fill="url(#grid)"/>
+
+                <g transform="translate(225, 150)">
+                  <!-- Placa fondo -->
+                  <rect class="svg-layer layer-fondo" x="0" y="0" width="153.6" height="73.6" fill="#5d4037" stroke="#3e2723" stroke-width="1" opacity="0.8"/>
+                  
+                  <!-- Bastidor -->
+                  <rect class="svg-layer layer-pino" x="0" y="0" width="153.6" height="1.8" fill="#f5f5f5" opacity="0.7"/>
+                  <rect class="svg-layer layer-pino" x="0" y="71.8" width="153.6" height="1.8" fill="#f5f5f5" opacity="0.7"/>
+                  <rect class="svg-layer layer-pino" x="0" y="0" width="1.8" height="73.6" fill="#f5f5f5" opacity="0.7"/>
+                  <rect class="svg-layer layer-pino" x="151.8" y="0" width="1.8" height="73.6" fill="#f5f5f5" opacity="0.7"/>
+                  
+                  <!-- Placa base -->
+                  <rect class="svg-layer layer-base" x="4.8" y="4.8" width="144" height="64" fill="#6d4c41" stroke="#4e342e" stroke-width="1" opacity="0.8"/>
+                  
+                  <!-- Fuente -->
+                  <rect class="svg-layer layer-fuente" x="69.8" y="34.3" width="14" height="5" fill="#37474f" stroke="#263238" stroke-width="1"/>
+                  
+                  <!-- Cables -->
+                  <line x1="76.8" y1="36.8" x2="76.8" y2="73.6" stroke="#64b5f6" stroke-width="0.5" stroke-dasharray="1,1"/>
+                  <circle cx="76.8" cy="73.6" r="1.5" fill="#64b5f6"/>
+                  
+                  <!-- Listones -->
+                  <rect class="svg-layer layer-liston" x="8" y="8" width="25" height="15" fill="#424242" stroke="#212121" stroke-width="1" opacity="0.8"/>
+                  <rect class="svg-layer layer-liston" x="120.6" y="8" width="25" height="15" fill="#424242" stroke="#212121" stroke-width="1" opacity="0.8"/>
+                  <rect class="svg-layer layer-liston" x="8" y="50.6" width="25" height="15" fill="#424242" stroke="#212121" stroke-width="1" opacity="0.8"/>
+                  <rect class="svg-layer layer-liston" x="120.6" y="50.6" width="25" height="15" fill="#424242" stroke="#212121" stroke-width="1" opacity="0.8"/>
+                  
+                  <!-- Tornillos -->
+                  <circle class="svg-layer layer-liston" cx="12" cy="12" r="0.8" fill="#212121" stroke="#757575" stroke-width="0.3"/>
+                  <circle class="svg-layer layer-liston" cx="21" cy="12" r="0.8" fill="#212121" stroke="#757575" stroke-width="0.3"/>
+                  <circle class="svg-layer layer-liston" cx="132" cy="12" r="0.8" fill="#212121" stroke="#757575" stroke-width="0.3"/>
+                  <circle class="svg-layer layer-liston" cx="141" cy="12" r="0.8" fill="#212121" stroke="#757575" stroke-width="0.3"/>
+
+                  <!-- Cotas -->
+                  <line class="dim-line" x1="0" y1="-20" x2="153.6" y2="-20"/>
+                  <text class="dim-text" x="76.8" y="-23" text-anchor="middle">1536 mm</text>
+
+                  <line class="dim-line" x1="173.6" y1="0" x2="173.6" y2="73.6"/>
+                  <text class="dim-text" x="195" y="36.8" transform="rotate(90, 195, 36.8)" text-anchor="middle">736 mm</text>
+
+                  <line class="dim-line" x1="4.8" y1="90" x2="148.8" y2="90"/>
+                  <text class="dim-text" x="76.8" y="103" text-anchor="middle" font-size="8">1440 mm (Base)</text>
+
+                  <line class="dim-line" x1="8" y1="-50" x2="33" y2="-50"/>
+                  <text class="dim-text" x="20.5" y="-53" text-anchor="middle" font-size="8">250</text>
+
+                  <line class="dim-line" x1="69.8" y1="45" x2="83.8" y2="45"/>
+                  <text class="dim-text" x="76.8" y="48" text-anchor="middle" font-size="7">140</text>
+
+                  <text class="dim-text" x="76.8" y="-65" text-anchor="middle" font-size="12" fill="#4fc3f7">VISTA TRASERA</text>
+                  <text class="dim-text" x="76.8" y="-53" text-anchor="middle" font-size="8" fill="#64b5f6">Escala 1:10</text>
+
+                  <text class="dim-text" x="76.8" y="36.8" text-anchor="middle" font-size="7">Fuente</text>
+                  <text class="dim-text" x="76.8" y="82" text-anchor="middle" font-size="7">Cable</text>
+                  <text class="dim-text" x="20" y="15" text-anchor="middle" font-size="7">Listón</text>
+                  
+                  <rect x="4.8" y="4.8" width="144" height="64" fill="none" stroke="#fff9c4" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.4"/>
+                  <text class="dim-text" x="160" y="36.8" text-anchor="start" font-size="7" fill="#fff9c4">Cámara</text>
+                </g>
+
+                <!-- Detalle -->
+                <g transform="translate(550, 380)">
+                  <rect x="0" y="0" width="220" height="140" fill="rgba(10, 22, 40, 0.9)" stroke="#4fc3f7" stroke-width="0.5"/>
+                  <text class="dim-text" x="110" y="18" text-anchor="middle" font-size="9" fill="#4fc3f7">LISTÓN FRANCÉS</text>
+                  <g transform="translate(110, 60)">
+                    <polygon class="svg-layer layer-liston" points="0,0 40,0 40,40 20,20" stroke="#4fc3f7" stroke-width="1" fill="#424242"/>
+                    <line x1="0" y1="0" x2="40" y2="40" stroke="#64b5f6" stroke-width="0.5" stroke-dasharray="2,2"/>
+                    <text class="dim-text" x="20" y="-5" text-anchor="middle" font-size="7">45°</text>
+                    <text class="dim-text" x="-25" y="20" text-anchor="middle" font-size="7">Espejo</text>
+                    <text class="dim-text" x="50" y="20" text-anchor="middle" font-size="7">Pared</text>
+                  </g>
+                  <text class="dim-text" x="110" y="115" text-anchor="middle" font-size="7">Anclaje - 4 puntos</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+
+        // TABS
+        const tabs = document.querySelectorAll('.tab-btn');
+        const views = document.querySelectorAll(".view-panel");
+
+        tabs.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("tab-active"));
+            views.forEach((v) => v.classList.remove("active"));
+            btn.classList.add("tab-active");
+            const targetView = document.getElementById(btn.dataset.view);
+            if (targetView) targetView.classList.add("active");
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            if (zoomSlider) zoomSlider.value = 1;
+            updateTransform();
+          });
+        });
+
+        // HOVER
+        const specItems = document.querySelectorAll(".spec-item");
+        specItems.forEach((item) => {
+          item.addEventListener("mouseenter", () => {
+            const targetClass = item.dataset.target;
+            const mainColorClass = item.dataset.color;
+            document.body.classList.add("layer-highlight-mode");
+            item.classList.add("active-hover");
+            document.querySelectorAll("." + targetClass).forEach((el) => {
+              el.classList.add("highlighted");
+              if (mainColorClass) el.classList.add(mainColorClass);
+            });
+          });
+          item.addEventListener("mouseleave", () => {
+            const targetClass = item.dataset.target;
+            const mainColorClass = item.dataset.color;
+            document.body.classList.remove("layer-highlight-mode");
+            item.classList.remove("active-hover");
+            document.querySelectorAll("." + targetClass).forEach((el) => {
+              el.classList.remove("highlighted");
+              if (mainColorClass) el.classList.remove(mainColorClass);
+            });
+          });
+        });
+
+        // THEME
+        const themeToggle = document.getElementById("theme-toggle");
+        const htmlTag = document.documentElement;
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+          htmlTag.setAttribute("data-theme", savedTheme);
+          if (themeToggle) themeToggle.checked = savedTheme === "dark";
+        } else {
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          htmlTag.setAttribute("data-theme", prefersDark ? "dark" : "light");
+          if (themeToggle) themeToggle.checked = prefersDark;
+        }
+        if (themeToggle) {
+          themeToggle.addEventListener("change", (e) => {
+            const newTheme = e.target.checked ? "dark" : "light";
+            htmlTag.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+          });
+        }
+
+        // ZOOM & PAN
+        const zoomSlider = document.getElementById("zoom-slider");
+        const zoomReset = document.getElementById("zoom-reset");
+        const zoomArea = document.getElementById("zoom-area");
+        let currentScale = 1;
+        let currentX = 0;
+        let currentY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        function updateTransform() {
+          const containers = [
+            document.getElementById("zoom-container-frontal"),
+            document.getElementById("zoom-container-corte"),
+            document.getElementById("zoom-container-trasera")
+          ];
+          containers.forEach(container => {
+            if (container) {
+              container.style.transition = isDragging ? "none" : "transform 0.1s ease-out";
+              container.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+            }
+          });
+        }
+
+        if (zoomSlider) {
+          zoomSlider.addEventListener("input", (e) => {
+            currentScale = parseFloat(e.target.value);
+            updateTransform();
+          });
+          zoomReset.addEventListener("click", () => {
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            zoomSlider.value = 1;
+            updateTransform();
+          });
+          zoomArea.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            startX = e.clientX - currentX;
+            startY = e.clientY - currentY;
+          });
+          window.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX - startX;
+            currentY = e.clientY - startY;
+            updateTransform();
+          });
+          window.addEventListener("mouseup", () => {
+            isDragging = false;
+            updateTransform();
+          });
+          zoomArea.addEventListener("wheel", (e) => {
+            e.preventDefault();
+            const zoomStep = 0.1;
+            if (e.deltaY < 0) {
+              currentScale = Math.min(parseFloat(zoomSlider.max), currentScale + zoomStep);
+            } else {
+              currentScale = Math.max(parseFloat(zoomSlider.min), currentScale - zoomStep);
+            }
+            zoomSlider.value = currentScale;
+            updateTransform();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
