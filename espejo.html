@@ -71,7 +71,7 @@
       /* Tipografía técnica para Desglose y Planos */
       aside#sidebar,
       main svg text {
-        font-family: 'Courier New', 'Courier', monospace;
+        font-family: 'Courier New', 'Courier', monospace !important;
       }
 
       /* SVG Element Interactions */
@@ -143,20 +143,40 @@
       }
 
       /* Interactive toggles */
+      .blueprint-mode {
+        --bp-bg: #2563eb;
+        --bp-line: #ffffff;
+        --bp-grid: rgba(255, 255, 255, 0.08); /* Más sutil */
+        --bp-fill: rgba(255, 255, 255, 0.1);
+      }
+      [data-theme="dark"] .blueprint-mode {
+        --bp-bg: #0f172a;
+        --bp-line: #bae6fd;
+        --bp-grid: transparent;
+        --bp-fill: rgba(186, 230, 253, 0.1);
+      }
+
+      .blueprint-mode #workspace-container {
+        background-color: var(--bp-bg) !important;
+        background-image: 
+          linear-gradient(var(--bp-grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--bp-grid) 1px, transparent 1px) !important;
+        background-size: 40px 40px !important; /* Doble separación */
+        background-position: center center !important;
+      }
       .blueprint-mode svg {
-        background-color: #0f172a !important;
-        border-radius: 0.5rem;
+        filter: none !important;
       }
       .blueprint-mode [stroke="currentColor"],
       .blueprint-mode .dim-line {
-        stroke: #bae6fd !important;
+        stroke: var(--bp-line) !important;
         opacity: 0.8 !important;
       }
       .blueprint-mode text,
       .blueprint-mode .dim-text-m,
       .blueprint-mode .fill-current {
-        fill: #bae6fd !important;
-        color: #bae6fd !important;
+        fill: var(--bp-line) !important;
+        color: var(--bp-line) !important;
       }
       .blueprint-mode .layer-mdf,
       .blueprint-mode .layer-kiri,
@@ -165,23 +185,30 @@
       .blueprint-mode .layer-mdf5,
       .blueprint-mode polygon:not(.layer-decapado) {
         fill: url(#blueprintHatch) !important;
-        stroke: #bae6fd !important;
+        stroke: var(--bp-line) !important;
         stroke-width: 0.5px !important;
       }
       .blueprint-mode .layer-cristal {
-        fill: rgba(186, 230, 253, 0.1) !important;
-        stroke: #bae6fd !important;
+        fill: var(--bp-fill) !important;
+        stroke: var(--bp-line) !important;
         stroke-width: 1px !important;
       }
       .blueprint-mode .layer-decapado {
         fill: rgba(255, 255, 255, 0.3) !important;
         filter: none !important;
-        stroke: #bae6fd !important;
+        stroke: var(--bp-line) !important;
         stroke-width: 0.5px !important;
+      }
+      .blueprint-mode .layer-muro {
+        fill: url(#concreteHatch) !important;
+        stroke: var(--bp-line) !important;
+        stroke-width: 0.5px !important;
+        opacity: 0.7 !important;
       }
       .hide-dims .dim-line,
       .hide-dims .dim-text-m,
-      .hide-dims g.dim-line {
+      .hide-dims g.dim-line,
+      .hide-dims .dim-group {
         opacity: 0 !important;
         transition: opacity 0.3s ease;
       }
@@ -262,7 +289,7 @@
         </div>
       </div>
 
-      <div class="navbar-end w-full justify-end gap-2 pr-2">
+      <div class="navbar-end w-auto ml-auto justify-end gap-2 pr-2">
         <!-- Dark Mode Toggle -->
         <label class="swap swap-rotate btn btn-sm btn-circle btn-ghost">
           <input type="checkbox" id="theme-toggle" />
@@ -503,13 +530,13 @@
             </div>
             
             <button id="btn-blueprint" class="btn btn-sm btn-ghost btn-square" title="Modo Blueprint">
-              <i data-lucide="drafting-compass" class="w-4 h-4 text-sky-500"></i>
+              <i data-lucide="drafting-compass" class="w-4 h-4 text-blue-600 dark:text-sky-500"></i>
             </button>
             <button id="btn-lights" class="btn btn-sm btn-ghost btn-square" title="Alternar Luces LED">
-              <i id="icon-lights" data-lucide="lightbulb" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i>
+              <i id="icon-lights" data-lucide="lightbulb" class="w-4 h-4 text-amber-600 dark:text-yellow-500 fill-amber-600 dark:fill-yellow-500"></i>
             </button>
             <button id="btn-dims" class="btn btn-sm btn-ghost btn-square" title="Ocultar/Mostrar Cotas">
-              <i id="icon-dims" data-lucide="ruler" class="w-4 h-4 text-base-500"></i>
+              <i id="icon-dims" data-lucide="ruler" class="w-4 h-4 text-base-700 dark:text-base-400"></i>
             </button>
           </div>
         </div>
@@ -529,8 +556,34 @@
               <stop offset="0%" stop-color="#fef08a" stop-opacity="0.5" />
               <stop offset="100%" stop-color="#fef08a" stop-opacity="0" />
             </linearGradient>
-            <pattern id="blueprintHatch" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
-              <line x1="0" y1="0" x2="0" y2="4" stroke="#bae6fd" stroke-width="0.5" />
+            <pattern
+              id="blueprintHatch"
+              patternUnits="userSpaceOnUse"
+              width="10"
+              height="10"
+              patternTransform="rotate(45)"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </pattern>            
+            <pattern
+              id="concreteHatch"
+              patternUnits="userSpaceOnUse"
+              width="20"
+              height="20"
+            >
+              <path d="M 4,4 L 6,1 L 8,4 Z M 14,14 L 16,11 L 18,14 Z" stroke="currentColor" fill="none" stroke-width="0.5" />
+              <circle cx="12" cy="4" r="0.5" fill="currentColor" />
+              <circle cx="4" cy="14" r="0.5" fill="currentColor" />
+              <circle cx="10" cy="10" r="0.5" fill="currentColor" />
+              <circle cx="16" cy="6" r="0.3" fill="currentColor" />
+              <circle cx="6" cy="18" r="0.3" fill="currentColor" />
             </pattern>
             <pattern
               id="mdfTex"
@@ -566,7 +619,8 @@
         </svg>
 
         <div
-          class="flex-1 flex relative p-4 lg:p-12 z-0 h-full w-full items-center justify-center"
+          id="workspace-container"
+          class="flex-1 flex relative p-4 lg:p-12 z-0 h-full w-full items-center justify-center transition-colors duration-500"
         >
           <!-- TAB 1: PERFIL (CORTE) -->
           <div
@@ -575,11 +629,12 @@
           >
            <div id="zoom-container-corte" class="w-full h-full" style="transform-origin: center center">
             <svg
-              viewBox="280 10 570 180"
+              viewBox="280 10 570 200"
               xmlns="http://www.w3.org/2000/svg"
               class="w-full h-full text-base-500 dark:text-base-400"
             >
               <rect
+                class="svg-layer layer-muro"
                 x="250"
                 y="150.5"
                 width="650"
@@ -589,7 +644,7 @@
               />
               <text
                 x="350"
-                y="175.5"
+                y="174"
                 class="dim-text-m text-base-600 dark:text-base-300"
                 font-size="10"
                 font-weight="600"
@@ -599,7 +654,7 @@
               </text>
 
               <g
-                transform="translate(290, 165.5)"
+                transform="translate(290, 170.5)"
                 stroke="currentColor"
                 opacity="0.5"
                 stroke-width="1.5"
@@ -619,7 +674,7 @@
                 </text>
               </g>
               <g
-                transform="translate(420, 165.5)"
+                transform="translate(560, 170.5)"
                 stroke="currentColor"
                 opacity="0.5"
                 stroke-width="1.5"
@@ -645,27 +700,17 @@
                   points="372,120.5 450,120.5 450,150.5 402,150.5"
                   fill="#451a03"
                 />
-                <!-- Tornillo Pared -->
-                <line
-                  x1="425"
-                  y1="150.5"
-                  x2="425"
-                  y2="180.5"
-                  class="dim-line"
-                  stroke-width="2"
-                />
-                <line
-                  x1="425"
-                  y1="165.5"
-                  x2="475"
-                  y2="165.5"
+                <!-- Línea Guía: Pared -->
+                <polyline
+                  points="425,135.5 445,170.5 480,170.5"
                   class="dim-line"
                   stroke-width="0.5"
-                  stroke-dasharray="0"
+                  stroke-dasharray="2,2"
+                  fill="none"
                 />
                 <text
-                  x="480"
-                  y="167.5"
+                  x="485"
+                  y="172.5"
                   font-size="5"
                   fill="currentColor"
                   class="text-stone-500"
@@ -680,27 +725,17 @@
                   points="320,119.5 368,119.5 398,149.5 320,149.5"
                   fill="#78350f"
                 />
-                <!-- Tornillo MDF -->
-                <line
-                  x1="335"
-                  y1="119.5"
-                  x2="335"
-                  y2="85"
-                  class="dim-line"
-                  stroke-width="2"
-                />
-                <line
-                  x1="335"
-                  y1="85"
-                  x2="475"
-                  y2="85"
+                <!-- Línea Guía: MDF -->
+                <polyline
+                  points="335,134.5 355,198 480,198"
                   class="dim-line"
                   stroke-width="0.5"
-                  stroke-dasharray="0"
+                  stroke-dasharray="2,2"
+                  fill="none"
                 />
                 <text
-                  x="480"
-                  y="87"
+                  x="485"
+                  y="200"
                   font-size="5"
                   fill="currentColor"
                   class="text-stone-500"
@@ -812,19 +847,18 @@
                 x1="760"
                 y1="115"
                 x2="760"
-                y2="135"
+                y2="155"
                 stroke-width="0.5"
                 stroke-dasharray="0"
               />
               <text
-                class="svg-layer layer-pino"
+                class="svg-layer layer-pino text-yellow-600 dark:text-yellow-400"
                 x="765"
-                y="135"
+                y="155"
                 font-size="5"
                 fill="currentColor"
-                class="text-yellow-600 dark:text-yellow-400"
               >
-                Varilla Pino 18mm (Empieza donde termina vidrio)
+                Varilla Pino 18x18
               </text>
 
               <!-- Haz de Luz -->
@@ -852,15 +886,22 @@
               />
 
               <!-- Anotaciones Dimensionales -->
-              <g class="dim-line">
-                <line x1="720" y1="120" x2="720" y2="148" />
-                <line x1="751" y1="120" x2="751" y2="148" />
-                <line x1="815" y1="100" x2="815" y2="148" />
+              <g class="dim-group">
+                <defs>
+                  <marker id="arrowDim" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                    <path d="M 0 2 L 10 5 L 0 8 z" fill="currentColor" />
+                  </marker>
+                </defs>
 
-                <line x1="720" y1="145" x2="751" y2="145" />
+                <line class="dim-line" x1="720" y1="120" x2="720" y2="138" />
+                <line class="dim-line" x1="751" y1="120" x2="751" y2="148" />
+                <line class="dim-line" x1="815" y1="100" x2="815" y2="148" />
+
+                <!-- Ranura -->
+                <line class="dim-line" x1="720" y1="135" x2="751" y2="135" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)" />
                 <text
-                  x="735"
-                  y="142"
+                  x="735.5"
+                  y="132"
                   class="dim-text-m"
                   font-size="4"
                   text-anchor="middle"
@@ -868,7 +909,8 @@
                   Ranura ~31mm
                 </text>
 
-                <line x1="745" y1="145" x2="815" y2="145" />
+                <!-- Cara Vista -->
+                <line class="dim-line" x1="745" y1="145" x2="815" y2="145" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)" />
                 <text
                   x="780"
                   y="142"
@@ -880,9 +922,9 @@
                 </text>
 
                 <!-- Profundidad -->
-                <line x1="820" y1="77" x2="830" y2="77" stroke-dasharray="0" />
-                <line x1="820" y1="97" x2="830" y2="97" stroke-dasharray="0" />
-                <line x1="825" y1="77" x2="825" y2="97" stroke-dasharray="0" />
+                <line class="dim-line" x1="820" y1="77" x2="830" y2="77" stroke-dasharray="0" />
+                <line class="dim-line" x1="820" y1="97" x2="830" y2="97" stroke-dasharray="0" />
+                <line class="dim-line" x1="825" y1="77" x2="825" y2="97" stroke-dasharray="0" />
                 <text
                   x="830"
                   y="88"
@@ -894,14 +936,15 @@
                 </text>
 
                 <line
+                  class="dim-line"
                   x1="290"
                   y1="150.5"
                   x2="280"
                   y2="150.5"
                   stroke-dasharray="0"
                 />
-                <line x1="290" y1="97" x2="280" y2="97" stroke-dasharray="0" />
-                <line x1="285" y1="97" x2="285" y2="150.5" stroke-dasharray="0" />
+                <line class="dim-line" x1="290" y1="97" x2="280" y2="97" stroke-dasharray="0" />
+                <line class="dim-line" x1="285" y1="97" x2="285" y2="150.5" stroke-dasharray="0" />
                 <text
                   x="275"
                   y="126.5"
@@ -916,7 +959,7 @@
               <!-- Labels Principales cortas -->
               <text
                 x="705"
-                y="105"
+                y="110"
                 class="dim-text-m text-burgundy-500"
                 font-size="4"
                 text-anchor="end"
@@ -926,7 +969,7 @@
               </text>
               <text
                 x="730"
-                y="85"
+                y="80"
                 class="dim-text-m text-fuchsia-500"
                 font-size="4"
                 font-weight="bold"
@@ -1462,7 +1505,8 @@
         if (btnBlueprint) {
           btnBlueprint.addEventListener("click", () => {
             mainCanvas.classList.toggle("blueprint-mode");
-            btnBlueprint.classList.toggle("bg-sky-500/20");
+            btnBlueprint.classList.toggle("bg-blue-200");
+            btnBlueprint.classList.toggle("dark:bg-sky-500/20");
           });
         }
 
@@ -1471,11 +1515,11 @@
             mainCanvas.classList.toggle("lights-off");
             const icon = document.getElementById("icon-lights");
             if (mainCanvas.classList.contains("lights-off")) {
-              icon.classList.remove("fill-yellow-500", "text-yellow-500");
+              icon.classList.remove("fill-amber-600", "text-amber-600", "dark:fill-yellow-500", "dark:text-yellow-500");
               icon.classList.add("text-base-500");
               btnLights.classList.add("bg-base-200", "dark:bg-base-800");
             } else {
-              icon.classList.add("fill-yellow-500", "text-yellow-500");
+              icon.classList.add("fill-amber-600", "text-amber-600", "dark:fill-yellow-500", "dark:text-yellow-500");
               icon.classList.remove("text-base-500");
               btnLights.classList.remove("bg-base-200", "dark:bg-base-800");
             }
@@ -1488,9 +1532,13 @@
             const icon = document.getElementById("icon-dims");
             if (mainCanvas.classList.contains("hide-dims")) {
               icon.setAttribute("data-lucide", "eye-off");
+              icon.classList.remove("text-base-700", "dark:text-base-400");
+              icon.classList.add("text-base-400");
               btnDims.classList.add("bg-base-200", "dark:bg-base-800");
             } else {
               icon.setAttribute("data-lucide", "ruler");
+              icon.classList.add("text-base-700", "dark:text-base-400");
+              icon.classList.remove("text-base-400");
               btnDims.classList.remove("bg-base-200", "dark:bg-base-800");
             }
             lucide.createIcons();
