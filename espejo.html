@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Planos Técnicos - Espejo Machado Teatro</title>
+    <title>Planos - Machado Teatro</title>
 
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,27 +56,16 @@
     </script>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700;800&display=swap");
-
       /* Custom Variables */
       :root {
         --c-glass: #bae6fd;
         --c-decapado: #fdf4ff;
         --c-mdf: #78350f;
+        --c-mdf5: #f8fafc;
         --c-kiri: #b45309;
         --c-led: #fef08a;
         --c-cleat: #451a03;
         --c-wall: #1e293b;
-        --c-dimension: #0ea5e9;
-        --c-technical: #0f172a;
-      }
-
-      body {
-        font-family: "Work Sans", sans-serif;
-      }
-
-      .font-technical {
-        font-family: "JetBrains Mono", monospace;
       }
 
       /* SVG Element Interactions */
@@ -136,89 +125,15 @@
         filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.6));
       }
 
-      /* Technical Drawing Elements */
       .dim-line {
-        stroke: var(--c-dimension);
-        stroke-width: 1.5;
-        fill: none;
-      }
-      .dim-arrow {
-        fill: var(--c-dimension);
-      }
-      .dim-text {
-        fill: var(--c-dimension);
-        font-size: 10px;
-        font-weight: 600;
-        font-family: "JetBrains Mono", monospace;
-      }
-      .dim-text-small {
-        fill: var(--c-dimension);
-        font-size: 8px;
-        font-weight: 500;
-        font-family: "JetBrains Mono", monospace;
-      }
-      .centerline {
-        stroke: var(--c-dimension);
-        stroke-width: 1;
-        stroke-dasharray: 20, 5, 5, 5;
-        opacity: 0.4;
-      }
-      .hidden-line {
         stroke: currentColor;
-        stroke-width: 1.5;
-        stroke-dasharray: 8, 4;
         opacity: 0.3;
+        stroke-width: 1;
+        stroke-dasharray: 4;
       }
-      .section-line {
-        stroke: #ef4444;
-        stroke-width: 2.5;
-        stroke-dasharray: 30, 10;
-      }
-      .part-number {
-        fill: #ef4444;
-        font-size: 14px;
-        font-weight: 800;
-        font-family: "JetBrains Mono", monospace;
-      }
-      .leader-line {
-        stroke: var(--c-dimension);
-        stroke-width: 1.5;
-        fill: none;
-      }
-      .grid-pattern {
-        stroke: var(--c-dimension);
-        stroke-width: 0.5;
-        opacity: 0.1;
-      }
-
-      /* Title Block */
-      .title-block {
-        font-family: "JetBrains Mono", monospace;
-      }
-
-      /* Component Badge */
-      .component-badge {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.7;
-        }
-      }
-
-      /* Technical Notes */
-      .tech-note {
-        background: linear-gradient(
-          135deg,
-          rgba(14, 165, 233, 0.1) 0%,
-          rgba(14, 165, 233, 0.05) 100%
-        );
-        border-left: 3px solid var(--c-dimension);
+      .dim-text-m {
+        fill: currentColor;
+        font-size: 6px;
       }
     </style>
   </head>
@@ -304,2025 +219,943 @@
     <div class="flex flex-col-reverse lg:flex-row flex-1 overflow-hidden">
       <!-- Sidebar with Specs -->
       <aside
-        class="w-full lg:w-[420px] h-2/5 lg:h-auto bg-base-100 dark:bg-base-900 border-t lg:border-t-0 lg:border-r border-base-200 dark:border-base-800 flex flex-col p-4 lg:p-6 gap-3 overflow-y-auto z-10 shadow-lg shrink-0"
+        class="w-full lg:w-[380px] h-2/5 lg:h-auto bg-base-100 dark:bg-base-900 border-t lg:border-t-0 lg:border-r border-base-200 dark:border-base-800 flex flex-col p-4 lg:p-6 gap-2 lg:gap-4 overflow-y-auto z-10 shadow-lg shrink-0"
         id="sidebar"
       >
         <div class="flex justify-between items-center mb-2">
           <h2
             class="text-xs font-bold uppercase tracking-widest text-base-500 dark:text-base-400"
           >
-            Lista de Componentes
+            Desglose de Materiales
           </h2>
-          <span class="text-xs text-base-400 font-technical">v2.0</span>
+          <span class="text-xs text-base-400">Pasa el ratón</span>
         </div>
 
-        <!-- Component 1 -->
         <div
           class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20"
           data-target="layer-cristal"
           data-color="text-sky-500"
         >
-          <div class="flex justify-between items-start mb-2">
-            <div class="flex items-center gap-2">
-              <span
-                class="component-badge bg-sky-500 text-white text-xs font-bold font-technical px-2 py-1 rounded"
-                >①</span
-              >
-              <span
-                class="font-semibold text-base-900 dark:text-base-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
-                >Cristal VASA</span
-              >
-            </div>
-            <div
-              class="badge badge-sm bg-sky-500/20 text-sky-700 dark:text-sky-300 border-0 font-technical"
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
+              >Cristal VASA</span
             >
-              1×
-            </div>
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >1500 x 700 x 4mm</span
+            >
           </div>
-          <div class="space-y-1 text-sm text-base-600 dark:text-base-400">
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Dimensiones:</span>
-              <span
-                class="font-technical font-semibold text-sky-600 dark:text-sky-400"
-                >150×70 cm</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Espesor:</span>
-              <span class="font-technical font-semibold">4 mm ±0.2mm</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Voladizo:</span>
-              <span class="font-technical font-semibold">12 mm perimetral</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Acabado:</span>
-              <span class="text-xs">Espejo platinado</span>
-            </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Espejo principal. Asienta sobre el galce de la moldura, con
+            remanente posterior de 1mm para silicona. Voladizo de 30mm sobre
+            MDF.
           </div>
         </div>
 
-        <!-- Component 2 -->
         <div
           class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20"
           data-target="layer-decapado"
           data-color="text-fuchsia-500"
         >
-          <div class="flex justify-between items-start mb-2">
-            <div class="flex items-center gap-2">
-              <span
-                class="component-badge bg-fuchsia-500 text-white text-xs font-bold font-technical px-2 py-1 rounded"
-                >②</span
-              >
-              <span
-                class="font-semibold text-base-900 dark:text-base-100 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors"
-                >Bastidor Decapado</span
-              >
-            </div>
-            <div
-              class="badge badge-sm bg-fuchsia-500/20 text-fuchsia-700 dark:text-fuchsia-300 border-0 font-technical"
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors"
+              >Decapado</span
             >
-              1×
-            </div>
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >12mm ancho</span
+            >
           </div>
-          <div class="space-y-1 text-sm text-base-600 dark:text-base-400">
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Dimensiones:</span>
-              <span
-                class="font-technical font-semibold text-fuchsia-600 dark:text-fuchsia-400"
-                >147.6×67.6 cm</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Espesor:</span>
-              <span class="font-technical font-semibold">12 mm</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Material:</span>
-              <span class="text-xs">Pino decapado blanco</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Ensamble:</span>
-              <span class="text-xs">Caja inglete 45°</span>
-            </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Franja translúcida en cara posterior. La luz de la ranura estanca
+            sale frontalmente iluminando por retroproyección.
           </div>
         </div>
 
-        <!-- Component 3 -->
         <div
-          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20"
-          data-target="layer-pino"
-          data-color="text-amber-500"
-        >
-          <div class="flex justify-between items-start mb-2">
-            <div class="flex items-center gap-2">
-              <span
-                class="component-badge bg-amber-500 text-white text-xs font-bold font-technical px-2 py-1 rounded"
-                >③</span
-              >
-              <span
-                class="font-semibold text-base-900 dark:text-base-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors"
-                >Base Reflector LED</span
-              >
-            </div>
-            <div
-              class="badge badge-sm bg-amber-500/20 text-amber-700 dark:text-amber-300 border-0 font-technical"
-            >
-              1×
-            </div>
-          </div>
-          <div class="space-y-1 text-sm text-base-600 dark:text-base-400">
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Dimensiones:</span>
-              <span
-                class="font-technical font-semibold text-amber-600 dark:text-amber-400"
-                >154×74 cm</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Espesor:</span>
-              <span class="font-technical font-semibold">20 mm</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Material:</span>
-              <span class="text-xs">Pino finger-joint</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Acabado:</span>
-              <span class="text-xs">Laca clara satinada</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Component 4 -->
-        <div
-          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20"
+          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-burgundy-600 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20"
           data-target="layer-kiri"
-          data-color="text-orange-500"
+          data-color="text-burgundy-600"
         >
-          <div class="flex justify-between items-start mb-2">
-            <div class="flex items-center gap-2">
-              <span
-                class="component-badge bg-orange-500 text-white text-xs font-bold font-technical px-2 py-1 rounded"
-                >④</span
-              >
-              <span
-                class="font-semibold text-base-900 dark:text-base-100 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors"
-                >Moldura Flotante Kiri</span
-              >
-            </div>
-            <div
-              class="badge badge-sm bg-orange-500/20 text-orange-700 dark:text-orange-300 border-0 font-technical"
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-burgundy-700 dark:group-hover:text-burgundy-500 transition-colors"
+              >Marco Kiri</span
             >
-              1×
-            </div>
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >Cara Vista 70mm</span
+            >
           </div>
-          <div class="space-y-1 text-sm text-base-600 dark:text-base-400">
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Dimensiones:</span>
-              <span
-                class="font-technical font-semibold text-orange-600 dark:text-orange-400"
-                >163×83 cm</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Espesor:</span>
-              <span class="font-technical font-semibold">45 mm</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Separación:</span>
-              <span class="font-technical font-semibold">4.5 cm de pared</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Acabado:</span>
-              <span class="text-xs">Aceite natural tung</span>
-            </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Exterior: 1630x830mm, prof: 20mm. Galce de asiento (10x5mm). Rebaje
+            cayendo hacia el interior.
           </div>
         </div>
 
-        <!-- Component 5 -->
+        <div
+          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-burgundy-800 hover:bg-burgundy-100 dark:hover:bg-burgundy-900/40"
+          data-target="layer-mdf"
+          data-color="text-burgundy-800"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-burgundy-900 dark:group-hover:text-burgundy-600 transition-colors"
+              >Base MDF</span
+            >
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >1440x640x18mm</span
+            >
+          </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Núcleo portante estructural pegado tras el cristal. Crea el pasillo
+            de cableado y amarra anclajes.
+          </div>
+        </div>
+
+        <div
+          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20"
+          data-target="layer-mdf5"
+          data-color="text-violet-500"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors"
+              >Reflector MDF</span
+            >
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >~1536x736x5.5mm</span
+            >
+          </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Placa de 5.5mm pintada de blanco titanio, tras la base MDF y varilla de pino. Refracta la luz del LED hacia el cristal.
+          </div>
+        </div>
+
         <div
           class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20"
-          data-target="layer-led"
-          data-color="text-yellow-500"
+          data-target="layer-pino"
+          data-color="text-yellow-400"
         >
-          <div class="flex justify-between items-start mb-2">
-            <div class="flex items-center gap-2">
-              <span
-                class="component-badge bg-yellow-500 text-white text-xs font-bold font-technical px-2 py-1 rounded"
-                >⑤</span
-              >
-              <span
-                class="font-semibold text-base-900 dark:text-base-100 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors"
-                >Módulo LED</span
-              >
-            </div>
-            <div
-              class="badge badge-sm bg-yellow-500/20 text-yellow-700 dark:text-yellow-300 border-0 font-technical"
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors"
+              >Varilla Pino (Reflector)</span
             >
-              1×
-            </div>
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >18mm esp.</span
+            >
           </div>
-          <div class="space-y-1 text-sm text-base-600 dark:text-base-400">
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Tipo:</span>
-              <span class="text-xs">Cinta LED perimetral</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Longitud:</span>
-              <span class="font-technical font-semibold"
-                >4.5 m (perímetro)</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Potencia:</span>
-              <span class="font-technical font-semibold">12V / 24W</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Temperatura:</span>
-              <span class="text-xs">3000K cálido</span>
-            </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Comienza por fuera del cristal. Su cara interna blanca sella la luz
+            y la rebota hacia el decapado frontal.
           </div>
         </div>
 
-        <!-- Component 6 -->
         <div
-          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20"
-          data-target="layer-cleat"
-          data-color="text-rose-500"
+          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 shadow-[0_0_15px_rgba(253,224,71,0)] hover:shadow-[0_0_15px_rgba(253,224,71,0.4)]"
+          data-target="layer-led"
+          data-color="text-yellow-300"
         >
-          <div class="flex justify-between items-start mb-2">
-            <div class="flex items-center gap-2">
-              <span
-                class="component-badge bg-rose-500 text-white text-xs font-bold font-technical px-2 py-1 rounded"
-                >⑥</span
-              >
-              <span
-                class="font-semibold text-base-900 dark:text-base-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors"
-                >Sistema Colgado</span
-              >
-            </div>
-            <div
-              class="badge badge-sm bg-rose-500/20 text-rose-700 dark:text-rose-300 border-0 font-technical"
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-yellow-500 dark:group-hover:text-yellow-300 transition-colors"
+              >Electrónica 12V</span
             >
-              2×
-            </div>
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >Fuente Slim + COB</span
+            >
           </div>
-          <div class="space-y-1 text-sm text-base-600 dark:text-base-400">
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Tipo:</span>
-              <span class="text-xs">French cleat 45°</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Dimensiones:</span>
-              <span class="font-technical font-semibold">120×8 cm c/u</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Material:</span>
-              <span class="text-xs">Pino 18mm</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-technical text-xs">Carga:</span>
-              <span class="font-technical font-semibold">≥50 kg</span>
-            </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Fuente embutida. Tira COB incrustada en el canto del MDF, disparando
+            luz lateralmente hacia la ranura estanca.
           </div>
         </div>
 
-        <!-- Technical Notes Section -->
-        <div class="mt-4 tech-note p-4 rounded-lg">
-          <h3
-            class="font-bold text-sm mb-2 flex items-center gap-2 text-sky-600 dark:text-sky-400"
-          >
-            <i data-lucide="info" class="w-4 h-4"></i>
-            Notas Técnicas
-          </h3>
-          <ul class="space-y-2 text-xs text-base-600 dark:text-base-400">
-            <li class="flex gap-2">
-              <span class="text-sky-500">•</span>
-              <span
-                >Todas las tolerancias dimensionales:
-                <span class="font-technical font-semibold">±0.5mm</span> salvo
-                indicación contraria</span
-              >
-            </li>
-            <li class="flex gap-2">
-              <span class="text-sky-500">•</span>
-              <span
-                >Tornillos: <span class="font-technical">M6×40mm</span> acero
-                inox para ensamble de componentes</span
-              >
-            </li>
-            <li class="flex gap-2">
-              <span class="text-sky-500">•</span>
-              <span
-                >Adhesivo: Silicona neutra para fijación cristal sobre
-                bastidor</span
-              >
-            </li>
-            <li class="flex gap-2">
-              <span class="text-sky-500">•</span>
-              <span
-                >Transformador LED: incluir en lateral derecho inferior, con
-                cable de <span class="font-technical">1.5m</span></span
-              >
-            </li>
-            <li class="flex gap-2">
-              <span class="text-sky-500">•</span>
-              <span
-                >Peso total aproximado:
-                <span class="font-technical font-semibold">18.5 kg</span></span
-              >
-            </li>
-          </ul>
+        <div
+          class="spec-item group bg-base-50 dark:bg-base-800/50 border border-base-200 dark:border-base-700 rounded-xl p-4 cursor-pointer hover:border-stone-600 hover:bg-stone-100 dark:hover:bg-stone-800"
+          data-target="layer-cleat"
+          data-color="text-stone-500"
+        >
+          <div class="flex justify-between items-center mb-1">
+            <span
+              class="font-semibold text-base-900 dark:text-base-100 group-hover:text-stone-700 dark:group-hover:text-stone-400 transition-colors"
+              >French Cleat</span
+            >
+            <span
+              class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
+              >Madera 15mm</span
+            >
+          </div>
+          <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
+            Fijación por gravedad a 45°. Encastre seguro y separador orgánico de
+            muro.
+          </div>
         </div>
       </aside>
 
-      <!-- Main Content Area -->
+      <!-- Main Content -->
       <main
-        class="flex-1 flex flex-col overflow-hidden bg-base-50 dark:bg-base-950"
+        class="flex-1 flex flex-col bg-base-200 dark:bg-base-950 relative overlay-pattern"
       >
-        <!-- Tabs / View Selector -->
         <div
-          class="tabs tabs-lifted tabs-sm sm:tabs-md bg-base-100 dark:bg-base-900 px-4 sm:px-6 pt-3 border-b border-base-200 dark:border-base-800"
+          class="absolute inset-0 pointer-events-none"
+          style="
+            background-image:
+              linear-gradient(
+                to right,
+                var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px,
+                transparent 1px
+              ),
+              linear-gradient(
+                to bottom,
+                var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px,
+                transparent 1px
+              );
+            background-size: 40px 40px;
+          "
+        ></div>
+
+        <div
+          class="tabs tabs-box bg-base-100 dark:bg-base-900 border-b border-base-200 dark:border-base-800 justify-center sm:justify-start px-4 pt-4 rounded-none shadow-sm z-10 w-full overflow-x-auto no-scrollbar"
         >
-          <button
-            class="tab tab-active font-semibold tab-btn"
-            data-view="frontal"
+          <a class="tab tab-btn tab-active font-medium" data-view="view-corte"
+            >Perfil (Corte Transversal)</a
           >
-            <i data-lucide="square" class="w-4 h-4 mr-2"></i>
-            Vista Frontal
-          </button>
-          <button class="tab font-semibold tab-btn" data-view="perfil">
-            <i data-lucide="layers" class="w-4 h-4 mr-2"></i>
-            Corte A-A
-          </button>
-          <button class="tab font-semibold tab-btn" data-view="explosionada">
-            <i data-lucide="box-select" class="w-4 h-4 mr-2"></i>
-            Vista Explosionada
-          </button>
-          <button class="tab font-semibold tab-btn" data-view="detalles">
-            <i data-lucide="zoom-in" class="w-4 h-4 mr-2"></i>
-            Detalles Constructivos
-          </button>
+          <a class="tab tab-btn font-medium" data-view="view-frontal"
+            >Vista Frontal (Plan)</a
+          >
+          <a class="tab tab-btn font-medium" data-view="view-despiece"
+            >Explosión Isométrica</a
+          >
         </div>
 
-        <!-- Zoom Controls -->
-        <div
-          class="flex items-center gap-3 px-4 sm:px-6 py-3 bg-base-100 dark:bg-base-900 border-b border-base-200 dark:border-base-800"
-        >
-          <i data-lucide="zoom-out" class="w-4 h-4 text-base-500"></i>
-          <input
-            type="range"
-            id="zoom-slider"
-            min="0.5"
-            max="3"
-            step="0.1"
-            value="1"
-            class="range range-sm flex-1 range-primary"
-          />
-          <i data-lucide="zoom-in" class="w-4 h-4 text-base-500"></i>
-          <button id="zoom-reset" class="btn btn-sm btn-ghost gap-2">
-            <i data-lucide="maximize-2" class="w-4 h-4"></i>
-            Reset
-          </button>
-        </div>
+        <svg width="0" height="0" class="absolute pointer-events-none">
+          <defs>
+            <linearGradient id="kiriGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#b45309" />
+              <stop offset="50%" stop-color="#92400e" />
+              <stop offset="100%" stop-color="#78350f" />
+            </linearGradient>
+            <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#bae6fd" />
+              <stop offset="100%" stop-color="#0284c7" />
+            </linearGradient>
+            <pattern
+              id="mdfTex"
+              patternUnits="userSpaceOnUse"
+              width="10"
+              height="10"
+            >
+              <rect width="10" height="10" fill="#78350f" />
+              <circle cx="2" cy="2" r="1" fill="#451a03" opacity="0.4" />
+              <path
+                d="M 0,5 Q 5,0 10,5"
+                stroke="#451a03"
+                stroke-width="0.5"
+                fill="none"
+                opacity="0.3"
+              />
+            </pattern>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+            <filter
+              id="strongGlow"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feGaussianBlur stdDeviation="15" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+        </svg>
 
-        <!-- SVG Zoom Container -->
         <div
-          class="flex-1 overflow-auto relative bg-gradient-to-br from-base-50 to-base-100 dark:from-base-950 dark:to-base-900"
-          id="zoom-area"
+          class="flex-1 flex relative p-4 lg:p-12 z-0 h-full w-full items-center justify-center"
         >
+          <!-- TAB 1: PERFIL (CORTE) -->
           <div
-            id="zoom-container"
-            class="min-h-full flex items-center justify-center p-4 sm:p-8"
-            style="transform-origin: center"
+            id="view-corte"
+            class="view-panel active text-base-500 w-full h-full max-w-5xl"
           >
-            <!-- VISTA FRONTAL -->
-            <div class="view-panel active w-full" id="frontal">
-              <svg
-                viewBox="0 0 1800 1400"
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-full max-w-6xl mx-auto"
+            <svg
+              viewBox="280 10 570 180"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-full h-full text-base-500 dark:text-base-400"
+            >
+              <rect
+                x="250"
+                y="150.5"
+                width="650"
+                height="40"
+                fill="currentColor"
+                opacity="0.1"
+              />
+              <text
+                x="350"
+                y="175.5"
+                class="dim-text-m text-base-600 dark:text-base-300"
+                font-size="10"
+                font-weight="600"
+                letter-spacing="0.2em"
               >
-                <defs>
-                  <linearGradient
-                    id="kiriGrad"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop
-                      offset="0%"
-                      style="stop-color: #b45309; stop-opacity: 1"
+                MURO / PARED
+              </text>
+
+              <g
+                transform="translate(290, 165.5)"
+                stroke="currentColor"
+                opacity="0.5"
+                stroke-width="1.5"
+                fill="none"
+              >
+                <path d="M 0,0 L -20,0 M -10,10 L -20,0 L -10,-10" />
+                <text
+                  x="-25"
+                  y="3"
+                  text-anchor="end"
+                  font-size="8"
+                  font-weight="600"
+                  class="fill-current"
+                  stroke="none"
+                >
+                  ARRIBA (Techo)
+                </text>
+              </g>
+              <g
+                transform="translate(420, 165.5)"
+                stroke="currentColor"
+                opacity="0.5"
+                stroke-width="1.5"
+                fill="none"
+              >
+                <path d="M 0,0 L 20,0 M 10,10 L 20,0 L 10,-10" />
+                <text
+                  x="25"
+                  y="3"
+                  text-anchor="start"
+                  font-size="8"
+                  font-weight="600"
+                  class="fill-current"
+                  stroke="none"
+                >
+                  ABAJO (Piso)
+                </text>
+              </g>
+
+              <!-- Listón Francés: Amurado a Pared -->
+              <g class="svg-layer layer-cleat">
+                <polygon
+                  points="372,120.5 450,120.5 450,150.5 402,150.5"
+                  fill="#451a03"
+                />
+                <!-- Tornillo Pared -->
+                <line
+                  x1="425"
+                  y1="150.5"
+                  x2="425"
+                  y2="180.5"
+                  class="dim-line"
+                  stroke-width="2"
+                />
+                <line
+                  x1="425"
+                  y1="165.5"
+                  x2="475"
+                  y2="165.5"
+                  class="dim-line"
+                  stroke-width="0.5"
+                  stroke-dasharray="0"
+                />
+                <text
+                  x="480"
+                  y="167.5"
+                  font-size="5"
+                  fill="currentColor"
+                  class="text-stone-500"
+                >
+                  Amurado a la pared
+                </text>
+              </g>
+
+              <!-- Listón Francés: Atornillado MDF -->
+              <g class="svg-layer layer-cleat">
+                <polygon
+                  points="320,119.5 368,119.5 398,149.5 320,149.5"
+                  fill="#78350f"
+                />
+                <!-- Tornillo MDF -->
+                <line
+                  x1="335"
+                  y1="119.5"
+                  x2="335"
+                  y2="85"
+                  class="dim-line"
+                  stroke-width="2"
+                />
+                <line
+                  x1="335"
+                  y1="85"
+                  x2="475"
+                  y2="85"
+                  class="dim-line"
+                  stroke-width="0.5"
+                  stroke-dasharray="0"
+                />
+                <text
+                  x="480"
+                  y="87"
+                  font-size="5"
+                  fill="currentColor"
+                  class="text-stone-500"
+                >
+                  Atornillado a Base MDF
+                </text>
+              </g>
+
+              <!-- Base MDF -->
+              <rect
+                class="svg-layer layer-mdf"
+                x="300"
+                y="97"
+                width="420"
+                height="18"
+                fill="url(#mdfTex)"
+              />
+
+              <!-- Reflector MDF 5.5mm -->
+              <rect
+                class="svg-layer layer-mdf5"
+                x="250"
+                y="115"
+                width="519"
+                height="5.5"
+                fill="var(--c-mdf5)"
+                stroke="#64748b"
+                stroke-width="0.5"
+              />
+
+              <!-- Fuente Slim -->
+              <rect
+                class="svg-layer layer-led"
+                x="500"
+                y="97"
+                width="60"
+                height="18"
+                fill="currentColor"
+                opacity="0.2"
+                stroke="currentColor"
+                stroke-width="1"
+              />
+              <text
+                class="svg-layer layer-led dim-text-m"
+                x="530"
+                y="108"
+                text-anchor="middle"
+                font-size="4"
+              >
+                FUENTE
+              </text>
+
+              <!-- Cristal VASA -->
+              <rect
+                class="svg-layer layer-cristal"
+                x="300"
+                y="92"
+                width="450"
+                height="4"
+                fill="url(#glassGrad)"
+              />
+
+              <!-- Decapado -->
+              <rect
+                class="svg-layer layer-decapado"
+                x="738"
+                y="92"
+                width="12"
+                height="4"
+                fill="rgba(255,255,255,0.9)"
+                filter="url(#glow)"
+              />
+
+              <!-- LED COB -->
+              <rect
+                class="svg-layer layer-led"
+                x="720"
+                y="97"
+                width="3"
+                height="18"
+                fill="var(--c-led)"
+                filter="url(#glow)"
+              />
+
+              <!-- Varilla de Pino -->
+              <rect
+                class="svg-layer layer-pino"
+                x="751"
+                y="97"
+                width="18"
+                height="18"
+                fill="#fef08a"
+                stroke="#b45309"
+                stroke-width="0.5"
+              />
+              <line
+                class="svg-layer layer-pino"
+                x1="751"
+                y1="97"
+                x2="751"
+                y2="115"
+                stroke="#ffffff"
+                stroke-width="2"
+                filter="url(#glow)"
+              />
+
+              <line
+                class="svg-layer layer-pino dim-line"
+                x1="760"
+                y1="115"
+                x2="760"
+                y2="135"
+                stroke-width="0.5"
+                stroke-dasharray="0"
+              />
+              <text
+                class="svg-layer layer-pino"
+                x="765"
+                y="135"
+                font-size="5"
+                fill="currentColor"
+                class="text-yellow-600 dark:text-yellow-400"
+              >
+                Varilla Pino 18mm (Empieza donde termina vidrio)
+              </text>
+
+              <!-- Haz de Luz -->
+              <polygon
+                class="svg-layer layer-led"
+                points="723,106 751,97 751,115"
+                fill="rgba(253, 224, 71, 0.4)"
+                filter="url(#glow)"
+              />
+              <!-- Escape de Luz -->
+              <path
+                class="svg-layer layer-led"
+                d="M 742,92 L 742,60 L 760,60 L 760,92 Z"
+                fill="rgba(253, 224, 71, 0.15)"
+                filter="url(#glow)"
+              />
+
+              <!-- Marco Kiri -->
+              <path
+                class="svg-layer layer-kiri"
+                d="M 815,97 L 755,97 L 755,92 L 745,92 L 745,87 Q 770,90 780,80 Q 795,74 815,77 Z"
+                fill="url(#kiriGrad)"
+                stroke="#451a03"
+                stroke-width="0.5"
+              />
+
+              <!-- Anotaciones Dimensionales -->
+              <g class="dim-line">
+                <line x1="720" y1="120" x2="720" y2="148" />
+                <line x1="751" y1="120" x2="751" y2="148" />
+                <line x1="815" y1="100" x2="815" y2="148" />
+
+                <line x1="720" y1="145" x2="751" y2="145" />
+                <text
+                  x="735"
+                  y="142"
+                  class="dim-text-m"
+                  font-size="4"
+                  text-anchor="middle"
+                >
+                  Ranura ~31mm
+                </text>
+
+                <line x1="745" y1="145" x2="815" y2="145" />
+                <text
+                  x="780"
+                  y="142"
+                  class="dim-text-m"
+                  font-size="4"
+                  text-anchor="middle"
+                >
+                  Cara Vista Marco 70mm
+                </text>
+
+                <!-- Profundidad -->
+                <line x1="820" y1="77" x2="830" y2="77" stroke-dasharray="0" />
+                <line x1="820" y1="97" x2="830" y2="97" stroke-dasharray="0" />
+                <line x1="825" y1="77" x2="825" y2="97" stroke-dasharray="0" />
+                <text
+                  x="830"
+                  y="88"
+                  class="dim-text-m"
+                  font-size="4"
+                  text-anchor="start"
+                >
+                  20mm (M.)
+                </text>
+
+                <line
+                  x1="290"
+                  y1="150.5"
+                  x2="280"
+                  y2="150.5"
+                  stroke-dasharray="0"
+                />
+                <line x1="290" y1="97" x2="280" y2="97" stroke-dasharray="0" />
+                <line x1="285" y1="97" x2="285" y2="150.5" stroke-dasharray="0" />
+                <text
+                  x="275"
+                  y="126.5"
+                  class="dim-text-m"
+                  font-size="4"
+                  text-anchor="end"
+                >
+                  38.5mm P.+MDF
+                </text>
+              </g>
+
+              <!-- Labels Principales cortas -->
+              <text
+                x="705"
+                y="105"
+                class="dim-text-m text-burgundy-500"
+                font-size="4"
+                text-anchor="end"
+                fill="currentColor"
+              >
+                LED COB Lateral
+              </text>
+              <text
+                x="730"
+                y="85"
+                class="dim-text-m text-fuchsia-500"
+                font-size="4"
+                font-weight="bold"
+                text-anchor="end"
+                fill="currentColor"
+              >
+                Decapado 12mm
+              </text>
+            </svg>
+          </div>
+
+          <!-- TAB 2: FRONTAL -->
+          <div
+            id="view-frontal"
+            class="view-panel w-full h-full max-w-4xl text-base-500"
+          >
+            <svg
+              viewBox="0 0 1700 900"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-full h-full text-base-500 dark:text-base-400"
+            >
+              <path
+                class="svg-layer layer-kiri"
+                d="M 35,35 h 1630 v 830 h -1630 Z M 105,105 v 690 h 1490 v -690 Z"
+                fill="url(#kiriGrad)"
+                fill-rule="evenodd"
+              />
+
+              <rect
+                class="svg-layer layer-cristal"
+                x="100"
+                y="100"
+                width="1500"
+                height="700"
+                fill="#bae6fd"
+                opacity="0.3"
+              />
+
+              <path
+                class="svg-layer layer-decapado"
+                d="M 100,100 h 1500 v 700 h -1500 Z M 112,112 v 676 h 1476 v -676 Z"
+                fill="rgba(255,255,255,0.8)"
+                fill-rule="evenodd"
+                filter="url(#glow)"
+              />
+
+              <rect
+                class="svg-layer layer-mdf5"
+                x="82"
+                y="82"
+                width="1536"
+                height="736"
+                stroke="currentColor"
+                opacity="0.3"
+                stroke-width="5"
+                stroke-dasharray="20,20"
+                fill="var(--c-mdf5)"
+              />
+              <text
+                x="850"
+                y="98"
+                class="svg-layer layer-mdf5"
+                font-size="20"
+                fill="currentColor"
+                opacity="0.6"
+                text-anchor="middle"
+                letter-spacing="0.1em"
+              >
+                REFLECTOR MDF 1536 x 736
+              </text>
+
+              <rect
+                class="svg-layer layer-mdf"
+                x="130"
+                y="130"
+                width="1440"
+                height="640"
+                stroke="currentColor"
+                opacity="0.4"
+                stroke-width="6"
+                stroke-dasharray="15,15"
+                fill="none"
+              />
+              <text
+                x="850"
+                y="470"
+                class="svg-layer layer-mdf"
+                font-size="28"
+                fill="currentColor"
+                opacity="0.5"
+                text-anchor="middle"
+                letter-spacing="0.2em"
+              >
+                BACKPLATE MDF 1440 x 640
+              </text>
+
+              <rect
+                class="svg-layer layer-led"
+                x="127"
+                y="127"
+                width="1446"
+                height="646"
+                fill="none"
+                stroke="var(--c-led)"
+                stroke-width="25"
+                opacity="0.4"
+                filter="url(#strongGlow)"
+              />
+
+              <g stroke="currentColor" opacity="0.5" stroke-width="2">
+                <line x1="35" y1="15" x2="1665" y2="15" />
+                <line x1="35" y1="5" x2="35" y2="25" />
+                <line x1="1665" y1="5" x2="1665" y2="25" />
+                <text
+                  x="850"
+                  y="-5"
+                  font-size="20"
+                  fill="currentColor"
+                  text-anchor="middle"
+                  stroke="none"
+                >
+                  Marco Kiri Exterior: 1630mm
+                </text>
+
+                <line x1="15" y1="35" x2="15" y2="865" />
+                <line x1="5" y1="35" x2="25" y2="35" />
+                <line x1="5" y1="865" x2="25" y2="865" />
+                <text
+                  x="-5"
+                  y="450"
+                  transform="rotate(-90 -5 450)"
+                  font-size="20"
+                  fill="currentColor"
+                  text-anchor="middle"
+                  stroke="none"
+                >
+                  830mm Ext.
+                </text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- TAB 3: DESPIECE 3D -->
+          <div
+            id="view-despiece"
+            class="view-panel w-full h-full max-w-5xl text-base-500 relative overflow-hidden flex-col"
+          >
+            <!-- Zoom Controls -->
+            <div
+              class="absolute top-4 right-4 z-20 bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md border border-base-200 dark:border-base-800 p-3 rounded-2xl shadow-lg flex items-center gap-3"
+            >
+              <i data-lucide="zoom-out" class="w-4 h-4 text-base-500"></i>
+              <input
+                type="range"
+                id="zoom-slider"
+                min="0.5"
+                max="2.5"
+                step="0.1"
+                value="1"
+                class="range range-xs range-primary w-32"
+              />
+              <i data-lucide="zoom-in" class="w-4 h-4 text-base-500"></i>
+              <button
+                id="zoom-reset"
+                class="btn btn-xs btn-ghost btn-circle ml-1"
+                title="Reset Zoom"
+              >
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <div
+              class="w-full h-full relative cursor-grab active:cursor-grabbing"
+              id="zoom-area"
+            >
+              <svg
+                viewBox="-200 0 2000 1300"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-full h-full text-base-500 dark:text-base-400"
+              >
+                <!-- Contenedor general para el paneo y zoom -->
+                <g
+                  id="zoom-container"
+                  style="
+                    transform-origin: center;
+                    transition: transform 0.1s ease-out;
+                  "
+                >
+                  <g transform="translate(850, 1050) scale(1, 0.45) rotate(45)">
+                    <rect
+                      class="svg-layer layer-cleat"
+                      x="-300"
+                      y="-300"
+                      width="600"
+                      height="600"
+                      fill="url(#mdfTex)"
+                      opacity="0.4"
+                      stroke="#451a03"
+                      stroke-width="8"
                     />
-                    <stop
-                      offset="100%"
-                      style="stop-color: #78350f; stop-opacity: 1"
+                    <text
+                      transform="rotate(-45) scale(1, 2.22)"
+                      x="0"
+                      y="30"
+                      fill="currentColor"
+                      font-size="34"
+                      font-weight="600"
+                      text-anchor="middle"
+                    >
+                      Fijación Mural (Cleat)
+                    </text>
+                  </g>
+
+                  <g transform="translate(850, 950) scale(1, 0.45) rotate(45)">
+                    <rect
+                      class="svg-layer layer-mdf5"
+                      x="-768"
+                      y="-368"
+                      width="1536"
+                      height="736"
+                      fill="var(--c-mdf5)"
+                      opacity="0.9"
+                      stroke="#451a03"
+                      stroke-width="4"
                     />
-                  </linearGradient>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                  <pattern
-                    id="grid"
-                    width="50"
-                    height="50"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <path
-                      d="M 50 0 L 0 0 0 50"
+                    <text
+                      transform="rotate(-45) scale(1, 2.22)"
+                      x="0"
+                      y="30"
+                      fill="#020617"
+                      font-size="34"
+                      font-weight="600"
+                      text-anchor="middle"
+                    >
+                      Reflector MDF 5.5mm
+                    </text>
+                  </g>
+
+                  <g transform="translate(850, 850) scale(1, 0.45) rotate(45)">
+                    <rect
+                      class="svg-layer layer-mdf"
+                      x="-720"
+                      y="-320"
+                      width="1440"
+                      height="640"
+                      fill="url(#mdfTex)"
+                      opacity="0.9"
+                      stroke="#451a03"
+                      stroke-width="6"
+                    />
+                    <rect
+                      class="svg-layer layer-led"
+                      x="-722"
+                      y="-322"
+                      width="1444"
+                      height="644"
                       fill="none"
-                      class="grid-pattern"
-                    />
-                  </pattern>
-                </defs>
-
-                <!-- Background Grid -->
-                <rect
-                  width="1800"
-                  height="1400"
-                  fill="url(#grid)"
-                  opacity="0.3"
-                />
-
-                <!-- Title Block -->
-                <g class="title-block">
-                  <rect
-                    x="1350"
-                    y="1100"
-                    width="400"
-                    height="250"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-                  <!-- Main Title -->
-                  <text
-                    x="1370"
-                    y="1130"
-                    class="font-technical"
-                    font-size="20"
-                    font-weight="700"
-                    fill="currentColor"
-                  >
-                    ESPEJO MACHADO TEATRO
-                  </text>
-                  <line
-                    x1="1360"
-                    y1="1140"
-                    x2="1740"
-                    y2="1140"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <!-- Info Grid -->
-                  <line
-                    x1="1350"
-                    y1="1180"
-                    x2="1750"
-                    y2="1180"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-                  <line
-                    x1="1550"
-                    y1="1180"
-                    x2="1550"
-                    y2="1350"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text
-                    x="1370"
-                    y="1165"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    VISTA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1165"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    FRONTAL
-                  </text>
-
-                  <text x="1370" y="1205" font-size="10" fill="currentColor">
-                    ESCALA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1205"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    1:10
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1215"
-                    x2="1750"
-                    y2="1215"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1235" font-size="10" fill="currentColor">
-                    MATERIAL:
-                  </text>
-                  <text x="1570" y="1235" font-size="9" fill="currentColor">
-                    Cristal/Pino/Kiri
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1245"
-                    x2="1750"
-                    y2="1245"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1265" font-size="10" fill="currentColor">
-                    FECHA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1265"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    2026-03-19
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1275"
-                    x2="1750"
-                    y2="1275"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1295" font-size="10" fill="currentColor">
-                    DISEÑADOR:
-                  </text>
-                  <text x="1570" y="1295" font-size="10" fill="currentColor">
-                    Claude AI
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1305"
-                    x2="1750"
-                    y2="1305"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1325" font-size="10" fill="currentColor">
-                    REV:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1325"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    v2.0
-                  </text>
-
-                  <text x="1370" y="1340" font-size="10" fill="currentColor">
-                    PLANO:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1340"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    MT-ESP-001
-                  </text>
-                </g>
-
-                <!-- Main Drawing Area -->
-                <g transform="translate(900, 600)">
-                  <!-- Moldura Flotante Kiri (Exterior) -->
-                  <rect
-                    class="svg-layer layer-kiri"
-                    x="-815"
-                    y="-415"
-                    width="1630"
-                    height="830"
-                    fill="url(#kiriGrad)"
-                    stroke="#78350f"
-                    stroke-width="4"
-                  />
-
-                  <!-- Base Reflector LED (Pino) -->
-                  <rect
-                    class="svg-layer layer-pino"
-                    x="-770"
-                    y="-370"
-                    width="1540"
-                    height="740"
-                    fill="#fef08a"
-                    stroke="#b45309"
-                    stroke-width="3"
-                  />
-
-                  <!-- Bastidor Decapado -->
-                  <rect
-                    class="svg-layer layer-decapado"
-                    x="-738"
-                    y="-338"
-                    width="1476"
-                    height="676"
-                    fill="rgba(255,255,255,0.95)"
-                    stroke="#cbd5e1"
-                    stroke-width="2"
-                  />
-
-                  <!-- Cristal VASA (con voladizo) -->
-                  <rect
-                    class="svg-layer layer-cristal"
-                    x="-750"
-                    y="-350"
-                    width="1500"
-                    height="700"
-                    fill="rgba(186, 230, 253, 0.3)"
-                    stroke="#0ea5e9"
-                    stroke-width="2.5"
-                    filter="url(#glow)"
-                  />
-
-                  <!-- Centerlines -->
-                  <line x1="-900" y1="0" x2="900" y2="0" class="centerline" />
-                  <line x1="0" y1="-500" x2="0" y2="500" class="centerline" />
-
-                  <!-- Section Line A-A -->
-                  <line
-                    x1="-850"
-                    y1="-250"
-                    x2="850"
-                    y2="-250"
-                    class="section-line"
-                  />
-                  <text x="-880" y="-240" class="part-number">A</text>
-                  <text x="880" y="-240" class="part-number">A</text>
-                  <path
-                    d="M -850,-250 L -860,-245 L -860,-255 Z"
-                    class="dim-arrow"
-                  />
-                  <path
-                    d="M 850,-250 L 860,-245 L 860,-255 Z"
-                    class="dim-arrow"
-                  />
-
-                  <!-- Dimension Lines - Width -->
-                  <g class="dimension-group">
-                    <!-- Total Width 150cm -->
-                    <line
-                      x1="-750"
-                      y1="-500"
-                      x2="-750"
-                      y2="-520"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="750"
-                      y1="-500"
-                      x2="750"
-                      y2="-520"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-750"
-                      y1="-510"
-                      x2="750"
-                      y2="-510"
-                      class="dim-line"
-                    />
-                    <path
-                      d="M -750,-510 L -740,-515 L -740,-505 Z"
-                      class="dim-arrow"
-                    />
-                    <path
-                      d="M 750,-510 L 740,-515 L 740,-505 Z"
-                      class="dim-arrow"
-                    />
-                    <text x="0" y="-490" class="dim-text" text-anchor="middle">
-                      1500 mm (150 cm)
-                    </text>
-
-                    <!-- Voladizo Left -->
-                    <line
-                      x1="-750"
-                      y1="-430"
-                      x2="-750"
-                      y2="-450"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-738"
-                      y1="-430"
-                      x2="-738"
-                      y2="-450"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-750"
-                      y1="-440"
-                      x2="-738"
-                      y2="-440"
-                      class="dim-line"
-                    />
-                    <path
-                      d="M -750,-440 L -745,-445 L -745,-435 Z"
-                      class="dim-arrow"
-                    />
-                    <path
-                      d="M -738,-440 L -743,-445 L -743,-435 Z"
-                      class="dim-arrow"
+                      stroke="var(--c-led)"
+                      stroke-width="12"
+                      filter="url(#glow)"
                     />
                     <text
-                      x="-744"
-                      y="-420"
-                      class="dim-text-small"
+                      transform="rotate(-45) scale(1, 2.22)"
+                      x="0"
+                      y="30"
+                      fill="white"
+                      font-size="34"
+                      font-weight="600"
                       text-anchor="middle"
                     >
-                      12
-                    </text>
-
-                    <!-- Voladizo Right -->
-                    <line
-                      x1="738"
-                      y1="-430"
-                      x2="738"
-                      y2="-450"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="750"
-                      y1="-430"
-                      x2="750"
-                      y2="-450"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="738"
-                      y1="-440"
-                      x2="750"
-                      y2="-440"
-                      class="dim-line"
-                    />
-                    <path
-                      d="M 738,-440 L 743,-445 L 743,-435 Z"
-                      class="dim-arrow"
-                    />
-                    <path
-                      d="M 750,-440 L 745,-445 L 745,-435 Z"
-                      class="dim-arrow"
-                    />
-                    <text
-                      x="744"
-                      y="-420"
-                      class="dim-text-small"
-                      text-anchor="middle"
-                    >
-                      12
+                      Núcleo Portante MDF + LED COB
                     </text>
                   </g>
 
-                  <!-- Dimension Lines - Height -->
-                  <g class="dimension-group">
-                    <!-- Total Height 70cm -->
-                    <line
-                      x1="-900"
-                      y1="-350"
-                      x2="-920"
-                      y2="-350"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-900"
-                      y1="350"
-                      x2="-920"
-                      y2="350"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-910"
-                      y1="-350"
-                      x2="-910"
-                      y2="350"
-                      class="dim-line"
-                    />
-                    <path
-                      d="M -910,-350 L -915,-340 L -905,-340 Z"
-                      class="dim-arrow"
-                    />
-                    <path
-                      d="M -910,350 L -915,340 L -905,340 Z"
-                      class="dim-arrow"
-                    />
-                    <text
-                      x="-940"
-                      y="0"
-                      class="dim-text"
-                      text-anchor="middle"
-                      transform="rotate(-90 -940 0)"
-                    >
-                      700 mm (70 cm)
-                    </text>
-
-                    <!-- Voladizo Top -->
-                    <line
-                      x1="-830"
-                      y1="-350"
-                      x2="-850"
-                      y2="-350"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-830"
-                      y1="-338"
-                      x2="-850"
-                      y2="-338"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-840"
-                      y1="-350"
-                      x2="-840"
-                      y2="-338"
-                      class="dim-line"
-                    />
-                    <path
-                      d="M -840,-350 L -845,-345 L -835,-345 Z"
-                      class="dim-arrow"
-                    />
-                    <path
-                      d="M -840,-338 L -845,-343 L -835,-343 Z"
-                      class="dim-arrow"
-                    />
-                    <text
-                      x="-870"
-                      y="-344"
-                      class="dim-text-small"
-                      text-anchor="middle"
-                      transform="rotate(-90 -870 -344)"
-                    >
-                      12
-                    </text>
-
-                    <!-- Voladizo Bottom -->
-                    <line
-                      x1="-830"
-                      y1="338"
-                      x2="-850"
-                      y2="338"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-830"
-                      y1="350"
-                      x2="-850"
-                      y2="350"
-                      class="dim-line"
-                    />
-                    <line
-                      x1="-840"
-                      y1="338"
-                      x2="-840"
-                      y2="350"
-                      class="dim-line"
-                    />
-                    <path
-                      d="M -840,338 L -845,343 L -835,343 Z"
-                      class="dim-arrow"
-                    />
-                    <path
-                      d="M -840,350 L -845,345 L -835,345 Z"
-                      class="dim-arrow"
-                    />
-                    <text
-                      x="-870"
-                      y="344"
-                      class="dim-text-small"
-                      text-anchor="middle"
-                      transform="rotate(-90 -870 344)"
-                    >
-                      12
-                    </text>
-                  </g>
-
-                  <!-- Component Labels with Leaders -->
-                  <g class="component-labels">
-                    <!-- Label 1: Cristal -->
-                    <circle
-                      cx="-600"
-                      cy="-280"
-                      r="18"
-                      fill="#0ea5e9"
-                      stroke="white"
-                      stroke-width="2"
-                    />
-                    <text
-                      x="-600"
-                      y="-274"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="16"
-                    >
-                      ①
-                    </text>
-                    <path d="M -582,-280 L -450,-280" class="leader-line" />
-                    <circle
-                      cx="-450"
-                      cy="-280"
-                      r="3"
-                      fill="var(--c-dimension)"
-                    />
-
-                    <!-- Label 2: Bastidor -->
-                    <circle
-                      cx="600"
-                      cy="-200"
-                      r="18"
-                      fill="#a855f7"
-                      stroke="white"
-                      stroke-width="2"
-                    />
-                    <text
-                      x="600"
-                      y="-194"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="16"
-                    >
-                      ②
-                    </text>
-                    <path d="M 618,-200 L 720,-200" class="leader-line" />
-                    <circle
-                      cx="720"
-                      cy="-200"
-                      r="3"
-                      fill="var(--c-dimension)"
-                    />
-
-                    <!-- Label 4: Moldura Kiri -->
-                    <circle
-                      cx="-650"
-                      cy="300"
-                      r="18"
-                      fill="#f97316"
-                      stroke="white"
-                      stroke-width="2"
-                    />
-                    <text
-                      x="-650"
-                      y="306"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="16"
-                    >
-                      ④
-                    </text>
-                    <path d="M -632,300 L -500,300" class="leader-line" />
-                    <circle
-                      cx="-500"
-                      cy="300"
-                      r="3"
-                      fill="var(--c-dimension)"
-                    />
-                  </g>
-
-                  <!-- Hidden Lines for French Cleat -->
-                  <line
-                    x1="-600"
-                    y1="200"
-                    x2="600"
-                    y2="200"
-                    class="hidden-line"
-                  />
-                  <line
-                    x1="-600"
-                    y1="-200"
-                    x2="600"
-                    y2="-200"
-                    class="hidden-line"
-                  />
-                </g>
-              </svg>
-            </div>
-
-            <!-- VISTA PERFIL / CORTE A-A -->
-            <div class="view-panel w-full" id="perfil">
-              <svg
-                viewBox="0 0 1800 1400"
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-full max-w-6xl mx-auto"
-              >
-                <defs>
-                  <pattern
-                    id="hatch"
-                    patternUnits="userSpaceOnUse"
-                    width="8"
-                    height="8"
-                    patternTransform="rotate(45)"
-                  >
-                    <line
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="8"
-                      stroke="currentColor"
-                      stroke-width="1"
-                      opacity="0.3"
-                    />
-                  </pattern>
-                </defs>
-
-                <!-- Background Grid -->
-                <rect
-                  width="1800"
-                  height="1400"
-                  fill="url(#grid)"
-                  opacity="0.3"
-                />
-
-                <!-- Title Block -->
-                <g class="title-block">
-                  <rect
-                    x="1350"
-                    y="1100"
-                    width="400"
-                    height="250"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="1370"
-                    y="1130"
-                    class="font-technical"
-                    font-size="20"
-                    font-weight="700"
-                    fill="currentColor"
-                  >
-                    ESPEJO MACHADO TEATRO
-                  </text>
-                  <line
-                    x1="1360"
-                    y1="1140"
-                    x2="1740"
-                    y2="1140"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <line
-                    x1="1350"
-                    y1="1180"
-                    x2="1750"
-                    y2="1180"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-                  <line
-                    x1="1550"
-                    y1="1180"
-                    x2="1550"
-                    y2="1350"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text
-                    x="1370"
-                    y="1165"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    VISTA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1165"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    CORTE A-A
-                  </text>
-
-                  <text x="1370" y="1205" font-size="10" fill="currentColor">
-                    ESCALA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1205"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    1:5
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1215"
-                    x2="1750"
-                    y2="1215"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1235" font-size="10" fill="currentColor">
-                    SECCIÓN:
-                  </text>
-                  <text x="1570" y="1235" font-size="9" fill="currentColor">
-                    Horizontal Centro
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1245"
-                    x2="1750"
-                    y2="1245"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1265" font-size="10" fill="currentColor">
-                    FECHA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1265"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    2026-03-19
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1275"
-                    x2="1750"
-                    y2="1275"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1295" font-size="10" fill="currentColor">
-                    DISEÑADOR:
-                  </text>
-                  <text x="1570" y="1295" font-size="10" fill="currentColor">
-                    Claude AI
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1305"
-                    x2="1750"
-                    y2="1305"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1325" font-size="10" fill="currentColor">
-                    REV:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1325"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    v2.0
-                  </text>
-
-                  <text x="1370" y="1340" font-size="10" fill="currentColor">
-                    PLANO:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1340"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    MT-ESP-002
-                  </text>
-                </g>
-
-                <!-- Main Section View -->
-                <g transform="translate(600, 700)">
-                  <!-- Wall Reference -->
-                  <rect
-                    x="-100"
-                    y="-500"
-                    width="40"
-                    height="1000"
-                    fill="#475569"
-                    opacity="0.3"
-                  />
-                  <text
-                    x="-80"
-                    y="-520"
-                    class="dim-text-small"
-                    text-anchor="middle"
-                  >
-                    PARED
-                  </text>
-
-                  <!-- French Cleat - Wall Side -->
-                  <path
-                    class="svg-layer layer-cleat"
-                    d="M -60,-300 L -60,-220 L 15,-220 L 15,-300 Z"
-                    fill="#451a03"
-                    stroke="#78350f"
-                    stroke-width="2"
-                    fill="url(#hatch)"
-                  />
-                  <path
-                    d="M -60,-300 L 15,-220"
-                    stroke="#78350f"
-                    stroke-width="2"
-                  />
-
-                  <!-- Moldura Kiri -->
-                  <rect
-                    class="svg-layer layer-kiri"
-                    x="15"
-                    y="-350"
-                    width="90"
-                    height="700"
-                    fill="url(#kiriGrad)"
-                    stroke="#78350f"
-                    stroke-width="3"
-                  />
-
-                  <!-- French Cleat - Mirror Side -->
-                  <path
-                    class="svg-layer layer-cleat"
-                    d="M 105,-220 L 180,-220 L 180,-300 L 105,-300 Z"
-                    fill="#451a03"
-                    stroke="#78350f"
-                    stroke-width="2"
-                    fill="url(#hatch)"
-                  />
-                  <path
-                    d="M 105,-220 L 180,-300"
-                    stroke="#78350f"
-                    stroke-width="2"
-                  />
-
-                  <!-- LED Strip Path (dashed) -->
-                  <path
-                    class="svg-layer layer-led"
-                    d="M 105,-330 L 105,330"
-                    stroke="#fef08a"
-                    stroke-width="8"
-                    stroke-dasharray="5,5"
-                    filter="url(#glow)"
-                  />
-
-                  <!-- Base Reflector LED -->
-                  <rect
-                    class="svg-layer layer-pino"
-                    x="180"
-                    y="-370"
-                    width="40"
-                    height="740"
-                    fill="#fef08a"
-                    stroke="#b45309"
-                    stroke-width="3"
-                  />
-
-                  <!-- Bastidor Decapado -->
-                  <rect
-                    class="svg-layer layer-decapado"
-                    x="220"
-                    y="-338"
-                    width="24"
-                    height="676"
-                    fill="rgba(255,255,255,0.95)"
-                    stroke="#cbd5e1"
-                    stroke-width="2"
-                  />
-
-                  <!-- Cristal VASA -->
-                  <rect
-                    class="svg-layer layer-cristal"
-                    x="244"
-                    y="-350"
-                    width="8"
-                    height="700"
-                    fill="rgba(186, 230, 253, 0.5)"
-                    stroke="#0ea5e9"
-                    stroke-width="2"
-                    filter="url(#glow)"
-                  />
-
-                  <!-- Dimension Lines -->
-                  <!-- Separación de pared -->
-                  <line
-                    x1="-60"
-                    y1="-450"
-                    x2="-60"
-                    y2="-470"
-                    class="dim-line"
-                  />
-                  <line x1="15" y1="-450" x2="15" y2="-470" class="dim-line" />
-                  <line x1="-60" y1="-460" x2="15" y2="-460" class="dim-line" />
-                  <path
-                    d="M -60,-460 L -55,-465 L -55,-455 Z"
-                    class="dim-arrow"
-                  />
-                  <path d="M 15,-460 L 10,-465 L 10,-455 Z" class="dim-arrow" />
-                  <text x="-22" y="-440" class="dim-text" text-anchor="middle">
-                    75mm
-                  </text>
-
-                  <!-- Espesor Kiri -->
-                  <line x1="15" y1="420" x2="15" y2="440" class="dim-line" />
-                  <line x1="105" y1="420" x2="105" y2="440" class="dim-line" />
-                  <line x1="15" y1="430" x2="105" y2="430" class="dim-line" />
-                  <path d="M 15,430 L 20,425 L 20,435 Z" class="dim-arrow" />
-                  <path d="M 105,430 L 100,425 L 100,435 Z" class="dim-arrow" />
-                  <text x="60" y="455" class="dim-text" text-anchor="middle">
-                    45mm KIRI
-                  </text>
-
-                  <!-- Espesor Base LED -->
-                  <line x1="180" y1="420" x2="180" y2="440" class="dim-line" />
-                  <line x1="220" y1="420" x2="220" y2="440" class="dim-line" />
-                  <line x1="180" y1="430" x2="220" y2="430" class="dim-line" />
-                  <path d="M 180,430 L 185,425 L 185,435 Z" class="dim-arrow" />
-                  <path d="M 220,430 L 215,425 L 215,435 Z" class="dim-arrow" />
-                  <text
-                    x="200"
-                    y="455"
-                    class="dim-text-small"
-                    text-anchor="middle"
-                  >
-                    20mm
-                  </text>
-
-                  <!-- Espesor Bastidor -->
-                  <line x1="220" y1="450" x2="220" y2="470" class="dim-line" />
-                  <line x1="244" y1="450" x2="244" y2="470" class="dim-line" />
-                  <line x1="220" y1="460" x2="244" y2="460" class="dim-line" />
-                  <path d="M 220,460 L 225,455 L 225,465 Z" class="dim-arrow" />
-                  <path d="M 244,460 L 239,455 L 239,465 Z" class="dim-arrow" />
-                  <text
-                    x="232"
-                    y="485"
-                    class="dim-text-small"
-                    text-anchor="middle"
-                  >
-                    12mm
-                  </text>
-
-                  <!-- Espesor Cristal -->
-                  <line x1="244" y1="450" x2="244" y2="470" class="dim-line" />
-                  <line x1="252" y1="450" x2="252" y2="470" class="dim-line" />
-                  <line x1="244" y1="460" x2="252" y2="460" class="dim-line" />
-                  <path d="M 244,460 L 247,455 L 247,465 Z" class="dim-arrow" />
-                  <path d="M 252,460 L 249,455 L 249,465 Z" class="dim-arrow" />
-                  <text
-                    x="248"
-                    y="485"
-                    class="dim-text-small"
-                    text-anchor="middle"
-                  >
-                    4mm
-                  </text>
-
-                  <!-- Profundidad Total -->
-                  <line x1="300" y1="-60" x2="320" y2="-60" class="dim-line" />
-                  <line x1="300" y1="252" x2="320" y2="252" class="dim-line" />
-                  <line x1="310" y1="-60" x2="310" y2="252" class="dim-line" />
-                  <path d="M 310,-60 L 305,-55 L 315,-55 Z" class="dim-arrow" />
-                  <path d="M 310,252 L 305,247 L 315,247 Z" class="dim-arrow" />
-                  <text
-                    x="340"
-                    y="96"
-                    class="dim-text"
-                    text-anchor="middle"
-                    transform="rotate(-90 340 96)"
-                  >
-                    169mm TOTAL
-                  </text>
-
-                  <!-- Component Labels -->
-                  <circle
-                    cx="-30"
-                    cy="-260"
-                    r="18"
-                    fill="#ef4444"
-                    stroke="white"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="-30"
-                    y="-254"
-                    class="part-number"
-                    fill="white"
-                    text-anchor="middle"
-                    font-size="16"
-                  >
-                    ⑥
-                  </text>
-
-                  <circle
-                    cx="60"
-                    cy="0"
-                    r="18"
-                    fill="#f97316"
-                    stroke="white"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="60"
-                    y="6"
-                    class="part-number"
-                    fill="white"
-                    text-anchor="middle"
-                    font-size="16"
-                  >
-                    ④
-                  </text>
-
-                  <circle
-                    cx="105"
-                    cy="-100"
-                    r="18"
-                    fill="#eab308"
-                    stroke="white"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="105"
-                    y="-94"
-                    class="part-number"
-                    fill="white"
-                    text-anchor="middle"
-                    font-size="16"
-                  >
-                    ⑤
-                  </text>
-
-                  <circle
-                    cx="200"
-                    cy="150"
-                    r="18"
-                    fill="#f59e0b"
-                    stroke="white"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="200"
-                    y="156"
-                    class="part-number"
-                    fill="white"
-                    text-anchor="middle"
-                    font-size="16"
-                  >
-                    ③
-                  </text>
-
-                  <circle
-                    cx="232"
-                    cy="-150"
-                    r="18"
-                    fill="#a855f7"
-                    stroke="white"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="232"
-                    y="-144"
-                    class="part-number"
-                    fill="white"
-                    text-anchor="middle"
-                    font-size="16"
-                  >
-                    ②
-                  </text>
-
-                  <circle
-                    cx="248"
-                    cy="150"
-                    r="18"
-                    fill="#0ea5e9"
-                    stroke="white"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="248"
-                    y="156"
-                    class="part-number"
-                    fill="white"
-                    text-anchor="middle"
-                    font-size="16"
-                  >
-                    ①
-                  </text>
-
-                  <!-- Technical Notes -->
-                  <text
-                    x="-60"
-                    y="500"
-                    font-size="12"
-                    fill="currentColor"
-                    font-weight="600"
-                  >
-                    NOTAS:
-                  </text>
-                  <text
-                    x="-60"
-                    y="520"
-                    font-size="10"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    • Silicona neutra entre cristal y bastidor
-                  </text>
-                  <text
-                    x="-60"
-                    y="540"
-                    font-size="10"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    • LED: IP65, 120 LEDs/m, 3000K
-                  </text>
-                  <text
-                    x="-60"
-                    y="560"
-                    font-size="10"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    • Transformador: 12V 2A en lateral inferior
-                  </text>
-                </g>
-              </svg>
-            </div>
-
-            <!-- VISTA EXPLOSIONADA -->
-            <div class="view-panel w-full" id="explosionada">
-              <svg
-                viewBox="0 0 1800 2200"
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-full max-w-6xl mx-auto"
-              >
-                <!-- Background Grid -->
-                <rect
-                  width="1800"
-                  height="2200"
-                  fill="url(#grid)"
-                  opacity="0.3"
-                />
-
-                <!-- Title Block -->
-                <g class="title-block">
-                  <rect
-                    x="1350"
-                    y="1900"
-                    width="400"
-                    height="250"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="1370"
-                    y="1930"
-                    class="font-technical"
-                    font-size="20"
-                    font-weight="700"
-                    fill="currentColor"
-                  >
-                    ESPEJO MACHADO TEATRO
-                  </text>
-                  <line
-                    x1="1360"
-                    y1="1940"
-                    x2="1740"
-                    y2="1940"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <line
-                    x1="1350"
-                    y1="1980"
-                    x2="1750"
-                    y2="1980"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-                  <line
-                    x1="1550"
-                    y1="1980"
-                    x2="1550"
-                    y2="2150"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text
-                    x="1370"
-                    y="1965"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    VISTA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1965"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    EXPLOSIONADA
-                  </text>
-
-                  <text x="1370" y="2005" font-size="10" fill="currentColor">
-                    ESCALA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="2005"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    1:15
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="2015"
-                    x2="1750"
-                    y2="2015"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="2035" font-size="10" fill="currentColor">
-                    ENSAMBLE:
-                  </text>
-                  <text x="1570" y="2035" font-size="9" fill="currentColor">
-                    De afuera hacia adentro
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="2045"
-                    x2="1750"
-                    y2="2045"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="2065" font-size="10" fill="currentColor">
-                    FECHA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="2065"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    2026-03-19
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="2075"
-                    x2="1750"
-                    y2="2075"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="2095" font-size="10" fill="currentColor">
-                    DISEÑADOR:
-                  </text>
-                  <text x="1570" y="2095" font-size="10" fill="currentColor">
-                    Claude AI
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="2105"
-                    x2="1750"
-                    y2="2105"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="2125" font-size="10" fill="currentColor">
-                    REV:
-                  </text>
-                  <text
-                    x="1570"
-                    y="2125"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    v2.0
-                  </text>
-
-                  <text x="1370" y="2140" font-size="10" fill="currentColor">
-                    PLANO:
-                  </text>
-                  <text
-                    x="1570"
-                    y="2140"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    MT-ESP-003
-                  </text>
-                </g>
-
-                <!-- Exploded View -->
-                <g transform="translate(900, 500)">
-                  <!-- Component 1: Cristal VASA (Top) -->
-                  <g transform="translate(0, -600)">
+                  <g transform="translate(850, 500) scale(1, 0.45) rotate(45)">
                     <rect
                       class="svg-layer layer-cristal"
                       x="-750"
                       y="-350"
                       width="1500"
                       height="700"
-                      fill="rgba(186, 230, 253, 0.4)"
-                      stroke="#0ea5e9"
-                      stroke-width="3"
-                      filter="url(#glow)"
+                      fill="#bae6fd"
+                      opacity="0.6"
+                      stroke="#fff"
+                      stroke-width="4"
                     />
-                    <circle
-                      cx="-650"
-                      cy="-250"
-                      r="25"
-                      fill="#0ea5e9"
-                      stroke="white"
-                      stroke-width="3"
-                    />
-                    <text
-                      x="-650"
-                      y="-240"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="20"
-                    >
-                      ①
-                    </text>
-                    <text
-                      x="0"
-                      y="-400"
-                      font-size="18"
-                      font-weight="700"
-                      fill="#0ea5e9"
-                      text-anchor="middle"
-                    >
-                      CRISTAL VASA 4mm
-                    </text>
-                    <text
-                      x="0"
-                      y="-375"
-                      font-size="12"
-                      fill="currentColor"
-                      text-anchor="middle"
-                      class="font-technical"
-                    >
-                      150×70 cm | Voladizo 12mm
-                    </text>
-                  </g>
-
-                  <!-- Connection Arrow -->
-                  <path
-                    d="M 0,-350 L 0,-280"
-                    stroke="var(--c-dimension)"
-                    stroke-width="3"
-                    stroke-dasharray="10,5"
-                  />
-                  <path
-                    d="M 0,-280 L -8,-290 L 8,-290 Z"
-                    fill="var(--c-dimension)"
-                  />
-
-                  <!-- Component 2: Bastidor Decapado -->
-                  <g transform="translate(0, -200)">
                     <path
                       class="svg-layer layer-decapado"
                       d="M -750,-350 h 1500 v 700 h -1500 Z M -738,-338 v 676 h 1476 v -676 Z"
                       fill="rgba(255,255,255,0.95)"
-                      stroke="#cbd5e1"
-                      stroke-width="3"
+                      filter="url(#glow)"
                       fill-rule="evenodd"
                     />
-                    <circle
-                      cx="-650"
-                      cy="-250"
-                      r="25"
-                      fill="#a855f7"
-                      stroke="white"
-                      stroke-width="3"
-                    />
                     <text
-                      x="-650"
-                      y="-240"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="20"
-                    >
-                      ②
-                    </text>
-                    <text
+                      transform="rotate(-45) scale(1, 2.22)"
                       x="0"
-                      y="-400"
-                      font-size="18"
-                      font-weight="700"
-                      fill="#a855f7"
+                      y="30"
+                      fill="#020617"
+                      font-size="34"
+                      font-weight="800"
                       text-anchor="middle"
                     >
-                      BASTIDOR DECAPADO
-                    </text>
-                    <text
-                      x="0"
-                      y="-375"
-                      font-size="12"
-                      fill="currentColor"
-                      text-anchor="middle"
-                      class="font-technical"
-                    >
-                      147.6×67.6 cm | 12mm | Pino Blanco
+                      Espejo Cristal 4mm (Voladizo perimetral)
                     </text>
                   </g>
 
-                  <!-- Connection Arrow -->
-                  <path
-                    d="M 0,50 L 0,120"
-                    stroke="var(--c-dimension)"
-                    stroke-width="3"
-                    stroke-dasharray="10,5"
-                  />
-                  <path
-                    d="M 0,120 L -8,110 L 8,110 Z"
-                    fill="var(--c-dimension)"
-                  />
-
-                  <!-- Component 3: Base Reflector LED -->
-                  <g transform="translate(0, 200)">
+                  <g transform="translate(850, 200) scale(1, 0.45) rotate(45)">
                     <path
                       class="svg-layer layer-pino"
                       d="M -770,-370 h 1540 v 740 h -1540 Z M -750,-350 v 700 h 1500 v -700 Z"
                       fill="#fef08a"
                       stroke="#b45309"
-                      stroke-width="3"
+                      stroke-width="2"
                       fill-rule="evenodd"
                     />
-                    <circle
-                      cx="-650"
-                      cy="-250"
-                      r="25"
-                      fill="#f59e0b"
-                      stroke="white"
-                      stroke-width="3"
-                    />
-                    <text
-                      x="-650"
-                      y="-240"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="20"
-                    >
-                      ③
-                    </text>
-                    <text
-                      x="0"
-                      y="-420"
-                      font-size="18"
-                      font-weight="700"
-                      fill="#f59e0b"
-                      text-anchor="middle"
-                    >
-                      BASE REFLECTOR LED
-                    </text>
-                    <text
-                      x="0"
-                      y="-395"
-                      font-size="12"
-                      fill="currentColor"
-                      text-anchor="middle"
-                      class="font-technical"
-                    >
-                      154×74 cm | 20mm | Pino Finger-Joint
-                    </text>
-
-                    <!-- LED Strip indication -->
-                    <path
-                      class="svg-layer layer-led"
-                      d="M -750,-350 L -738,-338 M 750,-350 L 738,-338 M -750,350 L -738,338 M 750,350 L 738,338"
-                      stroke="#eab308"
-                      stroke-width="6"
-                      stroke-linecap="round"
-                      filter="url(#glow)"
-                    />
-                    <circle
-                      cx="650"
-                      cy="250"
-                      r="20"
-                      fill="#eab308"
-                      stroke="white"
-                      stroke-width="3"
-                    />
-                    <text
-                      x="650"
-                      y="258"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="18"
-                    >
-                      ⑤
-                    </text>
-                    <text
-                      x="650"
-                      y="290"
-                      font-size="12"
-                      font-weight="600"
-                      fill="#eab308"
-                      text-anchor="middle"
-                    >
-                      LED Perimetral
-                    </text>
-                  </g>
-
-                  <!-- Connection Arrow -->
-                  <path
-                    d="M 0,450 L 0,520"
-                    stroke="var(--c-dimension)"
-                    stroke-width="3"
-                    stroke-dasharray="10,5"
-                  />
-                  <path
-                    d="M 0,520 L -8,510 L 8,510 Z"
-                    fill="var(--c-dimension)"
-                  />
-
-                  <!-- Component 4: Moldura Flotante Kiri -->
-                  <g transform="translate(0, 600)">
                     <path
                       class="svg-layer layer-kiri"
                       d="M -815,-415 h 1630 v 830 h -1630 Z M -745,-345 v 690 h 1490 v -690 Z"
@@ -2331,989 +1164,34 @@
                       stroke="#78350f"
                       stroke-width="4"
                     />
-                    <circle
-                      cx="-700"
-                      cy="-300"
-                      r="25"
-                      fill="#f97316"
-                      stroke="white"
-                      stroke-width="3"
-                    />
                     <text
-                      x="-700"
-                      y="-290"
-                      class="part-number"
+                      transform="rotate(-45) scale(1, 2.22)"
+                      x="0"
+                      y="30"
                       fill="white"
-                      text-anchor="middle"
-                      font-size="20"
-                    >
-                      ④
-                    </text>
-                    <text
-                      x="0"
-                      y="-470"
-                      font-size="18"
-                      font-weight="700"
-                      fill="#f97316"
-                      text-anchor="middle"
-                    >
-                      MOLDURA FLOTANTE KIRI
-                    </text>
-                    <text
-                      x="0"
-                      y="-445"
-                      font-size="12"
-                      fill="currentColor"
-                      text-anchor="middle"
-                      class="font-technical"
-                    >
-                      163×83 cm | 45mm | Aceite Natural
-                    </text>
-
-                    <!-- French Cleat indication -->
-                    <rect
-                      class="svg-layer layer-cleat"
-                      x="-600"
-                      y="200"
-                      width="1200"
-                      height="80"
-                      fill="#451a03"
-                      stroke="#78350f"
-                      stroke-width="3"
-                      opacity="0.8"
-                    />
-                    <circle
-                      cx="0"
-                      cy="240"
-                      r="20"
-                      fill="#ef4444"
-                      stroke="white"
-                      stroke-width="3"
-                    />
-                    <text
-                      x="0"
-                      y="248"
-                      class="part-number"
-                      fill="white"
-                      text-anchor="middle"
-                      font-size="18"
-                    >
-                      ⑥
-                    </text>
-                    <text
-                      x="0"
-                      y="320"
-                      font-size="12"
+                      font-size="34"
                       font-weight="600"
-                      fill="#ef4444"
                       text-anchor="middle"
                     >
-                      French Cleat 45°
+                      Moldura Flotante Kiri + Base Reflector
                     </text>
                   </g>
 
-                  <!-- Assembly Notes -->
-                  <g transform="translate(-700, 1100)">
-                    <text
-                      x="0"
-                      y="0"
-                      font-size="16"
-                      font-weight="700"
-                      fill="currentColor"
-                    >
-                      SECUENCIA DE ENSAMBLE:
-                    </text>
-                    <text
-                      x="0"
-                      y="25"
-                      font-size="12"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      1. Fijar French Cleat (⑥) a moldura Kiri (④)
-                    </text>
-                    <text
-                      x="0"
-                      y="45"
-                      font-size="12"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      2. Montar base reflector LED (③) sobre moldura
-                    </text>
-                    <text
-                      x="0"
-                      y="65"
-                      font-size="12"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      3. Instalar cinta LED (⑤) en perímetro interno
-                    </text>
-                    <text
-                      x="0"
-                      y="85"
-                      font-size="12"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      4. Fijar bastidor decapado (②) con tornillos M6
-                    </text>
-                    <text
-                      x="0"
-                      y="105"
-                      font-size="12"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      5. Aplicar silicona y colocar cristal (①)
-                    </text>
-                    <text
-                      x="0"
-                      y="125"
-                      font-size="12"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      6. Dejar curar 24h antes de colgar
-                    </text>
-                  </g>
-                </g>
-              </svg>
-            </div>
-
-            <!-- VISTA DETALLES CONSTRUCTIVOS -->
-            <div class="view-panel w-full" id="detalles">
-              <svg
-                viewBox="0 0 1800 2000"
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-full max-w-6xl mx-auto"
-              >
-                <!-- Background Grid -->
-                <rect
-                  width="1800"
-                  height="2000"
-                  fill="url(#grid)"
-                  opacity="0.3"
-                />
-
-                <!-- Title Block -->
-                <g class="title-block">
-                  <rect
-                    x="1350"
-                    y="1700"
-                    width="400"
-                    height="250"
-                    fill="none"
+                  <path
+                    d="M 850,200 L 850,1050"
                     stroke="currentColor"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="1370"
-                    y="1730"
-                    class="font-technical"
-                    font-size="20"
-                    font-weight="700"
-                    fill="currentColor"
-                  >
-                    ESPEJO MACHADO TEATRO
-                  </text>
-                  <line
-                    x1="1360"
-                    y1="1740"
-                    x2="1740"
-                    y2="1740"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <line
-                    x1="1350"
-                    y1="1780"
-                    x2="1750"
-                    y2="1780"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-                  <line
-                    x1="1550"
-                    y1="1780"
-                    x2="1550"
-                    y2="1950"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text
-                    x="1370"
-                    y="1765"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    VISTA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1765"
-                    font-size="11"
-                    font-weight="600"
-                    fill="currentColor"
-                  >
-                    DETALLES
-                  </text>
-
-                  <text x="1370" y="1805" font-size="10" fill="currentColor">
-                    ESCALA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1805"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    1:2
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1815"
-                    x2="1750"
-                    y2="1815"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1835" font-size="10" fill="currentColor">
-                    DETALLES:
-                  </text>
-                  <text x="1570" y="1835" font-size="9" fill="currentColor">
-                    French Cleat | LED
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1845"
-                    x2="1750"
-                    y2="1845"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1865" font-size="10" fill="currentColor">
-                    FECHA:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1865"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    2026-03-19
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1875"
-                    x2="1750"
-                    y2="1875"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1895" font-size="10" fill="currentColor">
-                    DISEÑADOR:
-                  </text>
-                  <text x="1570" y="1895" font-size="10" fill="currentColor">
-                    Claude AI
-                  </text>
-
-                  <line
-                    x1="1350"
-                    y1="1905"
-                    x2="1750"
-                    y2="1905"
-                    stroke="currentColor"
-                    stroke-width="1"
-                  />
-
-                  <text x="1370" y="1925" font-size="10" fill="currentColor">
-                    REV:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1925"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    v2.0
-                  </text>
-
-                  <text x="1370" y="1940" font-size="10" fill="currentColor">
-                    PLANO:
-                  </text>
-                  <text
-                    x="1570"
-                    y="1940"
-                    font-size="10"
-                    font-weight="700"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    MT-ESP-004
-                  </text>
-                </g>
-
-                <!-- Detail A: French Cleat System -->
-                <g transform="translate(400, 350)">
-                  <text
-                    x="0"
-                    y="-50"
-                    font-size="24"
-                    font-weight="700"
-                    fill="#ef4444"
-                  >
-                    DETALLE A - SISTEMA FRENCH CLEAT 45°
-                  </text>
-                  <rect
-                    x="-20"
-                    y="-40"
-                    width="550"
-                    height="620"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-dasharray="10,5"
-                  />
-
-                  <!-- Wall -->
-                  <rect
-                    x="0"
-                    y="0"
-                    width="60"
-                    height="500"
-                    fill="#475569"
                     opacity="0.3"
-                  />
-                  <text
-                    x="30"
-                    y="-10"
-                    class="dim-text-small"
-                    text-anchor="middle"
-                  >
-                    PARED
-                  </text>
-
-                  <!-- Wall Cleat -->
-                  <path
-                    d="M 60,100 L 60,200 L 180,200 L 180,100 Z"
-                    fill="#451a03"
-                    stroke="#78350f"
                     stroke-width="4"
-                    fill="url(#hatch)"
+                    stroke-dasharray="15,15"
                   />
                   <path
-                    d="M 60,100 L 180,200"
-                    stroke="#78350f"
-                    stroke-width="3"
-                    stroke-dasharray="5,5"
-                  />
-                  <text
-                    x="120"
-                    y="140"
-                    font-size="14"
-                    font-weight="700"
-                    fill="#fef08a"
-                    text-anchor="middle"
-                  >
-                    45°
-                  </text>
-
-                  <!-- Mirror Cleat -->
-                  <path
-                    d="M 180,200 L 300,200 L 300,100 L 180,100 Z"
-                    fill="#451a03"
-                    stroke="#78350f"
-                    stroke-width="4"
-                    fill="url(#hatch)"
-                  />
-                  <path
-                    d="M 180,100 L 300,200"
-                    stroke="#78350f"
-                    stroke-width="3"
-                    stroke-dasharray="5,5"
-                  />
-
-                  <!-- Kiri Frame -->
-                  <rect
-                    x="300"
-                    y="50"
-                    width="90"
-                    height="500"
-                    fill="url(#kiriGrad)"
-                    stroke="#78350f"
-                    stroke-width="3"
-                  />
-
-                  <!-- Dimensions -->
-                  <line x1="60" y1="250" x2="60" y2="270" class="dim-line" />
-                  <line x1="180" y1="250" x2="180" y2="270" class="dim-line" />
-                  <line x1="60" y1="260" x2="180" y2="260" class="dim-line" />
-                  <path d="M 60,260 L 65,255 L 65,265 Z" class="dim-arrow" />
-                  <path d="M 180,260 L 175,255 L 175,265 Z" class="dim-arrow" />
-                  <text x="120" y="285" class="dim-text" text-anchor="middle">
-                    120mm
-                  </text>
-
-                  <line x1="180" y1="250" x2="180" y2="270" class="dim-line" />
-                  <line x1="300" y1="250" x2="300" y2="270" class="dim-line" />
-                  <line x1="180" y1="260" x2="300" y2="260" class="dim-line" />
-                  <path d="M 180,260 L 185,255 L 185,265 Z" class="dim-arrow" />
-                  <path d="M 300,260 L 295,255 L 295,265 Z" class="dim-arrow" />
-                  <text x="240" y="285" class="dim-text" text-anchor="middle">
-                    120mm
-                  </text>
-
-                  <!-- Screw indication -->
-                  <circle
-                    cx="120"
-                    cy="140"
-                    r="8"
-                    fill="none"
-                    stroke="#94a3b8"
-                    stroke-width="2"
-                  />
-                  <line
-                    x1="115"
-                    y1="135"
-                    x2="125"
-                    y2="145"
-                    stroke="#94a3b8"
-                    stroke-width="2"
-                  />
-                  <line
-                    x1="125"
-                    y1="135"
-                    x2="115"
-                    y2="145"
-                    stroke="#94a3b8"
-                    stroke-width="2"
-                  />
-                  <text
-                    x="150"
-                    y="145"
-                    font-size="10"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    Tornillo M8×80mm
-                  </text>
-                  <text
-                    x="150"
-                    y="160"
-                    font-size="10"
-                    fill="currentColor"
-                    class="font-technical"
-                  >
-                    Taco Fisher 10mm
-                  </text>
-
-                  <circle
-                    cx="240"
-                    cy="140"
-                    r="8"
-                    fill="none"
-                    stroke="#94a3b8"
-                    stroke-width="2"
-                  />
-                  <line
-                    x1="235"
-                    y1="135"
-                    x2="245"
-                    y2="145"
-                    stroke="#94a3b8"
-                    stroke-width="2"
-                  />
-                  <line
-                    x1="245"
-                    y1="135"
-                    x2="235"
-                    y2="145"
-                    stroke="#94a3b8"
-                    stroke-width="2"
-                  />
-
-                  <!-- Notes -->
-                  <g transform="translate(0, 350)">
-                    <text
-                      x="30"
-                      y="0"
-                      font-size="13"
-                      font-weight="700"
-                      fill="currentColor"
-                    >
-                      ESPECIFICACIONES:
-                    </text>
-                    <text
-                      x="30"
-                      y="20"
-                      font-size="11"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Material: Pino 18mm cepillado
-                    </text>
-                    <text
-                      x="30"
-                      y="38"
-                      font-size="11"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Corte: 45° preciso en sierra de banco
-                    </text>
-                    <text
-                      x="30"
-                      y="56"
-                      font-size="11"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Tornillos: 6× M8×80mm c/ 20cm
-                    </text>
-                    <text
-                      x="30"
-                      y="74"
-                      font-size="11"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Carga: Certificado hasta 80kg
-                    </text>
-                    <text
-                      x="30"
-                      y="92"
-                      font-size="11"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Instalación: Nivelación crítica ±1mm
-                    </text>
-                  </g>
-                </g>
-
-                <!-- Detail B: LED Installation -->
-                <g transform="translate(1000, 350)">
-                  <text
-                    x="0"
-                    y="-50"
-                    font-size="24"
-                    font-weight="700"
-                    fill="#eab308"
-                  >
-                    DETALLE B - INSTALACIÓN LED
-                  </text>
-                  <rect
-                    x="-20"
-                    y="-40"
-                    width="650"
-                    height="620"
-                    fill="none"
+                    class="svg-layer layer-cristal layer-kiri"
+                    d="M 270,360 L 270,660"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-dasharray="10,5"
-                  />
-
-                  <!-- Corner section -->
-                  <rect
-                    x="0"
-                    y="0"
-                    width="200"
-                    height="200"
-                    fill="url(#kiriGrad)"
-                    stroke="#78350f"
+                    opacity="0.3"
                     stroke-width="3"
+                    stroke-dasharray="8,8"
                   />
-                  <rect
-                    x="200"
-                    y="0"
-                    width="50"
-                    height="200"
-                    fill="#fef08a"
-                    stroke="#b45309"
-                    stroke-width="3"
-                  />
-                  <rect
-                    x="250"
-                    y="0"
-                    width="30"
-                    height="200"
-                    fill="rgba(255,255,255,0.95)"
-                    stroke="#cbd5e1"
-                    stroke-width="2"
-                  />
-
-                  <!-- LED Strip -->
-                  <rect
-                    x="205"
-                    y="20"
-                    width="40"
-                    height="12"
-                    fill="#fbbf24"
-                    stroke="#78350f"
-                    stroke-width="1.5"
-                    rx="2"
-                  />
-                  <circle
-                    cx="215"
-                    cy="26"
-                    r="2.5"
-                    fill="#fef08a"
-                    filter="url(#glow)"
-                  />
-                  <circle
-                    cx="225"
-                    cy="26"
-                    r="2.5"
-                    fill="#fef08a"
-                    filter="url(#glow)"
-                  />
-                  <circle
-                    cx="235"
-                    cy="26"
-                    r="2.5"
-                    fill="#fef08a"
-                    filter="url(#glow)"
-                  />
-
-                  <rect
-                    x="205"
-                    y="168"
-                    width="40"
-                    height="12"
-                    fill="#fbbf24"
-                    stroke="#78350f"
-                    stroke-width="1.5"
-                    rx="2"
-                  />
-                  <circle
-                    cx="215"
-                    cy="174"
-                    r="2.5"
-                    fill="#fef08a"
-                    filter="url(#glow)"
-                  />
-                  <circle
-                    cx="225"
-                    cy="174"
-                    r="2.5"
-                    fill="#fef08a"
-                    filter="url(#glow)"
-                  />
-                  <circle
-                    cx="235"
-                    cy="174"
-                    r="2.5"
-                    fill="#fef08a"
-                    filter="url(#glow)"
-                  />
-
-                  <!-- Cable channel -->
-                  <rect
-                    x="205"
-                    y="35"
-                    width="40"
-                    height="130"
-                    fill="none"
-                    stroke="#94a3b8"
-                    stroke-width="2"
-                    stroke-dasharray="3,3"
-                  />
-                  <text
-                    x="170"
-                    y="100"
-                    font-size="10"
-                    fill="currentColor"
-                    class="font-technical"
-                    transform="rotate(-90 170 100)"
-                  >
-                    Canal cables
-                  </text>
-
-                  <!-- Dimensions -->
-                  <line x1="250" y1="220" x2="250" y2="240" class="dim-line" />
-                  <line x1="280" y1="220" x2="280" y2="240" class="dim-line" />
-                  <line x1="250" y1="230" x2="280" y2="230" class="dim-line" />
-                  <path d="M 250,230 L 255,225 L 255,235 Z" class="dim-arrow" />
-                  <path d="M 280,230 L 275,225 L 275,235 Z" class="dim-arrow" />
-                  <text
-                    x="265"
-                    y="255"
-                    class="dim-text-small"
-                    text-anchor="middle"
-                  >
-                    30mm
-                  </text>
-
-                  <!-- Connection detail zoom -->
-                  <ellipse
-                    cx="450"
-                    cy="100"
-                    rx="150"
-                    ry="80"
-                    fill="none"
-                    stroke="#ef4444"
-                    stroke-width="3"
-                  />
-                  <text
-                    x="450"
-                    y="50"
-                    font-size="14"
-                    font-weight="700"
-                    fill="#ef4444"
-                    text-anchor="middle"
-                  >
-                    DETALLE AMPLIADO
-                  </text>
-
-                  <!-- Zoomed LED -->
-                  <g transform="translate(350, 250)">
-                    <rect
-                      x="0"
-                      y="0"
-                      width="200"
-                      height="60"
-                      fill="#fbbf24"
-                      stroke="#78350f"
-                      stroke-width="3"
-                      rx="5"
-                    />
-                    <circle
-                      cx="30"
-                      cy="30"
-                      r="10"
-                      fill="#fef08a"
-                      filter="url(#glow)"
-                    />
-                    <circle
-                      cx="70"
-                      cy="30"
-                      r="10"
-                      fill="#fef08a"
-                      filter="url(#glow)"
-                    />
-                    <circle
-                      cx="110"
-                      cy="30"
-                      r="10"
-                      fill="#fef08a"
-                      filter="url(#glow)"
-                    />
-                    <circle
-                      cx="150"
-                      cy="30"
-                      r="10"
-                      fill="#fef08a"
-                      filter="url(#glow)"
-                    />
-
-                    <!-- Adhesive -->
-                    <rect
-                      x="10"
-                      y="55"
-                      width="180"
-                      height="8"
-                      fill="#94a3b8"
-                      opacity="0.5"
-                    />
-                    <text
-                      x="100"
-                      y="80"
-                      font-size="10"
-                      fill="currentColor"
-                      text-anchor="middle"
-                      class="font-technical"
-                    >
-                      Adhesivo 3M doble cara
-                    </text>
-                  </g>
-
-                  <!-- Power supply -->
-                  <g transform="translate(0, 350)">
-                    <rect
-                      x="30"
-                      y="0"
-                      width="90"
-                      height="60"
-                      fill="#1e293b"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      rx="3"
-                    />
-                    <circle
-                      cx="75"
-                      cy="30"
-                      r="15"
-                      fill="none"
-                      stroke="#ef4444"
-                      stroke-width="2"
-                    />
-                    <line
-                      x1="75"
-                      y1="20"
-                      x2="75"
-                      y2="40"
-                      stroke="#ef4444"
-                      stroke-width="2"
-                    />
-                    <line
-                      x1="65"
-                      y1="30"
-                      x2="85"
-                      y2="30"
-                      stroke="#ef4444"
-                      stroke-width="2"
-                    />
-
-                    <line
-                      x1="120"
-                      y1="30"
-                      x2="180"
-                      y2="30"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                    <text
-                      x="150"
-                      y="20"
-                      font-size="10"
-                      fill="currentColor"
-                      text-anchor="middle"
-                      class="font-technical"
-                    >
-                      12V DC
-                    </text>
-
-                    <text
-                      x="30"
-                      y="80"
-                      font-size="11"
-                      font-weight="700"
-                      fill="currentColor"
-                    >
-                      TRANSFORMADOR:
-                    </text>
-                    <text
-                      x="30"
-                      y="98"
-                      font-size="10"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Input: 220V AC
-                    </text>
-                    <text
-                      x="30"
-                      y="114"
-                      font-size="10"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Output: 12V DC / 2A
-                    </text>
-                    <text
-                      x="30"
-                      y="130"
-                      font-size="10"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Ubicación: Lateral inferior derecho
-                    </text>
-                    <text
-                      x="30"
-                      y="146"
-                      font-size="10"
-                      fill="currentColor"
-                      class="font-technical"
-                    >
-                      • Cable: 1.5m blanco
-                    </text>
-                  </g>
-                </g>
-
-                <!-- Scale Reference -->
-                <g transform="translate(100, 1600)">
-                  <text
-                    x="0"
-                    y="0"
-                    font-size="16"
-                    font-weight="700"
-                    fill="currentColor"
-                  >
-                    ESCALA GRÁFICA - 1:2
-                  </text>
-                  <rect
-                    x="0"
-                    y="10"
-                    width="100"
-                    height="30"
-                    fill="currentColor"
-                  />
-                  <rect
-                    x="100"
-                    y="10"
-                    width="100"
-                    height="30"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-                  <rect
-                    x="200"
-                    y="10"
-                    width="100"
-                    height="30"
-                    fill="currentColor"
-                  />
-                  <rect
-                    x="300"
-                    y="10"
-                    width="100"
-                    height="30"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-                  <rect
-                    x="400"
-                    y="10"
-                    width="100"
-                    height="30"
-                    fill="currentColor"
-                  />
-
-                  <text x="50" y="60" class="dim-text" text-anchor="middle">
-                    5cm
-                  </text>
-                  <text x="150" y="60" class="dim-text" text-anchor="middle">
-                    5cm
-                  </text>
-                  <text x="250" y="60" class="dim-text" text-anchor="middle">
-                    5cm
-                  </text>
-                  <text x="350" y="60" class="dim-text" text-anchor="middle">
-                    5cm
-                  </text>
-                  <text x="450" y="60" class="dim-text" text-anchor="middle">
-                    5cm
-                  </text>
                 </g>
               </svg>
             </div>
@@ -3340,13 +1218,6 @@
             btn.classList.add("tab-active");
             const targetView = document.getElementById(btn.dataset.view);
             if (targetView) targetView.classList.add("active");
-
-            // Reset zoom when changing views
-            currentScale = 1;
-            currentX = 0;
-            currentY = 0;
-            if (zoomSlider) zoomSlider.value = 1;
-            updateTransform();
           });
         });
 
@@ -3356,13 +1227,15 @@
         specItems.forEach((item) => {
           item.addEventListener("mouseenter", () => {
             const targetClass = item.dataset.target;
-            const mainColorClass = item.dataset.color;
+            const mainColorClass = item.dataset.color; // e.g. text-burgundy-500
 
             document.body.classList.add("layer-highlight-mode");
             item.classList.add("active-hover");
 
+            // Highlight the target class SVG layers
             document.querySelectorAll("." + targetClass).forEach((el) => {
               el.classList.add("highlighted");
+              // Inyectamos currentColor via clase Tailwind del color
               if (mainColorClass) {
                 el.classList.add(mainColorClass);
               }
@@ -3389,6 +1262,7 @@
         const themeToggle = document.getElementById("theme-toggle");
         const htmlTag = document.documentElement;
 
+        // Load saved theme or system preference
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme) {
           htmlTag.setAttribute("data-theme", savedTheme);
@@ -3401,6 +1275,7 @@
           if (themeToggle) themeToggle.checked = prefersDark;
         }
 
+        // Handle toggle
         if (themeToggle) {
           themeToggle.addEventListener("change", (e) => {
             const newTheme = e.target.checked ? "dark" : "light";
@@ -3422,6 +1297,7 @@
         let startX, startY;
 
         function updateTransform() {
+          // Remove transition during drag for smoothness, add it back otherwise
           if (isDragging) {
             zoomContainer.style.transition = "none";
           } else {
@@ -3444,11 +1320,11 @@
             updateTransform();
           });
 
+          // Mouse/Touch drag for panning
           zoomArea.addEventListener("mousedown", (e) => {
             isDragging = true;
             startX = e.clientX - currentX;
             startY = e.clientY - currentY;
-            zoomArea.style.cursor = "grabbing";
           });
 
           window.addEventListener("mousemove", (e) => {
@@ -3460,10 +1336,10 @@
 
           window.addEventListener("mouseup", () => {
             isDragging = false;
-            zoomArea.style.cursor = "grab";
-            updateTransform();
+            updateTransform(); // Re-apply transition
           });
 
+          // Add scroll wheel to zoom
           zoomArea.addEventListener("wheel", (e) => {
             e.preventDefault();
             const zoomStep = 0.1;
@@ -3481,9 +1357,6 @@
             zoomSlider.value = currentScale;
             updateTransform();
           });
-
-          // Set initial cursor
-          zoomArea.style.cursor = "grab";
         }
       });
     </script>
