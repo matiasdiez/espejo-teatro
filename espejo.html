@@ -387,12 +387,11 @@
             >
             <span
               class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
-              >Cara Vista 70mm</span
+              >1630 x 830 x 20mm</span
             >
           </div>
           <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
-            Exterior: 1630x830mm, prof: 20mm. Galce de asiento (10x5mm). Rebaje
-            cayendo hacia el interior.
+            Cara vista de 70mm. Galce de asiento (10x5mm). Rebaje cayendo hacia el interior.
           </div>
         </div>
 
@@ -445,15 +444,15 @@
           <div class="flex justify-between items-center mb-1">
             <span
               class="font-semibold text-base-900 dark:text-base-100 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors"
-              >Varilla Pino (Reflector)</span
+              >Bastidor de Pino</span
             >
             <span
               class="text-xs bg-base-200 dark:bg-base-800 px-2 py-1 rounded text-base-600 dark:text-base-300"
-              >18mm esp.</span
+              >1536 x 736 x 18mm</span
             >
           </div>
           <div class="text-sm text-base-600 dark:text-base-400 leading-relaxed">
-            Comienza por fuera del cristal. Su cara interna blanca sella la luz
+            Sección varilla 18x18mm. Comienza por fuera del cristal. Su cara interna blanca sella la luz
             y la rebota hacia el decapado frontal.
           </div>
         </div>
@@ -848,7 +847,7 @@
                 filter="url(#glow)"
               />
 
-              <!-- Varilla de Pino -->
+              <!-- Bastidor de Pino -->
               <rect
                 class="svg-layer layer-pino"
                 x="751"
@@ -886,7 +885,7 @@
                 font-size="5"
                 fill="currentColor"
               >
-                Varilla Pino 18x18
+                Bastidor Pino 18x18
               </text>
 
               <!-- Haz de Luz -->
@@ -1013,8 +1012,16 @@
           <!-- TAB 2: FRONTAL -->
           <div
             id="view-frontal"
-            class="view-panel w-full h-full max-w-4xl text-base-500 zoom-area cursor-move active:cursor-grabbing"
+            class="view-panel w-full h-full max-w-4xl text-base-500 zoom-area cursor-move active:cursor-grabbing relative"
           >
+            <!-- Overlay de Medidas (HUD) -->
+            <div id="frontal-dim-overlay" class="absolute top-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-0 transition-all duration-300 ease-out -translate-y-4">
+              <div class="bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md px-6 py-4 rounded-2xl border border-base-200 dark:border-base-800 shadow-[0_10px_40px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.4)] flex flex-col items-center text-center">
+                <span id="frontal-dim-title" class="text-sm font-bold uppercase tracking-widest text-base-500 dark:text-base-400 mb-1"></span>
+                <span id="frontal-dim-value" class="text-3xl sm:text-4xl font-mono font-black text-base-900 dark:text-base-100 whitespace-nowrap"></span>
+              </div>
+            </div>
+
            <div id="zoom-container-frontal" class="w-full h-full flex items-center justify-center" style="transform-origin: center center">
             <svg
               viewBox="0 0 1700 900"
@@ -1239,7 +1246,7 @@
                     </g>
                   </g>
 
-                <!-- Bastidor / Varilla de Pino (18mm espesor) - Se dibuja antes que el Kiri y el Vidrio -->
+                <!-- Bastidor de Pino (18mm espesor) - Se dibuja antes que el Kiri y el Vidrio -->
                 <g class="despiece-part" data-occluded="true" data-explode-y="350" data-assemble-y="824" transform="translate(850, 350)">
                   <g transform="scale(1, 0.45) rotate(45)">
                     <path class="svg-layer svg-volume-side layer-pino" d="M -750,-350 L 750,-350 L 807,-293 L -693,-293 Z" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5" />
@@ -1248,7 +1255,7 @@
                     <path class="svg-layer svg-volume-side layer-pino" d="M 770,-370 L 770,370 L 827,427 L 827,-313 Z" fill="#b45309" />
                     <path class="svg-layer layer-pino" d="M -770,-370 h 1540 v 740 h -1540 Z M -750,-350 v 700 h 1500 v -700 Z" fill="#ca8a04" stroke="#78350f" stroke-width="2" fill-rule="evenodd" />
                     <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="#451a03" font-size="34" font-weight="600" text-anchor="middle">
-                      Varilla Reflector (Pino)
+                      Bastidor Reflector (Pino)
                     </text>
                   </g>
                 </g>
@@ -1343,6 +1350,34 @@
           });
         });
 
+        // FUNCIONES PARA OVERLAY DE MEDIDAS (VISTA FRONTAL)
+        function showFrontalDimOverlay(specItem) {
+          const dimOverlay = document.getElementById("frontal-dim-overlay");
+          if (!dimOverlay) return;
+          
+          const titleText = specItem.querySelector('.font-semibold')?.textContent || '';
+          const dimText = specItem.querySelectorAll('span')[1]?.textContent || '';
+          
+          const dimTitle = document.getElementById("frontal-dim-title");
+          const dimValue = document.getElementById("frontal-dim-value");
+          
+          if (dimTitle && dimValue) {
+              dimTitle.textContent = titleText;
+              dimValue.textContent = dimText;
+          }
+          
+          dimOverlay.classList.remove("opacity-0", "-translate-y-4");
+          dimOverlay.classList.add("opacity-100", "translate-y-0");
+        }
+
+        function hideFrontalDimOverlay() {
+          const dimOverlay = document.getElementById("frontal-dim-overlay");
+          if (dimOverlay) {
+              dimOverlay.classList.remove("opacity-100", "translate-y-0");
+              dimOverlay.classList.add("opacity-0", "-translate-y-4");
+          }
+        }
+
         // HOVER (LAYERS) LOGIC
         const specItems = document.querySelectorAll(".spec-item");
 
@@ -1362,6 +1397,9 @@
                 el.classList.add(mainColorClass);
               }
             });
+            
+            // Mostrar overlay
+            showFrontalDimOverlay(item);
           });
 
           item.addEventListener("mouseleave", () => {
@@ -1377,6 +1415,9 @@
                 el.classList.remove(mainColorClass);
               }
             });
+            
+            // Ocultar overlay
+            hideFrontalDimOverlay();
           });
         });
 
@@ -1453,6 +1494,8 @@
                   behavior: "smooth",
                   block: "nearest",
                 });
+                
+                showFrontalDimOverlay(specItem);
               }
             }
           });
@@ -1498,6 +1541,8 @@
                   el.classList.remove("highlighted");
                   if (mainColorClass) el.classList.remove(mainColorClass);
                 });
+                
+                hideFrontalDimOverlay();
               }
             }
           });

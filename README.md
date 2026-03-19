@@ -17,10 +17,7 @@ El diseño del espejo se fundamenta en un sándwich de diferentes materiales, op
 2. **Reflector Trasero (MDF 5.5mm)**: Placa de pre-pintada en blanco titanio. Su función es rebotar la luz que impacta desde el frente hacia la zona del cristal decapado.
 3. **Placa Portante (MDF 18mm)**: Núcleo estructural de 1440x640mm. Provee la rigidez necesaria, actúa como cama para pegar el espejo y crea el pasillo/cámara para ocultar el cableado y la fuente de alimentación.
 4. **Iluminación Lateral (LED COB 12V)**: Tira de alta densidad (COB) instalada en el perímetro del MDF portante, disparando luz hacia los costados en una cavidad estanca, rebotando en los reflectores (varilla de pino y fondo de 5.5mm).
-5. **Cierre Lumínico Perimetral (Pino 18mm)**: Varillas laterales (blancas por dentro) que evitan la fuga de luz hacia afuera y la direccionan forzosamente hacia el frente.
-6. **Espejo Principal (Cristal VASA 4mm)**: Superficie reflectante de 1500x700mm. Cuenta con un **Decapado perimetral de 30mm** (franja translúcida) por donde asomará la luz LED rebotada (retroiluminación).
-7. **Marco Exterior (Madera de Kiri)**: Marco liviano pero robusto (1630x830mm total, 70mm de vista frontal y 20mm de grosor). Cuenta con un galce (rebaje) donde asienta el conjunto, conteniendo todo el sándwich de materiales.
-
+5. **
 ---
 
 ## 🛠️ Herramienta de Planos (Visor Interactivo)
