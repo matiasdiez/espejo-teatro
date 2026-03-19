@@ -81,6 +81,9 @@
           filter 0.4s ease,
           stroke-width 0.4s ease;
       }
+      .despiece-part {
+        transition: opacity 0.2s ease-out;
+      }
 
       .layer-highlight-mode .svg-layer:not(.highlighted) {
         opacity: 0.15 !important;
@@ -185,6 +188,11 @@
       .blueprint-mode .layer-mdf5,
       .blueprint-mode polygon:not(.layer-decapado) {
         fill: url(#blueprintHatch) !important;
+        stroke: var(--bp-line) !important;
+        stroke-width: 0.5px !important;
+      }
+      .blueprint-mode .svg-layer.svg-volume-side {
+        fill: url(#blueprintHatchSide) !important;
         stroke: var(--bp-line) !important;
         stroke-width: 0.5px !important;
       }
@@ -571,6 +579,22 @@
                 stroke="currentColor"
                 stroke-width="2"
               />
+            </pattern>
+            <pattern
+              id="blueprintHatchSide"
+              patternUnits="userSpaceOnUse"
+              width="10"
+              height="10"
+              patternTransform="rotate(-45)"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+              />
             </pattern>            
             <pattern
               id="concreteHatch"
@@ -625,7 +649,7 @@
           <!-- TAB 1: PERFIL (CORTE) -->
           <div
             id="view-corte"
-            class="view-panel active text-base-500 w-full h-full max-w-5xl zoom-area cursor-grab active:cursor-grabbing"
+            class="view-panel active text-base-500 w-full h-full max-w-5xl zoom-area cursor-move active:cursor-grabbing"
           >
            <div id="zoom-container-corte" class="w-full h-full" style="transform-origin: center center">
             <svg
@@ -985,7 +1009,7 @@
           <!-- TAB 2: FRONTAL -->
           <div
             id="view-frontal"
-            class="view-panel w-full h-full max-w-4xl text-base-500 zoom-area cursor-grab active:cursor-grabbing"
+            class="view-panel w-full h-full max-w-4xl text-base-500 zoom-area cursor-move active:cursor-grabbing"
           >
            <div id="zoom-container-frontal" class="w-full h-full flex items-center justify-center" style="transform-origin: center center">
             <svg
@@ -1118,8 +1142,17 @@
           <!-- TAB 3: DESPIECE 3D -->
           <div
             id="view-despiece"
-            class="view-panel w-full h-full max-w-5xl text-base-500 relative overflow-hidden flex-col zoom-area cursor-grab active:cursor-grabbing"
+            class="view-panel w-full h-full max-w-5xl text-base-500 relative overflow-hidden flex-col zoom-area cursor-move active:cursor-grabbing"
           >
+            <!-- Control Deslizante Flotante (Siempre visible en esta vista) -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md px-6 py-4 rounded-full border border-base-200 dark:border-base-800 shadow-[0_10px_40px_rgba(0,0,0,0.2)] flex items-center gap-4 cursor-auto" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+              <button id="despiece-reset-btn" class="btn btn-xs btn-ghost btn-circle -ml-1" title="Resetear Vista"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
+              <button id="despiece-play-btn" class="btn btn-xs btn-ghost btn-circle" title="Animar Ensamblado"><i data-lucide="play" class="w-4 h-4"></i></button>
+              <span class="text-xs font-bold uppercase tracking-widest text-base-500">Unido</span>
+              <input id="assemble-slider" type="range" min="0" max="100" value="100" class="range range-sm range-info w-32 sm:w-48 cursor-pointer" />
+              <span class="text-xs font-bold uppercase tracking-widest text-base-500">Separado</span>
+            </div>
+
               <svg
                 viewBox="-200 0 2000 1300"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1133,155 +1166,125 @@
                     transition: transform 0.1s ease-out;
                   "
                 >
-                  <g transform="translate(850, 1050) scale(1, 0.45) rotate(45)">
-                    <rect
-                      class="svg-layer layer-cleat"
-                      x="-300"
-                      y="-300"
-                      width="600"
-                      height="600"
-                      fill="url(#mdfTex)"
-                      opacity="0.4"
-                      stroke="#451a03"
-                      stroke-width="8"
-                    />
-                    <text
-                      transform="rotate(-45) scale(1, 2.22)"
-                      x="0"
-                      y="30"
-                      fill="currentColor"
-                      font-size="34"
-                      font-weight="600"
-                      text-anchor="middle"
-                    >
-                      Fijación Mural (Cleat)
-                    </text>
+                  <!-- Fijación Mural (Cleat - 15mm espesor) -->
+                  <g class="despiece-part" data-occluded="true" data-explode-y="1050" data-assemble-y="900" transform="translate(850, 1050)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-cleat" d="M -300,300 L 300,300 L 347,347 L -253,347 Z" fill="#290f02" />
+                      <path class="svg-layer svg-volume-side layer-cleat" d="M 300,300 L 300,-300 L 347,-253 L 347,347 Z" fill="#290f02" />
+                      <rect
+                        class="svg-layer layer-cleat"
+                        x="-300"
+                        y="-300"
+                        width="600"
+                        height="600"
+                        fill="url(#mdfTex)"
+                        opacity="0.9"
+                        stroke="#451a03"
+                        stroke-width="8"
+                      />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="currentColor" font-size="34" font-weight="600" text-anchor="middle">
+                        Fijación Mural (Cleat)
+                      </text>
+                    </g>
                   </g>
 
-                  <g transform="translate(850, 950) scale(1, 0.45) rotate(45)">
-                    <rect
-                      class="svg-layer layer-mdf5"
-                      x="-768"
-                      y="-368"
-                      width="1536"
-                      height="736"
-                      fill="var(--c-mdf5)"
-                      opacity="0.9"
-                      stroke="#451a03"
-                      stroke-width="4"
-                    />
-                    <text
-                      transform="rotate(-45) scale(1, 2.22)"
-                      x="0"
-                      y="30"
-                      fill="#020617"
-                      font-size="34"
-                      font-weight="600"
-                      text-anchor="middle"
-                    >
-                      Reflector MDF 5.5mm
-                    </text>
+                  <!-- Reflector MDF (5.5mm espesor) -->
+                  <g class="despiece-part" data-occluded="true" data-explode-y="950" data-assemble-y="870" transform="translate(850, 950)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-mdf5" d="M -768,368 L 768,368 L 784,384 L -752,384 Z" fill="#cbd5e1" />
+                      <path class="svg-layer svg-volume-side layer-mdf5" d="M 768,368 L 768,-368 L 784,-352 L 784,384 Z" fill="#cbd5e1" />
+                      <rect
+                        class="svg-layer layer-mdf5"
+                        x="-768"
+                        y="-368"
+                        width="1536"
+                        height="736"
+                        fill="var(--c-mdf5)"
+                        opacity="0.95"
+                        stroke="#451a03"
+                        stroke-width="4"
+                      />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="#020617" font-size="34" font-weight="600" text-anchor="middle">
+                        Reflector MDF 5.5mm
+                      </text>
+                    </g>
                   </g>
 
-                  <g transform="translate(850, 850) scale(1, 0.45) rotate(45)">
-                    <rect
-                      class="svg-layer layer-mdf"
-                      x="-720"
-                      y="-320"
-                      width="1440"
-                      height="640"
-                      fill="url(#mdfTex)"
-                      opacity="0.9"
-                      stroke="#451a03"
-                      stroke-width="6"
-                    />
-                    <rect
-                      class="svg-layer layer-led"
-                      x="-722"
-                      y="-322"
-                      width="1444"
-                      height="644"
-                      fill="none"
-                      stroke="var(--c-led)"
-                      stroke-width="12"
-                      filter="url(#glow)"
-                    />
-                    <text
-                      transform="rotate(-45) scale(1, 2.22)"
-                      x="0"
-                      y="30"
-                      fill="white"
-                      font-size="34"
-                      font-weight="600"
-                      text-anchor="middle"
-                    >
-                      Núcleo Portante MDF + LED COB
-                    </text>
+                  <!-- Núcleo Portante MDF + LED (18mm espesor) -->
+                  <g class="despiece-part" data-occluded="true" data-explode-y="850" data-assemble-y="859" transform="translate(850, 850)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-mdf" d="M -720,320 L 720,320 L 777,377 L -663,377 Z" fill="#451a03" />
+                      <path class="svg-layer svg-volume-side layer-mdf" d="M 720,320 L 720,-320 L 777,-263 L 777,377 Z" fill="#451a03" />
+                      <rect
+                        class="svg-layer layer-mdf"
+                        x="-720"
+                        y="-320"
+                        width="1440"
+                        height="640"
+                        fill="url(#mdfTex)"
+                        opacity="0.95"
+                        stroke="#451a03"
+                        stroke-width="6"
+                      />
+                      <!-- Cinta LED en los cantos del MDF -->
+                      <path class="svg-layer layer-led" d="M 736,336 L 736,-304 L 761,-279 L 761,361 Z" fill="var(--c-led)" filter="url(#glow)" />
+                      <path class="svg-layer layer-led" d="M -704,336 L 736,336 L 761,361 L -679,361 Z" fill="var(--c-led)" filter="url(#glow)" />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="white" font-size="34" font-weight="600" text-anchor="middle">
+                        Núcleo Portante MDF + LED COB
+                      </text>
+                    </g>
                   </g>
 
-                  <g transform="translate(850, 500) scale(1, 0.45) rotate(45)">
-                    <rect
-                      class="svg-layer layer-cristal"
-                      x="-750"
-                      y="-350"
-                      width="1500"
-                      height="700"
-                      fill="#bae6fd"
-                      opacity="0.6"
-                      stroke="#fff"
-                      stroke-width="4"
-                    />
-                    <path
-                      class="svg-layer layer-decapado"
-                      d="M -750,-350 h 1500 v 700 h -1500 Z M -720,-320 v 640 h 1440 v -640 Z"
-                      fill="rgba(255,255,255,0.95)"
-                      filter="url(#glow)"
-                      fill-rule="evenodd"
-                    />
-                    <text
-                      transform="rotate(-45) scale(1, 2.22)"
-                      x="0"
-                      y="30"
-                      fill="#020617"
-                      font-size="34"
-                      font-weight="800"
-                      text-anchor="middle"
-                    >
-                      Espejo Cristal 4mm (Voladizo perimetral)
+                <!-- Bastidor / Varilla de Pino (18mm espesor) - Se dibuja antes que el Kiri y el Vidrio -->
+                <g class="despiece-part" data-occluded="true" data-explode-y="350" data-assemble-y="824" transform="translate(850, 350)">
+                  <g transform="scale(1, 0.45) rotate(45)">
+                    <path class="svg-layer svg-volume-side layer-pino" d="M -750,-350 L 750,-350 L 807,-293 L -693,-293 Z" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5" />
+                    <path class="svg-layer svg-volume-side layer-pino" d="M -750,-350 L -750,350 L -693,407 L -693,-293 Z" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5" />
+                    <path class="svg-layer svg-volume-side layer-pino" d="M -770,370 L 770,370 L 827,427 L -713,427 Z" fill="#b45309" />
+                    <path class="svg-layer svg-volume-side layer-pino" d="M 770,-370 L 770,370 L 827,427 L 827,-313 Z" fill="#b45309" />
+                    <path class="svg-layer layer-pino" d="M -770,-370 h 1540 v 740 h -1540 Z M -750,-350 v 700 h 1500 v -700 Z" fill="#ca8a04" stroke="#78350f" stroke-width="2" fill-rule="evenodd" />
+                    <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="#451a03" font-size="34" font-weight="600" text-anchor="middle">
+                      Varilla Reflector (Pino)
                     </text>
                   </g>
+                </g>
 
-                  <g transform="translate(850, 200) scale(1, 0.45) rotate(45)">
-                    <path
-                      class="svg-layer layer-pino"
-                      d="M -770,-370 h 1540 v 740 h -1540 Z M -750,-350 v 700 h 1500 v -700 Z"
-                      fill="#fef08a"
-                      stroke="#b45309"
-                      stroke-width="2"
-                      fill-rule="evenodd"
-                    />
-                    <path
-                      class="svg-layer layer-kiri"
-                      d="M -815,-415 h 1630 v 830 h -1630 Z M -745,-345 v 690 h 1490 v -690 Z"
-                      fill="url(#kiriGrad)"
-                      fill-rule="evenodd"
-                      stroke="#78350f"
-                      stroke-width="4"
-                    />
-                    <text
-                      transform="rotate(-45) scale(1, 2.22)"
-                      x="0"
-                      y="30"
-                      fill="white"
-                      font-size="34"
-                      font-weight="600"
-                      text-anchor="middle"
-                    >
-                      Moldura Flotante Kiri + Base Reflector
-                    </text>
+                  <!-- Marco Kiri (Paredes Interiores - Se dibujan detrás del cristal para simular el galce) -->
+                  <g class="despiece-part" data-is-kiri-main="true" data-occluded="true" data-explode-y="200" data-assemble-y="819" transform="translate(850, 200)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M -745,-345 L 745,-345 L 808,-282 L -682,-282 Z" fill="#451a03" />
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M -745,-345 L -745,345 L -682,408 L -682,-282 Z" fill="#451a03" />
+                    </g>
                   </g>
 
+                  <!-- Espejo Cristal (4mm espesor) -->
+                  <g class="despiece-part" data-explode-y="500" data-assemble-y="824" transform="translate(850, 500)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-cristal" d="M -750,350 L 750,350 L 763,363 L -737,363 Z" fill="#0284c7" opacity="0.5" />
+                      <path class="svg-layer svg-volume-side layer-cristal" d="M 750,350 L 750,-350 L 763,-337 L 763,363 Z" fill="#0284c7" opacity="0.5" />
+                      <rect class="svg-layer layer-cristal" x="-750" y="-350" width="1500" height="700" fill="#bae6fd" opacity="0.6" stroke="#fff" stroke-width="4" />
+                      <path class="svg-layer layer-decapado" d="M -750,-350 h 1500 v 700 h -1500 Z M -720,-320 v 640 h 1440 v -640 Z" fill="rgba(255,255,255,0.95)" filter="url(#glow)" fill-rule="evenodd" />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="#020617" font-size="34" font-weight="800" text-anchor="middle">
+                        Espejo Cristal 4mm (Voladizo perimetral)
+                      </text>
+                    </g>
+                  </g>
+
+                  <!-- Marco Kiri (Cara Superior y Paredes Exteriores) - NO es un despiece-part, es controlado por JS -->
+                  <g id="kiri-front-part" transform="translate(850, 200)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M -815,415 L 815,415 L 878,478 L -752,478 Z" fill="#451a03" />
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M 815,-415 L 815,415 L 878,478 L 878,-352 Z" fill="#451a03" />
+                      <path class="svg-layer layer-kiri" d="M -815,-415 h 1630 v 830 h -1630 Z M -745,-345 v 690 h 1490 v -690 Z" fill="url(#kiriGrad)" fill-rule="evenodd" stroke="#78350f" stroke-width="4" />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="white" font-size="34" font-weight="600" text-anchor="middle">
+                        Moldura Flotante Kiri
+                      </text>
+                    </g>
+                  </g>
+
+                  <!-- Líneas Guía de Explosión -->
                   <path
+                    class="despiece-guide"
                     d="M 850,200 L 850,1050"
                     stroke="currentColor"
                     opacity="0.3"
@@ -1289,7 +1292,7 @@
                     stroke-dasharray="15,15"
                   />
                   <path
-                    class="svg-layer layer-cristal layer-kiri"
+                    class="despiece-guide svg-layer layer-cristal layer-kiri"
                     d="M 270,360 L 270,660"
                     stroke="currentColor"
                     opacity="0.3"
@@ -1568,6 +1571,107 @@
             const newTheme = e.target.checked ? "dark" : "light";
             htmlTag.setAttribute("data-theme", newTheme);
             localStorage.setItem("theme", newTheme);
+          });
+        }
+
+        // --- LOGICA DEL SLIDER DE ENSAMBLAJE (DESPIECE) ---
+        const assembleSlider = document.getElementById("assemble-slider");
+        const despieceParts = document.querySelectorAll(".despiece-part");
+        const despieceGuides = document.querySelectorAll(".despiece-guide");
+        const despieceTexts = document.querySelectorAll(".despiece-text");
+        const kiriFrontPart = document.getElementById("kiri-front-part");
+        const despieceResetBtn = document.getElementById("despiece-reset-btn");
+        const kiriMainPart = document.querySelector('[data-is-kiri-main="true"]');
+        const despiecePlayBtn = document.getElementById("despiece-play-btn");
+
+        if (assembleSlider) {
+          assembleSlider.addEventListener("input", (e) => {
+            const progress = e.target.value / 100; // 0 = ensamblado, 1 = explotado
+            
+            despieceParts.forEach(part => {
+              const explodeY = parseFloat(part.dataset.explodeY);
+              const assembleY = parseFloat(part.dataset.assembleY);
+              const currentY = assembleY + (explodeY - assembleY) * progress;
+              part.setAttribute("transform", `translate(850, ${currentY})`);
+
+              // Ocultar las piezas que quedan detrás cuando está ensamblado
+              if (part.dataset.occluded === "true") {
+                // Se desvanece rápidamente cuando el progreso es menor a 0.2
+                part.style.opacity = Math.min(1, progress * 5).toString();
+              }
+            });
+
+            // Sincronizar la parte frontal del marco Kiri con su parte trasera (la principal)
+            // para que se muevan juntas a pesar de estar separadas en el DOM para el z-index.
+            if (kiriMainPart && kiriFrontPart) {
+                kiriFrontPart.setAttribute('transform', kiriMainPart.getAttribute('transform'));
+            }
+
+            despieceGuides.forEach(guide => { guide.style.opacity = (progress * 0.3).toString(); });
+            
+            // Ocultar las etiquetas cuando las piezas están casi unidas para evitar solapamiento.
+            // Se multiplica por 2 para que el fade-out sea más rápido (de 0.5 a 0 de progreso).
+            despieceTexts.forEach(txt => {
+              txt.style.opacity = Math.min(1, progress * 2).toString();
+            });
+          });
+        }
+
+        if (despieceResetBtn && assembleSlider) {
+          despieceResetBtn.addEventListener('click', () => {
+              const duration = 600; // ms
+              const startSlider = parseFloat(assembleSlider.value);
+              const startScale = currentScale;
+              const startX = currentX;
+              const startY = currentY;
+              
+              let startTime = null;
+
+              function animateReset(timestamp) {
+                  if (!startTime) startTime = timestamp;
+                  const elapsed = timestamp - startTime;
+                  const progress = Math.min(elapsed / duration, 1);
+                  const easeProgress = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+
+                  // Animate slider to exploded state (100)
+                  assembleSlider.value = startSlider + (100 - startSlider) * easeProgress;
+                  assembleSlider.dispatchEvent(new Event('input', { bubbles:true }));
+
+                  // Animate camera to initial state (scale 1, pos 0,0)
+                  currentScale = startScale + (1 - startScale) * easeProgress;
+                  currentX = startX + (0 - startX) * easeProgress;
+                  currentY = startY + (0 - startY) * easeProgress;
+                  if (zoomSlider) zoomSlider.value = currentScale;
+                  updateTransform();
+
+                  if (progress < 1) requestAnimationFrame(animateReset);
+              }
+              requestAnimationFrame(animateReset);
+          });
+        }
+
+        if (despiecePlayBtn && assembleSlider) {
+          despiecePlayBtn.addEventListener('click', () => {
+              const duration = 800; // ms
+              const startSlider = parseFloat(assembleSlider.value);
+              
+              let startTime = null;
+
+              function animateAssemble(timestamp) {
+                  if (!startTime) startTime = timestamp;
+                  const elapsed = timestamp - startTime;
+                  const progress = Math.min(elapsed / duration, 1);
+                  const easeProgress = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+
+                  // Animate slider to assembled state (0)
+                  assembleSlider.value = startSlider + (0 - startSlider) * easeProgress;
+                  assembleSlider.dispatchEvent(new Event('input', { bubbles:true }));
+
+                  if (progress < 1) {
+                      requestAnimationFrame(animateAssemble);
+                  }
+              }
+              requestAnimationFrame(animateAssemble);
           });
         }
 
