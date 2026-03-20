@@ -52,22 +52,22 @@ const formatDim = (dim: any) => {
                 <div class="flex flex-col sm:flex-row gap-4 mb-8">
                     <div class="bg-base-50 dark:bg-base-950 border border-base-200 dark:border-base-800 rounded-xl p-5 flex-1 shadow-inner">
                         <span class="block text-sm font-semibold uppercase tracking-wider text-base-500 dark:text-base-400 mb-1">Ancho Total</span>
-                        <span class="text-3xl font-mono font-bold text-base-900 dark:text-base-100">{project.globalDimensions.width} {project.globalDimensions.unit}</span>
+                        <span class="text-3xl font-mono font-bold text-base-900 dark:text-base-50">{project.globalDimensions.width} {project.globalDimensions.unit}</span>
                     </div>
                     <div class="bg-base-50 dark:bg-base-950 border border-base-200 dark:border-base-800 rounded-xl p-5 flex-1 shadow-inner">
                         <span class="block text-sm font-semibold uppercase tracking-wider text-base-500 dark:text-base-400 mb-1">Alto Total</span>
-                        <span class="text-3xl font-mono font-bold text-base-900 dark:text-base-100">{project.globalDimensions.height} {project.globalDimensions.unit}</span>
+                        <span class="text-3xl font-mono font-bold text-base-900 dark:text-base-50">{project.globalDimensions.height} {project.globalDimensions.unit}</span>
                     </div>
                     <div class="bg-base-50 dark:bg-base-950 border border-base-200 dark:border-base-800 rounded-xl p-5 flex-1 shadow-inner">
                         <span class="block text-sm font-semibold uppercase tracking-wider text-base-500 dark:text-base-400 mb-1">Profundidad Máx</span>
-                        <span class="text-3xl font-mono font-bold text-base-900 dark:text-base-100">{project.globalDimensions.depth} {project.globalDimensions.unit}</span>
+                        <span class="text-3xl font-mono font-bold text-base-900 dark:text-base-50">{project.globalDimensions.depth} {project.globalDimensions.unit}</span>
                     </div>
                 </div>
 
-                <h3 class="font-bold text-lg text-base-900 dark:text-base-100 mb-2">Memoria Descriptiva</h3>
+                <h3 class="font-bold text-lg text-base-900 dark:text-base-50 mb-2">Memoria Descriptiva</h3>
                 <div class="space-y-4">
                     {project.description?.map(paragraph => (
-                        <p class="text-base-700 dark:text-base-300 leading-relaxed">{paragraph}</p>
+                        <p class="text-base-700 dark:text-base-400 leading-relaxed">{paragraph}</p>
                     ))}
                 </div>
             </div>
@@ -77,12 +77,12 @@ const formatDim = (dim: any) => {
             <!-- Planilla Maderas -->
             <section class="card bg-base-100 dark:bg-base-900 shadow-xl border border-base-200 dark:border-base-800">
                 <div class="card-body p-6">
-                    <h2 class="card-title text-lg font-bold mb-4 text-base-900 dark:text-base-100 flex gap-2 items-center">
+                    <h2 class="card-title text-lg font-bold mb-4 text-base-900 dark:text-base-50 flex gap-2 items-center">
                         <i data-lucide="ruler" class="w-5 h-5 text-burgundy-500"></i>
                         Elementos Estructurales (Varillas y Marcos)
                     </h2>
                     <div class="overflow-x-auto w-full">
-                        <table class="table table-zebra w-full text-base-800 dark:text-base-200">
+                        <table class="table table-zebra w-full text-base-800 dark:text-base-50">
                             <thead class="text-base-500 dark:text-base-400">
                                 <tr>
                                     <th>Elemento</th>
@@ -109,12 +109,12 @@ const formatDim = (dim: any) => {
             <!-- Planilla Placas -->
             <section class="card bg-base-100 dark:bg-base-900 shadow-xl border border-base-200 dark:border-base-800">
                 <div class="card-body p-6">
-                    <h2 class="card-title text-lg font-bold mb-4 text-base-900 dark:text-base-100 flex gap-2 items-center">
+                    <h2 class="card-title text-lg font-bold mb-4 text-base-900 dark:text-base-50 flex gap-2 items-center">
                         <i data-lucide="layers" class="w-5 h-5 text-burgundy-500"></i>
                         Elementos Planos (Núcleos y Superficies)
                     </h2>
                     <div class="overflow-x-auto w-full">
-                        <table class="table table-zebra w-full text-base-800 dark:text-base-200">
+                        <table class="table table-zebra w-full text-base-800 dark:text-base-50">
                             <thead class="text-base-500 dark:text-base-400">
                                 <tr>
                                     <th>Elemento</th>
@@ -142,15 +142,15 @@ const formatDim = (dim: any) => {
         <!-- Notas Constructivas -->
         <section class="card bg-base-100 dark:bg-base-900 shadow-xl border border-base-200 dark:border-base-800 mb-12">
             <div class="card-body p-6 sm:p-8">
-                <h2 class="card-title text-xl font-bold mb-4 text-base-900 dark:text-base-100 flex gap-2 items-center">
+                <h2 class="card-title text-xl font-bold mb-4 text-base-900 dark:text-base-50 flex gap-2 items-center">
                     <i data-lucide="hammer" class="w-5 h-5 text-burgundy-500"></i>
                     Notas de Mecanizado
                 </h2>
-                <ul class="list-disc list-inside space-y-3 text-base-700 dark:text-base-300">
+                <ul class="list-disc list-inside space-y-3 text-base-700 dark:text-base-400">
                     {elements.map(el => (
                         el.features && el.features.length > 0 && (
                             <li>
-                                <strong class="text-base-900 dark:text-base-100">{el.name}:</strong> 
+                                <strong class="text-base-900 dark:text-base-50">{el.name}:</strong> 
                                 {el.features.join(" ")}
                             </li>
                         )

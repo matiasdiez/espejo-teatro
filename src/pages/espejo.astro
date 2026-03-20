@@ -1,9 +1,22 @@
 ---
+// Restauración absoluta al momento "Perfecto"
 import Layout from '@layouts/Layout.astro';
 import Tarjeta from '@components/Tarjeta.astro';
 import datosEspejo from '../../datos_espejo.json';
-import { TARJETAS_CONFIG } from '../config';
-import type { TarjetaConfig } from '../types';
+
+// Definimos un tipo estricto para la configuración de UI
+type TarjetaConfig = {
+  id?: string;
+  isCustom?: boolean;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  dataTarget: string;
+  dataColor: string;
+  hoverClasses: string;
+  titleHoverClasses: string;
+  extraClasses?: string;
+};
 
 // Función para buscar un elemento en el JSON por su ID
 const getElementData = (id: string) => datosEspejo.elements.find((e: any) => e.id === id) || ({} as any);
@@ -14,8 +27,76 @@ const formatDescription = (features: string[] | undefined) => {
   return features.join(" ");
 };
 
+// Mapeo de estilos y conexión con los IDs del JSON. 
+// Agregamos tarjetas "isCustom" para las capas que no están directamente en el JSON como piezas físicas completas.
+const tarjetasConfig: TarjetaConfig[] = [
+  {
+    id: "espejo_frontal",
+    dataTarget: "layer-cristal",
+    dataColor: "text-sky-500",
+    hoverClasses: "hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20",
+    titleHoverClasses: "group-hover:text-sky-600 dark:group-hover:text-sky-400",
+  },
+  {
+    isCustom: true,
+    title: "Decapado",
+    subtitle: "30mm ancho",
+    description: "Franja translúcida en cara posterior. La luz de la ranura estanca sale frontalmente iluminando por retroproyección.",
+    dataTarget: "layer-decapado",
+    dataColor: "text-fuchsia-500",
+    hoverClasses: "hover:border-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20",
+    titleHoverClasses: "group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400",
+  },
+  {
+    id: "marco_principal",
+    dataTarget: "layer-kiri",
+    dataColor: "text-burgundy-600",
+    hoverClasses: "hover:border-burgundy-600 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20",
+    titleHoverClasses: "group-hover:text-burgundy-700 dark:group-hover:text-burgundy-500",
+  },
+  {
+    id: "base_portante",
+    dataTarget: "layer-mdf",
+    dataColor: "text-burgundy-800",
+    hoverClasses: "hover:border-burgundy-800 hover:bg-burgundy-100 dark:hover:bg-burgundy-900/40",
+    titleHoverClasses: "group-hover:text-burgundy-900 dark:group-hover:text-burgundy-600",
+  },
+  {
+    id: "reflector_trasero",
+    dataTarget: "layer-mdf5",
+    dataColor: "text-violet-500",
+    hoverClasses: "hover:border-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20",
+    titleHoverClasses: "group-hover:text-violet-600 dark:group-hover:text-violet-400",
+  },
+  {
+    id: "bastidor_pino",
+    dataTarget: "layer-pino",
+    dataColor: "text-yellow-400",
+    hoverClasses: "hover:border-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
+    titleHoverClasses: "group-hover:text-yellow-600 dark:group-hover:text-yellow-400",
+  },
+  {
+    isCustom: true,
+    title: "Electrónica 12V",
+    subtitle: "Fuente Slim + COB",
+    description: "Fuente embutida. Tira COB incrustada en el canto del MDF, disparando luz lateralmente hacia la ranura estanca.",
+    dataTarget: "layer-led",
+    dataColor: "text-yellow-300",
+    hoverClasses: "hover:border-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/30",
+    titleHoverClasses: "group-hover:text-yellow-500 dark:group-hover:text-yellow-300",
+    extraClasses: "shadow-[0_0_15px_rgba(253,224,71,0)] hover:shadow-[0_0_15px_rgba(253,224,71,0.4)]",
+  },
+  {
+    id: "anclaje_cleat",
+    dataTarget: "layer-cleat",
+    dataColor: "text-stone-500",
+    hoverClasses: "hover:border-stone-600 hover:bg-stone-100 dark:hover:bg-stone-800",
+    titleHoverClasses: "group-hover:text-stone-700 dark:group-hover:text-stone-400",
+  }
+];
+
 // Construimos el array final cruzando nuestra config de UI con los datos del JSON
-const renderCards = TARJETAS_CONFIG.map((config: TarjetaConfig) => {
+const renderCards = tarjetasConfig.map(config => {
   if (config.isCustom) {
     return {
       ...config,
@@ -37,6 +118,78 @@ const renderCards = TARJETAS_CONFIG.map((config: TarjetaConfig) => {
 
 <Layout title="Espejo - Machado Teatro">
   <style is:global>
+      /* SVG Element Interactions */
+      .svg-layer {
+        transition:
+          opacity 0.4s ease,
+          filter 0.4s ease,
+          stroke-width 0.4s ease;
+      }
+      .despiece-part {
+        transition: opacity 0.2s ease-out;
+      }
+
+      .layer-highlight-mode .svg-layer:not(.highlighted) {
+        opacity: 0.15 !important;
+        filter: grayscale(100%) !important;
+      }
+
+      .layer-highlight-mode .svg-layer.highlighted.layer-decapado,
+      .layer-highlight-mode .svg-layer.highlighted.layer-led {
+        filter: brightness(1.3) drop-shadow(0 0 12px currentColor) !important;
+      }
+
+      .layer-highlight-mode
+        .svg-layer.highlighted:not(.layer-decapado):not(.layer-led) {
+        opacity: 1 !important;
+        filter: brightness(1.3) drop-shadow(0 0 8px currentColor) !important;
+        stroke: currentColor !important;
+        stroke-width: 4px !important;
+      }
+
+      .spec-item {
+        transition:
+          transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          background-color 0.2s;
+        transform-origin: left center;
+      }
+
+      .spec-item:hover,
+      .spec-item.active-hover {
+        transform: scale(1.02);
+      }
+
+      .view-panel {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .view-panel.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      svg {
+        max-width: 100%;
+        height: auto;
+        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.15));
+      }
+
+      [data-theme="dark"] svg {
+        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.6));
+      }
+
+      .dim-line {
+        stroke: currentColor;
+        opacity: 0.3;
+        stroke-width: 1;
+        stroke-dasharray: 4;
+      }
+      .dim-text-m {
+        fill: currentColor;
+        font-size: 6px;
+      }
+
       .blueprint-mode {
         --bp-bg: #1e3a8a;
         --bp-line: #ffffff;
@@ -511,7 +664,7 @@ const renderCards = TARJETAS_CONFIG.map((config: TarjetaConfig) => {
             <div id="frontal-dim-overlay" class="absolute top-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-0 transition-all duration-300 ease-out -translate-y-4">
               <div class="bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md px-6 py-4 rounded-2xl border border-base-200 dark:border-base-800 flex flex-col items-center text-center">
                 <span id="frontal-dim-title" class="text-sm font-bold uppercase tracking-widest text-base-content/70 mb-1"></span>
-                <span id="frontal-dim-value" class="text-3xl sm:text-4xl font-mono font-black text-base-content whitespace-nowrap"></span>
+                <span id="frontal-dim-value" class="text-3xl sm:text-4xl font-mono font-black text-base-900 dark:text-base-50 whitespace-nowrap"></span>
               </div>
             </div>
             <div id="zoom-container-frontal" class="w-full h-full flex items-center justify-center" style="transform-origin: center center">
@@ -569,6 +722,29 @@ const renderCards = TARJETAS_CONFIG.map((config: TarjetaConfig) => {
                 >
                     REFLECTOR MDF 1536 x 736
                 </text>
+
+              <!-- Bastidor de Pino -->
+              <path
+                class="svg-layer layer-pino"
+                d="M 82,82 h 1536 v 736 h -1536 Z M 100,100 v 700 h 1500 v -700 Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="4"
+                stroke-dasharray="10,10"
+                opacity="0.5"
+              />
+              <text
+                x="850"
+                y="65"
+                class="svg-layer layer-pino"
+                font-size="20"
+                fill="currentColor"
+                opacity="0.6"
+                text-anchor="middle"
+                letter-spacing="0.1em"
+              >
+                BASTIDOR PINO 1536 x 736
+              </text>
 
                 <rect
                     class="svg-layer layer-mdf"
