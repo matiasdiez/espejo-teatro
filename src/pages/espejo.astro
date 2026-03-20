@@ -238,10 +238,10 @@ const renderCards = tarjetasConfig.map(config => {
 
     <div class="flex flex-col-reverse lg:flex-row w-full flex-1 overflow-hidden min-h-0">
       <!-- Sidebar with Specs -->
-      <aside class="w-full lg:w-[380px] h-2/5 lg:h-full bg-base-100 dark:bg-base-900 border-t lg:border-t-0 lg:border-r border-base-200 dark:border-base-800 flex flex-col p-4 lg:p-6 gap-2 lg:gap-4 overflow-y-auto z-10 shadow-lg shrink-0 min-h-0" id="sidebar">
+      <aside class="w-full lg:w-[380px] h-2/5 lg:h-full bg-calcareo-100 dark:bg-calcareo-900 border-t lg:border-t-0 lg:border-r border-calcareo-200 dark:border-calcareo-800 flex flex-col p-4 lg:p-6 gap-2 lg:gap-4 overflow-y-auto z-10 shadow-lg shrink-0 min-h-0" id="sidebar">
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-xs font-bold uppercase tracking-widest text-base-500 dark:text-base-400">Desglose de Materiales</h2>
-          <span class="text-xs text-base-400">Pasa el ratón</span>
+          <h2 class="text-xs font-bold uppercase tracking-widest text-calcareo-500 dark:text-calcareo-400">Desglose de Materiales</h2>
+          <span class="text-xs text-calcareo-400">Pasa el ratón</span>
         </div>
 
         {renderCards.map((card) => (
@@ -260,27 +260,27 @@ const renderCards = tarjetasConfig.map(config => {
       </aside>
 
       <!-- Main Content -->
-      <main id="main-canvas" class="flex-1 flex flex-col min-w-0 min-h-0 bg-base-200 dark:bg-base-950 relative overlay-pattern transition-colors duration-500">
+      <main id="main-canvas" class="flex-1 flex flex-col min-w-0 min-h-0 bg-calcareo-200 dark:bg-calcareo-950 relative overlay-pattern transition-colors duration-500">
         <div class="absolute inset-0 pointer-events-none -z-10" style="background-image: linear-gradient(to right, var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px, transparent 1px), linear-gradient(to bottom, var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px, transparent 1px); background-size: 40px 40px;"></div>
 
-        <div class="flex flex-col sm:flex-row w-full bg-base-100 dark:bg-base-900 border-b border-base-200 dark:border-base-800 shadow-sm z-10">
+        <div class="flex flex-col sm:flex-row w-full bg-calcareo-100 dark:bg-calcareo-900 border-b border-calcareo-200 dark:border-calcareo-800 shadow-sm z-10">
           <div class="tabs tabs-box flex-1 justify-center sm:justify-start px-4 pt-4 rounded-none overflow-x-auto no-scrollbar border-b-0 bg-transparent">
             <a class="tab tab-btn tab-active font-medium" data-view="view-corte">Perfil (Corte Transversal)</a>
             <a class="tab tab-btn font-medium" data-view="view-frontal">Vista Frontal (Plan)</a>
             <a class="tab tab-btn font-medium" data-view="view-despiece">Explosión Isométrica</a>
           </div>
-          <div class="flex items-center justify-center gap-2 px-4 py-3 sm:py-0 border-t border-base-200 dark:border-base-800 sm:border-t-0 bg-base-100 dark:bg-base-900">
-            <div class="hidden sm:flex items-center gap-1 border-r border-base-200 dark:border-base-800 pr-2 mr-1">
+          <div class="flex items-center justify-center gap-2 px-4 py-3 sm:py-0 border-t border-calcareo-200 dark:border-calcareo-800 sm:border-t-0 bg-calcareo-100 dark:bg-calcareo-900">
+            <div class="hidden sm:flex items-center gap-1 border-r border-calcareo-200 dark:border-calcareo-800 pr-2 mr-1">
               <i data-lucide="zoom-out" class="w-4 h-4 text-base-content/70"></i>
               <input id="zoom-slider" type="range" min="0.5" max="3" step="0.1" value="1" class="range range-xs range-primary w-24" />
               <i data-lucide="zoom-in" class="w-4 h-4 text-base-content/70"></i>
-              <button id="zoom-reset" class="p-1.5 rounded-full hover:bg-base-200 dark:hover:bg-base-800 transition-colors text-base-content ml-1" title="Reset Zoom">
+              <button id="zoom-reset" class="p-1.5 rounded-full hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors text-base-content ml-1" title="Reset Zoom">
                 <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
               </button>
             </div>
-            <button id="btn-blueprint" class="p-2 rounded-lg hover:bg-base-200 dark:hover:bg-base-800 transition-colors" title="Modo Blueprint"><i data-lucide="drafting-compass" class="w-4 h-4 text-blue-600 dark:text-sky-500"></i></button>
-            <button id="btn-lights" class="p-2 rounded-lg hover:bg-base-200 dark:hover:bg-base-800 transition-colors" title="Alternar Luces LED"><i id="icon-lights" data-lucide="lightbulb" class="w-4 h-4 text-amber-600 dark:text-yellow-500 fill-amber-600 dark:fill-yellow-500"></i></button>
-            <button id="btn-dims" class="p-2 rounded-lg hover:bg-base-200 dark:hover:bg-base-800 transition-colors" title="Ocultar/Mostrar Cotas"><i id="icon-dims" data-lucide="ruler" class="w-4 h-4 text-base-content"></i></button>
+            <button id="btn-blueprint" class="p-2 rounded-lg hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors" title="Modo Blueprint"><i data-lucide="drafting-compass" class="w-4 h-4 text-blue-600 dark:text-sky-500"></i></button>
+            <button id="btn-lights" class="p-2 rounded-lg hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors" title="Alternar Luces LED"><i id="icon-lights" data-lucide="lightbulb" class="w-4 h-4 text-amber-600 dark:text-yellow-500 fill-amber-600 dark:fill-yellow-500"></i></button>
+            <button id="btn-dims" class="p-2 rounded-lg hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors" title="Ocultar/Mostrar Cotas"><i id="icon-dims" data-lucide="ruler" class="w-4 h-4 text-base-content"></i></button>
           </div>
         </div>
 
@@ -303,12 +303,12 @@ const renderCards = tarjetasConfig.map(config => {
 
       <div id="workspace-container" class="flex-1 flex relative p-4 lg:p-12 z-0 w-full min-h-0 overflow-hidden items-center justify-center transition-colors duration-500">
           <!-- TAB 1: PERFIL (CORTE) -->
-          <div id="view-corte" class="view-panel active text-base-500 w-full h-full max-w-5xl zoom-area cursor-move active:cursor-grabbing">
+          <div id="view-corte" class="view-panel active text-calcareo-500 w-full h-full max-w-5xl zoom-area cursor-move active:cursor-grabbing">
             <div id="zoom-container-corte" class="w-full h-full" style="transform-origin: center center">
                 <svg
                     viewBox="280 10 570 200"
                     xmlns="http://www.w3.org/2000/svg"
-                    class="canvas-svg w-full h-full text-base-500 dark:text-base-400"
+                    class="canvas-svg w-full h-full text-calcareo-500 dark:text-calcareo-400"
                     >
                     <rect
                         class="svg-layer layer-muro"
@@ -322,7 +322,7 @@ const renderCards = tarjetasConfig.map(config => {
                     <text
                         x="350"
                         y="174"
-                        class="dim-text-m text-base-600 dark:text-base-300"
+                        class="dim-text-m text-calcareo-600 dark:text-calcareo-300"
                         font-size="10"
                         font-weight="600"
                         letter-spacing="0.2em"
@@ -660,18 +660,18 @@ const renderCards = tarjetasConfig.map(config => {
           </div>
 
           <!-- TAB 2: FRONTAL -->
-          <div id="view-frontal" class="view-panel w-full h-full max-w-4xl text-base-500 zoom-area cursor-move active:cursor-grabbing relative">
+          <div id="view-frontal" class="view-panel w-full h-full max-w-4xl text-calcareo-500 zoom-area cursor-move active:cursor-grabbing relative">
             <div id="frontal-dim-overlay" class="absolute top-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-0 transition-all duration-300 ease-out -translate-y-4">
-              <div class="bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md px-6 py-4 rounded-2xl border border-base-200 dark:border-base-800 flex flex-col items-center text-center">
+              <div class="bg-calcareo-100/90 dark:bg-calcareo-900/90 backdrop-blur-md px-6 py-4 rounded-2xl border border-calcareo-200 dark:border-calcareo-800 flex flex-col items-center text-center">
                 <span id="frontal-dim-title" class="text-sm font-bold uppercase tracking-widest text-base-content/70 mb-1"></span>
-                <span id="frontal-dim-value" class="text-3xl sm:text-4xl font-mono font-black text-base-900 dark:text-base-50 whitespace-nowrap"></span>
+                <span id="frontal-dim-value" class="text-3xl sm:text-4xl font-mono font-black text-calcareo-900 dark:text-calcareo-50 whitespace-nowrap"></span>
               </div>
             </div>
             <div id="zoom-container-frontal" class="w-full h-full flex items-center justify-center" style="transform-origin: center center">
               <svg
                 viewBox="-50 -50 1800 1000"
                 xmlns="http://www.w3.org/2000/svg"
-                class="canvas-svg w-full h-full text-base-500 dark:text-base-400"
+                class="canvas-svg w-full h-full text-calcareo-500 dark:text-calcareo-400"
                 >
                 <path
                     class="svg-layer layer-kiri"
@@ -819,10 +819,10 @@ const renderCards = tarjetasConfig.map(config => {
           </div>
 
           <!-- TAB 3: DESPIECE 3D -->
-          <div id="view-despiece" class="view-panel w-full h-full max-w-5xl text-base-500 relative overflow-hidden flex-col zoom-area cursor-move active:cursor-grabbing">
-            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md px-6 py-4 rounded-full border border-base-200 dark:border-base-800 shadow-[0_10px_40px_rgba(0,0,0,0.2)] flex items-center gap-4 cursor-auto" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-              <button id="despiece-reset-btn" class="p-1.5 rounded-full hover:bg-base-200 dark:hover:bg-base-800 transition-colors text-base-content -ml-1" title="Resetear Vista"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
-              <button id="despiece-play-btn" class="p-1.5 rounded-full hover:bg-base-200 dark:hover:bg-base-800 transition-colors text-base-content" title="Animar Ensamblado"><i data-lucide="play" class="w-4 h-4"></i></button>
+          <div id="view-despiece" class="view-panel w-full h-full max-w-5xl text-calcareo-500 relative overflow-hidden flex-col zoom-area cursor-move active:cursor-grabbing">
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 bg-calcareo-100/90 dark:bg-calcareo-900/90 backdrop-blur-md px-6 py-4 rounded-full border border-calcareo-200 dark:border-calcareo-800 shadow-[0_10px_40px_rgba(0,0,0,0.2)] flex items-center gap-4 cursor-auto" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+              <button id="despiece-reset-btn" class="p-1.5 rounded-full hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors text-base-content -ml-1" title="Resetear Vista"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
+              <button id="despiece-play-btn" class="p-1.5 rounded-full hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors text-base-content" title="Animar Ensamblado"><i data-lucide="play" class="w-4 h-4"></i></button>
               <span class="text-xs font-bold uppercase tracking-widest text-base-content/70">Unido</span>
               <input id="assemble-slider" type="range" min="0" max="100" value="100" class="range range-sm range-info w-32 sm:w-48 cursor-pointer" />
               <span class="text-xs font-bold uppercase tracking-widest text-base-content/70">Separado</span>
@@ -830,7 +830,7 @@ const renderCards = tarjetasConfig.map(config => {
             <svg
                 viewBox="-200 0 2000 1300"
                 xmlns="http://www.w3.org/2000/svg"
-                class="canvas-svg w-full h-full text-base-500 dark:text-base-400"
+                class="canvas-svg w-full h-full text-calcareo-500 dark:text-calcareo-400"
               >
                 <!-- Contenedor general para el paneo y zoom -->
                 <g
@@ -1131,13 +1131,13 @@ const renderCards = tarjetasConfig.map(config => {
                   specItem.dataset.hoverClassesCached = "true";
                 }
                 const hoverClasses: string[] = JSON.parse(specItem.dataset.hoverClasses || "[]");
-                specItem.classList.remove("bg-base-50", "dark:bg-base-800/50", "border-base-200", "dark:border-base-700");
+            specItem.classList.remove("bg-calcareo-50", "dark:bg-calcareo-800/50", "border-calcareo-200", "dark:border-calcareo-700");
                 if (hoverClasses.length > 0) specItem.classList.add(...hoverClasses);
 
                 const titleSpan = specItem.querySelector("span") as HTMLElement | null;
                 if (titleSpan) {
                   const titleHover: string[] = JSON.parse(titleSpan.dataset.hoverClasses || "[]");
-                  titleSpan.classList.remove("text-base-900", "dark:text-base-100");
+              titleSpan.classList.remove("text-calcareo-900", "dark:text-calcareo-50");
                   if (titleHover.length > 0) titleSpan.classList.add(...titleHover);
                 }
 
@@ -1163,13 +1163,13 @@ const renderCards = tarjetasConfig.map(config => {
 
                 const hoverClasses: string[] = JSON.parse(specItem.dataset.hoverClasses || "[]");
                 if (hoverClasses.length > 0) specItem.classList.remove(...hoverClasses);
-                specItem.classList.add("bg-base-50", "dark:bg-base-800/50", "border-base-200", "dark:border-base-700");
+            specItem.classList.add("bg-calcareo-50", "dark:bg-calcareo-800/50", "border-calcareo-200", "dark:border-calcareo-700");
 
                 const titleSpan = specItem.querySelector("span") as HTMLElement | null;
                 if (titleSpan) {
                   const titleHover: string[] = JSON.parse(titleSpan.dataset.hoverClasses || "[]");
                   if (titleHover.length > 0) titleSpan.classList.remove(...titleHover);
-                  titleSpan.classList.add("text-base-900", "dark:text-base-100");
+              titleSpan.classList.add("text-calcareo-900", "dark:text-calcareo-50");
                 }
 
                 document.querySelectorAll("." + targetClass).forEach((el) => {
@@ -1204,11 +1204,11 @@ const renderCards = tarjetasConfig.map(config => {
               if (mainCanvas.classList.contains("lights-off")) {
                 icon.classList.remove("fill-amber-600", "text-amber-600", "dark:fill-yellow-500", "dark:text-yellow-500");
                 icon.classList.add("text-base-content/40");
-                btnLights.classList.add("bg-base-200", "dark:bg-base-800");
+            btnLights.classList.add("bg-calcareo-200", "dark:bg-calcareo-800");
               } else {
                 icon.classList.add("fill-amber-600", "text-amber-600", "dark:fill-yellow-500", "dark:text-yellow-500");
                 icon.classList.remove("text-base-content/40");
-                btnLights.classList.remove("bg-base-200", "dark:bg-base-800");
+            btnLights.classList.remove("bg-calcareo-200", "dark:bg-calcareo-800");
               }
             }
           });
@@ -1223,12 +1223,12 @@ const renderCards = tarjetasConfig.map(config => {
                 icon.setAttribute("data-lucide", "eye-off");
                 icon.classList.remove("text-base-content");
                 icon.classList.add("text-base-content/40");
-                btnDims.classList.add("bg-base-200", "dark:bg-base-800");
+            btnDims.classList.add("bg-calcareo-200", "dark:bg-calcareo-800");
               } else {
                 icon.setAttribute("data-lucide", "ruler");
                 icon.classList.add("text-base-content");
                 icon.classList.remove("text-base-content/40");
-                btnDims.classList.remove("bg-base-200", "dark:bg-base-800");
+            btnDims.classList.remove("bg-calcareo-200", "dark:bg-calcareo-800");
               }
               createIcons({ icons });
             }

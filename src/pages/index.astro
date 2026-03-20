@@ -1,5 +1,12 @@
 ---
 import Layout from '@layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL;
+const makeUrl = (path: string) => {
+    const cleanBase = base.replace(/\/$/, '');
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${cleanBase}${cleanPath}`;
+};
 ---
 
 <Layout title="Inicio - Machado Teatro">
@@ -11,21 +18,21 @@ import Layout from '@layouts/Layout.astro';
         </div>
         
         <div class="relative z-10 max-w-3xl text-center space-y-8">
-            <img src="/logo.svg" class="w-48 h-auto mx-auto mb-6 dark:invert opacity-90 drop-shadow-xl" alt="Machado Teatro">
+            <img src={makeUrl('/logo.svg')} class="w-48 h-auto mx-auto mb-6 dark:invert opacity-90 drop-shadow-xl" alt="Machado Teatro">
             
-            <h1 class="text-5xl md:text-7xl font-black tracking-tight text-base-900 dark:text-base-50">
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight text-calcareo-900 dark:text-calcareo-50">
                 Machado <span class="text-burgundy-500">Teatro</span>
             </h1>
             
-            <p class="text-xl md:text-2xl text-base-600 dark:text-base-400 font-light">
+            <p class="text-xl md:text-2xl text-calcareo-600 dark:text-calcareo-400 font-light">
                 Un espacio dedicado a las artes escénicas de vanguardia, donde la imaginación y la técnica se encuentran.
             </p>
             
             <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center w-full px-4 sm:px-0">
-                <a href="/equipo" class="btn w-full sm:w-auto bg-burgundy-600 hover:bg-burgundy-700 text-white border-0 gap-2 btn-md sm:btn-lg">
+                <a href={makeUrl('/equipo')} class="btn w-full sm:w-auto bg-burgundy-600 hover:bg-burgundy-700 text-white border-0 gap-2 btn-md sm:btn-lg">
                     <i data-lucide="users" class="w-5 h-5"></i> Conoce al Equipo
                 </a>
-                <a href="/espejo" class="btn w-full sm:w-auto btn-outline btn-base gap-2 btn-md sm:btn-lg">
+                <a href={makeUrl('/espejo')} class="btn w-full sm:w-auto btn-outline btn-base gap-2 btn-md sm:btn-lg">
                     <i data-lucide="layers" class="w-5 h-5"></i> Ver Planos Técnicos
                 </a>
             </div>

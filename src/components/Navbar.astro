@@ -29,17 +29,17 @@ interface Props {
 const { showPrintButton = false } = Astro.props;
 ---
 
-<nav class="navbar bg-base-100 dark:bg-base-900 border-b border-base-200 dark:border-base-800 shadow-sm z-50">
+<nav class="navbar bg-calcareo-100 dark:bg-calcareo-900 border-b border-calcareo-200 dark:border-calcareo-800 shadow-sm z-50">
     <div class="navbar-start w-auto">
         <!-- Mobile Menu Dropdown -->
         <div class="relative sm:hidden group">
-            <button tabindex="0" class="p-2 rounded-full text-base-content hover:bg-base-200 dark:hover:bg-base-800 transition-colors">
+            <button tabindex="0" class="p-2 rounded-full text-base-content hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors">
                 <i data-lucide="menu" class="h-5 w-5"></i>
             </button>
-            <ul class="menu menu-sm absolute left-0 top-full mt-2 w-52 p-2 shadow-xl bg-base-100 dark:bg-base-800 rounded-box z-[55] opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 border border-base-200 dark:border-base-800 pointer-events-none group-focus-within:pointer-events-auto">
+            <ul class="menu menu-sm absolute left-0 top-full mt-2 w-52 p-2 shadow-xl bg-calcareo-100 dark:bg-calcareo-800 rounded-box z-[55] opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 border border-calcareo-200 dark:border-calcareo-800 pointer-events-none group-focus-within:pointer-events-auto">
                 {NAV_LINKS.map(link => (
                     <li>
-                        <a href={makeUrl(link.href)} class={checkActive(link.href) ? 'active bg-burgundy-600 text-white' : 'text-base-content hover:bg-base-200 dark:hover:bg-base-700'}>
+                        <a href={makeUrl(link.href)} class={checkActive(link.href) ? 'active bg-burgundy-600 text-white' : 'text-base-content hover:bg-calcareo-200 dark:hover:bg-calcareo-700'}>
                             {link.label}
                         </a>
                     </li>
@@ -47,7 +47,7 @@ const { showPrintButton = false } = Astro.props;
             </ul>
         </div>
         
-        <a class="flex items-center text-xl tracking-tight gap-1 sm:gap-3 px-2 py-1.5 rounded-lg hover:bg-base-200 dark:hover:bg-base-800 transition-colors" href={makeUrl('/')}>
+        <a class="flex items-center text-xl tracking-tight gap-1 sm:gap-3 px-2 py-1.5 rounded-lg hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors" href={makeUrl('/')}>
             <img src={makeUrl('/logo.svg')} alt="Machado Teatro Logo" class="h-6 sm:h-8 w-auto dark:invert">
             <div class="hidden sm:block">
                 <span class="text-burgundy-600 dark:text-burgundy-500 font-bold">Machado</span>
@@ -55,12 +55,12 @@ const { showPrintButton = false } = Astro.props;
             </div>
         </a>
 
-        <div class="h-6 w-px bg-base-300 dark:bg-base-700 mx-2 hidden sm:block"></div>
+        <div class="h-6 w-px bg-calcareo-300 dark:bg-calcareo-700 mx-2 hidden sm:block"></div>
 
         <!-- Nav Links -->
         <div class="hidden sm:flex gap-1 items-center">
             {NAV_LINKS.map(link => (
-                <a href={makeUrl(link.href)} class={checkActive(link.href) ? "px-3 py-1.5 rounded-lg bg-burgundy-600 hover:bg-burgundy-700 text-white text-sm font-medium transition-colors" : "px-3 py-1.5 rounded-lg text-sm font-normal text-base-content/80 hover:text-base-content hover:bg-base-200 dark:hover:bg-base-800 transition-colors"}>
+                <a href={makeUrl(link.href)} class={checkActive(link.href) ? "px-3 py-1.5 rounded-lg bg-burgundy-600 hover:bg-burgundy-700 text-white text-sm font-medium transition-colors" : "px-3 py-1.5 rounded-lg text-sm font-normal text-base-content/80 hover:text-base-content hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors"}>
                     {link.label}
                 </a>
             ))}
@@ -69,12 +69,12 @@ const { showPrintButton = false } = Astro.props;
 
     <div class="navbar-end w-auto ml-auto justify-end gap-2 pr-2">
         {showPrintButton && (
-            <button class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-base-300 dark:border-base-700 hover:bg-base-200 dark:hover:bg-base-800 transition-colors text-sm font-medium text-base-content" onclick="window.print()">
+            <button class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-calcareo-300 dark:border-calcareo-700 hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors text-sm font-medium text-base-content" onclick="window.print()">
                 <i data-lucide="printer" class="w-4 h-4"></i> Imprimir Planilla
             </button>
         )}
         <!-- Dark Mode Toggle -->
-        <label class="swap swap-rotate p-2 rounded-full hover:bg-base-200 dark:hover:bg-base-800 transition-colors print-hide cursor-pointer text-base-content">
+        <label class="swap swap-rotate p-2 rounded-full hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors print-hide cursor-pointer text-base-content">
             <input type="checkbox" id="theme-toggle" />
             <i data-lucide="sun" class="swap-on w-4 h-4 text-amber-500"></i>
             <i data-lucide="moon" class="swap-off w-4 h-4"></i>
