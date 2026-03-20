@@ -73,7 +73,7 @@ const imageUrl = new URL(makeUrl(image), Astro.site ?? Astro.url);
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
 
-<!--Bloquear cargar darkmode -->
+<!--Bloquear cargar darkmode al inicio del load -->
 <script is:inline>
     const theme = (() => {
       // 1. Revisar si hay un tema guardado en localStorage

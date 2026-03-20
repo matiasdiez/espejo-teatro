@@ -177,11 +177,11 @@ const renderCards = tarjetasConfig.map(config => {
       svg {
         max-width: 100%;
         height: auto;
-        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.15));
       }
 
-      [data-theme="dark"] svg {
-        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.6));
+      /* Aceleración por Hardware para paneo y zoom */
+      #zoom-container-corte, #zoom-container-frontal, #zoom-container-despiece {
+        will-change: transform;
       }
 
       .dim-line {
@@ -1024,6 +1024,7 @@ const renderCards = tarjetasConfig.map(config => {
         let currentY = 0;
         let isDragging = false;
         let startX = 0, startY = 0;
+        let isUpdating = false;
 
         // --- LÓGICA DE TARJETA FLOTANTE (MÓVIL FULLSCREEN) ---
         const mainCanvas = document.getElementById("main-canvas");
@@ -1516,7 +1517,13 @@ const renderCards = tarjetasConfig.map(config => {
             if (!isDragging) return;
             currentX = e.clientX - startX;
             currentY = e.clientY - startY;
-            updateTransform();
+            if (!isUpdating) {
+              isUpdating = true;
+              requestAnimationFrame(() => {
+                updateTransform();
+                isUpdating = false;
+              });
+            }
           });
 
           window.addEventListener("mouseup", () => {
