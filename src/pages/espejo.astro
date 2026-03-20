@@ -162,11 +162,16 @@ const renderCards = tarjetasConfig.map(config => {
       .view-panel {
         display: none;
         opacity: 0;
-        transition: opacity 0.4s ease;
+        transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       .view-panel.active {
         display: flex;
         opacity: 1;
+      }
+      @media (max-width: 639px) {
+        .view-panel.card-active {
+          transform: translateY(-85px);
+        }
       }
 
       svg {
@@ -260,11 +265,20 @@ const renderCards = tarjetasConfig.map(config => {
       </aside>
 
       <!-- Main Content -->
-      <main id="main-canvas" class="flex-1 flex flex-col min-w-0 min-h-0 bg-calcareo-200 dark:bg-calcareo-950 relative overlay-pattern transition-colors duration-500">
+      <main id="main-canvas" data-cards={JSON.stringify(renderCards)} class="flex-1 flex flex-col min-w-0 min-h-0 bg-calcareo-200 dark:bg-calcareo-950 relative overlay-pattern transition-colors duration-500">
         <div class="absolute inset-0 pointer-events-none -z-10" style="background-image: linear-gradient(to right, var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px, transparent 1px), linear-gradient(to bottom, var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px, transparent 1px); background-size: 40px 40px;"></div>
 
         <div class="flex flex-col sm:flex-row w-full bg-calcareo-100 dark:bg-calcareo-900 border-b border-calcareo-200 dark:border-calcareo-800 shadow-sm z-10">
-          <div class="tabs tabs-box flex-1 justify-center sm:justify-start px-4 pt-4 rounded-none overflow-x-auto no-scrollbar border-b-0 bg-transparent">
+          <!-- Select Responsive (Móvil) -->
+          <div class="w-full px-4 pt-4 pb-3 sm:hidden">
+            <select id="mobile-view-select" class="select w-full font-medium bg-white dark:bg-calcareo-950 border-calcareo-200 dark:border-calcareo-700 shadow-sm">
+              <option value="view-corte">Perfil (Corte Transversal)</option>
+              <option value="view-frontal">Vista Frontal (Plan)</option>
+              <option value="view-despiece">Explosión Isométrica</option>
+            </select>
+          </div>
+          <!-- Tabs Originales (Desktop) -->
+          <div class="tabs tabs-box flex-1 justify-start px-4 pt-4 rounded-none border-b-0 bg-transparent hidden sm:flex">
             <a class="tab tab-btn tab-active font-medium" data-view="view-corte">Perfil (Corte Transversal)</a>
             <a class="tab tab-btn font-medium" data-view="view-frontal">Vista Frontal (Plan)</a>
             <a class="tab tab-btn font-medium" data-view="view-despiece">Explosión Isométrica</a>
@@ -302,6 +316,25 @@ const renderCards = tarjetasConfig.map(config => {
         </svg>
 
       <div id="workspace-container" class="flex-1 flex relative p-4 lg:p-12 z-0 w-full min-h-0 overflow-hidden items-center justify-center transition-colors duration-500">
+          <!-- Tarjeta Flotante Interactiva (Móvil Fullscreen) -->
+          <div id="mobile-card-overlay" class="absolute bottom-6 left-4 right-4 z-50 bg-calcareo-50/95 dark:bg-calcareo-900/95 backdrop-blur-xl border border-calcareo-200 dark:border-calcareo-700 rounded-2xl shadow-2xl p-5 flex flex-col gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4 sm:hidden">
+            <div class="flex justify-between items-start gap-2">
+              <div class="flex-1">
+                <h3 id="mc-title" class="font-bold text-lg text-calcareo-900 dark:text-calcareo-50 leading-tight"></h3>
+                <span id="mc-subtitle" class="text-xs font-mono font-semibold text-calcareo-500 uppercase tracking-wider"></span>
+              </div>
+              <button id="mc-close" class="p-1.5 -mr-2 -mt-2 rounded-full bg-calcareo-200/50 dark:bg-calcareo-800/50 hover:bg-calcareo-300 dark:hover:bg-calcareo-700 transition-colors text-base-content cursor-pointer" title="Cerrar">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <p id="mc-desc" class="text-sm text-calcareo-600 dark:text-calcareo-400 mt-1 leading-relaxed"></p>
+          </div>
+
+          <!-- Botón Fullscreen (Solo Móvil) -->
+          <button id="btn-fullscreen" class="absolute top-4 right-4 z-50 p-2.5 bg-calcareo-100/90 dark:bg-calcareo-900/90 backdrop-blur-md border border-calcareo-200 dark:border-calcareo-800 rounded-xl shadow-lg sm:hidden hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors text-base-content cursor-pointer" title="Pantalla Completa">
+            <i id="icon-fullscreen" data-lucide="maximize" class="w-5 h-5"></i>
+          </button>
+
           <!-- TAB 1: PERFIL (CORTE) -->
           <div id="view-corte" class="view-panel active text-calcareo-500 w-full h-full max-w-5xl zoom-area cursor-move active:cursor-grabbing">
             <div id="zoom-container-corte" class="w-full h-full" style="transform-origin: center center">
@@ -828,9 +861,9 @@ const renderCards = tarjetasConfig.map(config => {
               <span class="text-xs font-bold uppercase tracking-widest text-base-content/70">Separado</span>
             </div>
             <svg
-                viewBox="-200 0 2000 1300"
+                viewBox="-200 -50 2000 1500"
                 xmlns="http://www.w3.org/2000/svg"
-                class="canvas-svg w-full h-full text-calcareo-500 dark:text-calcareo-400"
+                class="canvas-svg w-full flex-1 min-h-0 text-calcareo-500 dark:text-calcareo-400"
               >
                 <!-- Contenedor general para el paneo y zoom -->
                 <g
@@ -992,6 +1025,45 @@ const renderCards = tarjetasConfig.map(config => {
         let isDragging = false;
         let startX = 0, startY = 0;
 
+        // --- LÓGICA DE TARJETA FLOTANTE (MÓVIL FULLSCREEN) ---
+        const mainCanvas = document.getElementById("main-canvas");
+        const cardsData = mainCanvas && mainCanvas.dataset.cards ? JSON.parse(mainCanvas.dataset.cards) : [];
+        const mobileCardOverlay = document.getElementById("mobile-card-overlay");
+        const mcTitle = document.getElementById("mc-title");
+        const mcSubtitle = document.getElementById("mc-subtitle");
+        const mcDesc = document.getElementById("mc-desc");
+        const mcClose = document.getElementById("mc-close");
+
+        function showMobileCard(targetClass: string) {
+          // Solo mostrar si estamos en fullscreen y en pantalla móvil
+          if (!document.fullscreenElement || window.innerWidth >= 640) return;
+          const card = cardsData.find((c: any) => c.dataTarget === targetClass);
+          if (!card || !mobileCardOverlay) return;
+
+          if (mcTitle) {
+            mcTitle.textContent = card.title;
+            mcTitle.className = `font-bold text-lg leading-tight ${card.dataColor}`;
+          }
+          if (mcSubtitle) mcSubtitle.textContent = card.subtitle;
+          if (mcDesc) mcDesc.textContent = card.description;
+
+          mobileCardOverlay.classList.remove("opacity-0", "pointer-events-none", "translate-y-4");
+          mobileCardOverlay.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+
+          const activeView = document.querySelector(".view-panel.active");
+          if (activeView) activeView.classList.add("card-active");
+        }
+
+        function hideMobileCard() {
+          if (!mobileCardOverlay) return;
+          mobileCardOverlay.classList.add("opacity-0", "pointer-events-none", "translate-y-4");
+          mobileCardOverlay.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+
+          document.querySelectorAll(".view-panel").forEach(v => v.classList.remove("card-active"));
+        }
+
+        if (mcClose) mcClose.addEventListener("click", hideMobileCard);
+
         function updateTransform() {
           const containers = [
             document.getElementById("zoom-container-corte"),
@@ -1013,6 +1085,7 @@ const renderCards = tarjetasConfig.map(config => {
         // --- TABS LOGIC ---
         const tabs = document.querySelectorAll(".tab-btn");
         const views = document.querySelectorAll(".view-panel");
+        const mobileSelect = document.getElementById("mobile-view-select") as HTMLSelectElement | null;
 
         tabs.forEach((btn) => {
           btn.addEventListener("click", () => {
@@ -1024,6 +1097,10 @@ const renderCards = tarjetasConfig.map(config => {
             if (btnElement.dataset.view) {
               const targetView = document.getElementById(btnElement.dataset.view);
               if (targetView) targetView.classList.add("active");
+
+              if (mobileSelect) {
+                mobileSelect.value = btnElement.dataset.view;
+              }
             }
 
             // Reset zoom when switching tabs
@@ -1033,9 +1110,41 @@ const renderCards = tarjetasConfig.map(config => {
             if (zoomSlider) {
               zoomSlider.value = "1";
             }
+            hideMobileCard();
             updateTransform();
           });
         });
+
+        // --- MOBILE SELECT LOGIC ---
+        if (mobileSelect) {
+          mobileSelect.addEventListener("change", (e) => {
+            const target = e.target as HTMLSelectElement;
+            const targetViewId = target.value;
+            
+            views.forEach((v) => v.classList.remove("active"));
+            const targetView = document.getElementById(targetViewId);
+            if (targetView) targetView.classList.add("active");
+
+            tabs.forEach((t) => {
+              const tElement = t as HTMLElement;
+              if (tElement.dataset.view === targetViewId) {
+                t.classList.add("tab-active");
+              } else {
+                t.classList.remove("tab-active");
+              }
+            });
+
+            // Reset zoom when switching tabs
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            if (zoomSlider) {
+              zoomSlider.value = "1";
+            }
+            hideMobileCard();
+            updateTransform();
+          });
+        }
 
         // --- FUNCIONES PARA OVERLAY DE MEDIDAS (VISTA FRONTAL) ---
         function showFrontalDimOverlay(specItem: HTMLElement) {
@@ -1101,6 +1210,16 @@ const renderCards = tarjetasConfig.map(config => {
         // --- TWO-WAY HOVER (SVG -> SIDEBAR) ---
         const svgLayers = document.querySelectorAll(".svg-layer");
         svgLayers.forEach((layer) => {
+          // Click en móvil para la tarjeta flotante
+          layer.addEventListener("click", (e) => {
+            const classList = Array.from(layer.classList);
+            const targetClass = classList.find((c) => c.startsWith("layer-"));
+            if (targetClass) {
+              showMobileCard(targetClass);
+            }
+            e.stopPropagation(); // Evitar que el click llegue al canvas y cierre la tarjeta
+          });
+
           layer.addEventListener("mouseenter", () => {
             const classList = Array.from(layer.classList);
             const targetClass = classList.find((c) => c.startsWith("layer-"));
@@ -1182,8 +1301,17 @@ const renderCards = tarjetasConfig.map(config => {
           });
         });
 
+        // Cerrar tarjeta al hacer click en el fondo del canvas
+        if (mainCanvas) {
+          mainCanvas.addEventListener("click", (e) => {
+            const target = e.target as HTMLElement;
+            if (!target.closest(".svg-layer") && !target.closest("#mobile-card-overlay")) {
+              hideMobileCard();
+            }
+          });
+        }
+
         // --- TOOLBAR BUTTONS ---
-        const mainCanvas = document.getElementById("main-canvas");
         const btnBlueprint = document.getElementById("btn-blueprint");
         const btnLights = document.getElementById("btn-lights");
         const btnDims = document.getElementById("btn-dims");
@@ -1231,6 +1359,36 @@ const renderCards = tarjetasConfig.map(config => {
             btnDims.classList.remove("bg-calcareo-200", "dark:bg-calcareo-800");
               }
               createIcons({ icons });
+            }
+          });
+        }
+
+        // --- FULLSCREEN LOGIC ---
+        const btnFullscreen = document.getElementById("btn-fullscreen");
+        const iconFullscreen = document.getElementById("icon-fullscreen");
+        if (btnFullscreen && mainCanvas) {
+          btnFullscreen.addEventListener("click", () => {
+            if (!document.fullscreenElement) {
+              mainCanvas.requestFullscreen().catch(err => console.warn(err));
+            } else {
+              document.exitFullscreen();
+            }
+          });
+          document.addEventListener("fullscreenchange", () => {
+            if (iconFullscreen) {
+              iconFullscreen.setAttribute("data-lucide", document.fullscreenElement ? "minimize" : "maximize");
+              createIcons({ icons });
+            }
+            
+            // Forzar el recentrado del dibujo al cambiar de tamaño la pantalla
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            if (zoomSlider) zoomSlider.value = "1";
+            updateTransform();
+
+            if (!document.fullscreenElement) {
+              hideMobileCard();
             }
           });
         }

@@ -1,0 +1,74 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  twitterHandle?: string;
+  siteName?: string;
+}
+
+const { 
+  title, 
+  description = "Planos interactivos y documentación técnica de objetos escénicos.", 
+  image = "/logo.svg",
+  twitterHandle = "@machado617",
+  siteName = "Machado Teatro"
+} = Astro.props;
+
+// Lógica de ruteo para GitHub Pages
+const base = import.meta.env.BASE_URL;
+const makeUrl = (path: string) => {
+    const cleanBase = base.replace(/\/$/, '');
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${cleanBase}${cleanPath}`;
+};
+
+// URLs absolutas requeridas para Open Graph y Twitter
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const imageUrl = new URL(makeUrl(image), Astro.site ?? Astro.url);
+---
+
+<!-- Metadatos Globales -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="generator" content={Astro.generator} />
+<meta name="format-detection" content="telephone=no" />
+
+<!-- Canonical URL (Evita penalizaciones de Google por contenido duplicado) -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Metadatos Primarios -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="author" content="Machado Teatro" />
+
+<!-- Favicon y Temas de Navegador -->
+<link rel="icon" type="image/svg+xml" href={makeUrl('/logo.svg')} />
+<meta name="theme-color" content="#b03348" /> <!-- burgundy-500 -->
+<meta name="color-scheme" content="light dark" />
+
+<!-- Apple / iOS -->
+<link rel="apple-touch-icon" href={makeUrl('/logo.svg')} />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={`Imagen de previsualización de ${title}`} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="es_AR" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={twitterHandle} />
+<meta name="twitter:creator" content={twitterHandle} />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />

@@ -1,25 +1,24 @@
 ---
 import '@styles/global.css';
 import Navbar from '@components/Navbar.astro';
+import Head from '@components/Head.astro';
 
 // Definimos las propiedades que las páginas podrán pasarle al Layout
 interface Props {
 	title: string;
+	description?: string;
+	image?: string;
 	showPrintButton?: boolean;
 }
 
-const { title, showPrintButton = false } = Astro.props;
+const { title, description, image, showPrintButton = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="es" data-theme="dark">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<Head title={title} description={description} image={image} />
 	</head>
-	<body class="bg-base-50 text-base-900 dark:bg-base-950 dark:text-base-50 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
+	<body class="bg-calcareo-50 text-calcareo-900 dark:bg-calcareo-950 dark:text-calcareo-50 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 		<!-- Insertamos el Navbar globalmente -->
 		<Navbar showPrintButton={showPrintButton} />
 		
