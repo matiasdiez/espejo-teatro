@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* Importar la configuración de FlyonUI */
+@plugin "flyonui";
+@import "../../node_modules/flyonui/variants.css";
+
+/* Asegurar que Tailwind lea las clases inyectadas por los JS de FlyonUI */
+@source "../../node_modules/flyonui/dist/**/*.js";
+
+/* Configuración de Modo Oscuro basado en atributo de Machado Teatro */
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+/* Paleta de Colores Customizada */
+@theme {
+  --color-base-50: #f8fafc;
+  --color-base-100: #f1f5f9;
+  --color-base-200: #e2e8f0;
+  --color-base-300: oklch(0.2344 0.0194 298.63) ;
+  --color-base-400: #94a3b8;
+  --color-base-500: #64748b;
+  --color-base-600: #475569;
+  --color-base-700: #334155;
+  --color-base-800: #1e293b;
+  --color-base-900: #0f172a;
+  --color-base-950: #020617;
+
+  --color-burgundy-50: #fbf3f4;
+  --color-burgundy-100: #f5e3e5;
+  --color-burgundy-200: #ebc0c5;
+  --color-burgundy-300: #dd949d;
+  --color-burgundy-400: #c95e6d;
+  --color-burgundy-500: #b03348;
+  --color-burgundy-600: #9b2439;
+  --color-burgundy-700: #821a2c;
+  --color-burgundy-800: #6d1827;
+  --color-burgundy-900: #5c1724;
+  --color-burgundy-950: #320911;
+}
+
+/* Variables Custom (Materiales y Elementos) */
+:root {
+  --c-glass: #bae6fd;
+  --c-decapado: #fdf4ff;
+  --c-mdf: #78350f;
+  --c-mdf5: #f8fafc;
+  --c-kiri: #b45309;
+  --c-led: #fef08a;
+  --c-cleat: #451a03;
+  --c-wall: #1e293b;
+}
+
+/* Tipografía técnica para Desglose y Planos */
+aside#sidebar,
+main svg text {
+  font-family: 'Courier New', 'Courier', monospace !important;
+}
+
+/* Estilos específicos para impresión (para uso en taller) */
+@media print {
+  nav, .btn:not(.print-btn), .print-hide { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .card { border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; break-inside: avoid; }
+  .table th, .table td { border-bottom: 1px solid #ccc !important; color: black !important; }
+  /* Convertimos los colores oscuros de burgundy a un color imprimible estable */
+  .text-burgundy-500, .text-burgundy-600 { color: #821a2c !important; }
+}

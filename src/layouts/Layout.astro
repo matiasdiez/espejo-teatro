@@ -1,0 +1,62 @@
+---
+import '@styles/global.css';
+import Navbar from '@components/Navbar.astro';
+
+// Definimos las propiedades que las páginas podrán pasarle al Layout
+interface Props {
+	title: string;
+	showPrintButton?: boolean;
+}
+
+const { title, showPrintButton = false } = Astro.props;
+---
+<!doctype html>
+<html lang="es" data-theme="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-base-50 text-base-900 dark:bg-base-950 dark:text-base-50 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
+		<!-- Insertamos el Navbar globalmente -->
+		<Navbar showPrintButton={showPrintButton} />
+		
+		<!-- Aquí se inyectará el contenido específico de cada página -->
+		<slot />
+
+		<script>
+			// Importamos las dependencias instaladas vía pnpm
+			import "flyonui/flyonui";
+			import { createIcons, icons } from 'lucide';
+
+			document.addEventListener('DOMContentLoaded', () => {
+				// Inicializar íconos
+				createIcons({ icons });
+
+				// Lógica de Theme Toggle
+				const themeToggle = document.getElementById('theme-toggle');
+				const htmlTag = document.documentElement;
+
+				const savedTheme = localStorage.getItem('theme');
+				if (savedTheme) {
+					htmlTag.setAttribute('data-theme', savedTheme);
+					if(themeToggle) themeToggle.checked = savedTheme === 'dark';
+				} else {
+					const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					htmlTag.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+					if(themeToggle) themeToggle.checked = prefersDark;
+				}
+
+				if(themeToggle) {
+					themeToggle.addEventListener('change', (e) => {
+						const newTheme = e.target.checked ? 'dark' : 'light';
+						htmlTag.setAttribute('data-theme', newTheme);
+						localStorage.setItem('theme', newTheme);
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

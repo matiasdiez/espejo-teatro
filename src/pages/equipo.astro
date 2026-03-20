@@ -1,0 +1,74 @@
+---
+import Layout from '@layouts/Layout.astro';
+import TeamCard from '../components/TeamCard.astro';
+---
+
+<Layout title="Equipo - Machado Teatro">
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-16 sm:px-6 lg:px-8 relative">
+        <div class="absolute inset-0 pointer-events-none -z-10" style="background-image: 
+            linear-gradient(to right, var(--fallback-bc, oklch(var(--bc)/0.03)) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--fallback-bc, oklch(var(--bc)/0.03)) 1px, transparent 1px);
+            background-size: 40px 40px;">
+        </div>
+
+        <div class="text-center mb-16">
+            <h2 class="text-burgundy-600 dark:text-burgundy-500 font-semibold tracking-wide uppercase text-sm mb-2">Nuestro Equipo</h2>
+            <p class="text-4xl md:text-5xl font-extrabold tracking-tight text-base-900 dark:text-base-50">
+                Las mentes detrás de escena
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-base-600 dark:text-base-400 mx-auto">
+                Conectando arte, tecnología y pasión para crear experiencias inolvidables.
+            </p>
+        </div>
+
+        <div class="space-y-16">
+            <!-- CEO / Leader -->
+            <div class="max-w-sm mx-auto">
+                <div class="card bg-burgundy-900 border-0 shadow-2xl hover:-translate-y-2 transition-transform duration-300 rounded-[3rem] text-white overflow-hidden">
+                    <figure class="px-8 pt-10 pb-2">
+                        <img src="https://i.pravatar.cc/300?img=47" alt="Ken" class="rounded-full w-56 h-56 object-cover border-4 border-white/20 shadow-lg" />
+                    </figure>
+                    <div class="card-body items-center text-center px-8 pb-10">
+                        <h3 class="card-title text-3xl font-bold tracking-tight">Ken</h3>
+                        <p class="text-burgundy-200 font-semibold uppercase tracking-wider text-sm mt-1">CEO & Fundadora</p>
+                        <p class="text-sm text-burgundy-100/80 mt-3 leading-relaxed">Visión estratégica y dirección general del teatro.</p>
+                        <div class="card-actions mt-5 flex gap-3">
+                            <button class="btn btn-circle btn-ghost btn-sm text-white/70 hover:text-white hover:bg-white/10" aria-label="Twitter"><i data-lucide="twitter" class="w-5 h-5"></i></button>
+                            <button class="btn btn-circle btn-ghost btn-sm text-white/70 hover:text-white hover:bg-white/10" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Members Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                <TeamCard 
+                    name="Laura Gómez" 
+                    role="Directora de Arte" 
+                    imgSrc="https://i.pravatar.cc/300?img=44" 
+                    bgClass="bg-burgundy-800" 
+                />
+                <TeamCard 
+                    name="Martín Silva" 
+                    role="Productor Escénico" 
+                    imgSrc="https://i.pravatar.cc/300?img=12" 
+                    bgClass="bg-burgundy-700" 
+                />
+                <TeamCard 
+                    name="Sofía Torres" 
+                    role="Iluminación y Sonido" 
+                    imgSrc="https://i.pravatar.cc/300?img=5" 
+                    bgClass="bg-burgundy-600" 
+                    roleColor="text-burgundy-100"
+                />
+                <TeamCard 
+                    name="Alejandro Paz" 
+                    role="Diseñador Técnico" 
+                    imgSrc="https://i.pravatar.cc/300?img=68" 
+                    bgClass="bg-burgundy-500" 
+                    roleColor="text-burgundy-100"
+                />
+            </div>
+        </div>
+    </main>
+</Layout>

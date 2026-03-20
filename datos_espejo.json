@@ -1,0 +1,121 @@
+{
+  "project": {
+    "name": "Espejo de Camarín - Machado Teatro",
+    "globalDimensions": {
+      "width": 1630,
+      "height": 830,
+      "depth": 35,
+      "unit": "mm"
+    },
+    "description": [
+      "El proyecto se basa en un sistema de ensamblaje tipo sándwich para lograr iluminación por retroproyección. El objetivo es que la luz LED rebote en los reflectores traseros y escape por el decapado frontal, evitando el deslumbramiento directo.",
+      "Todo el conjunto se asienta dentro del galce (rebaje) del marco y queda amurado a la pared mediante un sistema que garantiza escuadra perfecta, resistencia a la tracción y una cámara de aire de 15 mm para ventilar."
+    ]
+  },
+  "elements": [
+    {
+      "id": "marco_principal",
+      "name": "Marco Principal",
+      "category": "Estructural",
+      "materialId": "mat_kiri_70x20",
+      "dimensions": {
+        "unit": "mm",
+        "external": { "width": 1630, "height": 830, "depth": 20 },
+        "internal": { "width": 1490, "height": 690, "depth": 20 },
+        "section": { "width": 70, "depth": 20 }
+      },
+      "features": [
+        "Cara vista de 70 mm.",
+        "Galce interior de rebaje de 10 mm de ancho x 5 mm de profundidad para que el cristal asiente cómodamente y deje 1mm de tolerancia para el cordón de silicona neutra.",
+        "Cortes exteriores unidos a 45 grados (inglete)."
+      ]
+    },
+    {
+      "id": "bastidor_pino",
+      "name": "Bastidor de Pino",
+      "category": "Estructural",
+      "materialId": "mat_pino_18x18",
+      "dimensions": {
+        "unit": "mm",
+        "external": { "width": 1536, "height": 736, "depth": 18 },
+        "internal": { "width": 1500, "height": 700, "depth": 18 },
+        "section": { "width": 18, "depth": 18 }
+      },
+      "features": [
+        "Cortes unidos a 45 grados (inglete).",
+        "Caras interiores tratadas (pintadas de blanco o contar con cinta reflectiva) antes de sellar la caja, para asegurar que la luz no sea absorbida por la madera."
+      ]
+    },
+    {
+      "id": "anclaje_cleat",
+      "name": "Anclaje (French Cleat)",
+      "category": "Montaje",
+      "materialId": "mat_madera_dura_15",
+      "dimensions": {
+        "unit": "mm",
+        "external": { "width": 1400, "height": null, "depth": 15 }
+      },
+      "features": [
+        "Se corta longitudinalmente a 45 grados para su anclaje seguro por gravedad.",
+        "Actúa como separador natural de 15 mm respecto a la pared para permitir ventilación de la electrónica y respiración térmica."
+      ]
+    },
+    {
+      "id": "espejo_frontal",
+      "name": "Espejo Frontal",
+      "category": "Superficie",
+      "materialId": "mat_cristal_vasa_4",
+      "dimensions": {
+        "unit": "mm",
+        "external": { "width": 1500, "height": 700, "depth": 4 }
+      },
+      "features": [
+        "Requiere una franja perimetral de decapado translúcido de 30 mm de ancho en su cara posterior.",
+        "Asienta directamente sobre el galce de la moldura de Kiri, la luz escapa frontalmente por retroproyección."
+      ]
+    },
+    {
+      "id": "reflector_trasero",
+      "name": "Reflector Trasero",
+      "category": "Placa",
+      "materialId": "mat_mdf_5_5",
+      "dimensions": {
+        "unit": "mm",
+        "external": { "width": 1536, "height": 736, "depth": 5.5 }
+      },
+      "features": [
+        "Dimensiones exactas al perímetro exterior del bastidor de pino.",
+        "Pre-pintada en blanco titanio en su cara interior para rebotar/refractar la luz del LED hacia el cristal."
+      ]
+    },
+    {
+      "id": "base_portante",
+      "name": "Base Portante",
+      "category": "Placa",
+      "materialId": "mat_mdf_18",
+      "dimensions": {
+        "unit": "mm",
+        "external": { "width": 1440, "height": 640, "depth": 18 }
+      },
+      "features": [
+        "Núcleo portante estructural pegado tras el cristal, amarra el anclaje French Cleat.",
+        "Deliberadamente más chico que el cristal (1440x640), generando un voladizo exacto de 30 mm en todo el perímetro.",
+        "Funciona como el pasillo oculto / cámara estanca por donde viaja la tira LED COB y el cableado."
+      ]
+    },
+    {
+      "id": "iluminacion_led",
+      "name": "Electrónica y Tira LED",
+      "category": "Electrónica",
+      "materialId": "mat_elec_led_cob",
+      "dimensions": {
+        "unit": "mm",
+        "external": { "width": null, "height": null, "depth": null }
+      },
+      "features": [
+        "Tira COB de alta densidad instalada en el perímetro (canto) del MDF portante.",
+        "Fuente Slim 12V embutida en el espacio trasero."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+---
+import Layout from '@layouts/Layout.astro';
+---
+
+<Layout title="Inicio - Machado Teatro">
+    <main class="flex-1 flex flex-col items-center justify-center p-8 relative">
+        <div class="absolute inset-0 pointer-events-none" style="background-image: 
+            linear-gradient(to right, var(--fallback-bc, oklch(var(--bc)/0.05)) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--fallback-bc, oklch(var(--bc)/0.05)) 1px, transparent 1px);
+            background-size: 40px 40px;">
+        </div>
+        
+        <div class="relative z-10 max-w-3xl text-center space-y-8">
+            <img src="/logo.svg" class="w-48 h-auto mx-auto mb-6 dark:invert opacity-90 drop-shadow-xl" alt="Machado Teatro">
+            
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight text-base-900 dark:text-base-50">
+                Machado <span class="text-burgundy-500">Teatro</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-base-600 dark:text-base-400 font-light">
+                Un espacio dedicado a las artes escénicas de vanguardia, donde la imaginación y la técnica se encuentran.
+            </p>
+            
+            <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center w-full px-4 sm:px-0">
+                <a href="/equipo" class="btn w-full sm:w-auto bg-burgundy-600 hover:bg-burgundy-700 text-white border-0 gap-2 btn-md sm:btn-lg">
+                    <i data-lucide="users" class="w-5 h-5"></i> Conoce al Equipo
+                </a>
+                <a href="/espejo" class="btn w-full sm:w-auto btn-outline btn-base gap-2 btn-md sm:btn-lg">
+                    <i data-lucide="layers" class="w-5 h-5"></i> Ver Planos Técnicos
+                </a>
+            </div>
+        </div>
+    </main>
+</Layout>

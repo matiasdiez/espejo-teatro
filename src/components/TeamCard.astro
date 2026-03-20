@@ -1,0 +1,25 @@
+---
+interface Props {
+    name: string;
+    role: string;
+    imgSrc: string;
+    bgClass?: string;
+    roleColor?: string;
+}
+
+const { 
+    name, 
+    role, 
+    imgSrc, 
+    bgClass = "bg-burgundy-800",
+    roleColor = "text-burgundy-200"
+} = Astro.props;
+---
+
+<div class={`card ${bgClass} border-0 shadow-xl hover:-translate-y-2 transition-transform duration-300 rounded-[2.5rem] text-white`}>
+    <figure class="px-6 pt-8 pb-1"><img src={imgSrc} alt={name} class="rounded-full w-36 h-36 object-cover border-4 border-white/10" /></figure>
+    <div class="card-body items-center text-center px-6 pb-8">
+        <h4 class="card-title text-xl font-bold">{name}</h4>
+        <p class={`text-xs font-semibold uppercase tracking-wider mt-1 ${roleColor}`}>{role}</p>
+    </div>
+</div>

@@ -1,0 +1,1195 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Tarjeta from '@components/Tarjeta.astro';
+import datosEspejo from '../../datos_espejo.json';
+import { TARJETAS_CONFIG } from '../config';
+import type { TarjetaConfig } from '../types';
+
+// Función para buscar un elemento en el JSON por su ID
+const getElementData = (id: string) => datosEspejo.elements.find((e: any) => e.id === id) || ({} as any);
+
+// Formatear la descripción o características
+const formatDescription = (features: string[] | undefined) => {
+  if (!features || features.length === 0) return "Sin descripción.";
+  return features.join(" ");
+};
+
+// Construimos el array final cruzando nuestra config de UI con los datos del JSON
+const renderCards = TARJETAS_CONFIG.map((config: TarjetaConfig) => {
+  if (config.isCustom) {
+    return {
+      ...config,
+      title: config.title || "",
+      subtitle: config.subtitle || "",
+      description: config.description || "",
+    };
+  }
+  
+  const element = getElementData(config.id!);
+  return {
+    ...config,
+    title: element.name || config.id,
+    subtitle: element.dimensions && element.dimensions.external.width ? `${element.dimensions.external.width}x${element.dimensions.external.height}x${element.dimensions.external.depth}${element.dimensions.unit}` : "",
+    description: formatDescription(element.features),
+  };
+});
+---
+
+<Layout title="Espejo - Machado Teatro">
+  <style is:global>
+      .blueprint-mode {
+        --bp-bg: #1e3a8a;
+        --bp-line: #ffffff;
+        --bp-grid: rgba(255, 255, 255, 0.08);
+        --bp-fill: rgba(255, 255, 255, 0.1);
+      }
+      [data-theme="dark"] .blueprint-mode {
+        --bp-bg: #0f172a;
+        --bp-line: #bae6fd;
+        --bp-grid: transparent;
+        --bp-fill: rgba(186, 230, 253, 0.1);
+      }
+      .blueprint-mode #workspace-container {
+        background-color: var(--bp-bg) !important;
+        background-image: 
+          linear-gradient(var(--bp-grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--bp-grid) 1px, transparent 1px) !important;
+        background-size: 40px 40px !important;
+        background-position: center center !important;
+      }
+      .blueprint-mode .canvas-svg { filter: none !important; }
+      .blueprint-mode .canvas-svg [stroke="currentColor"],
+      .blueprint-mode .canvas-svg .dim-line { stroke: var(--bp-line) !important; opacity: 0.8 !important; }
+      .blueprint-mode .canvas-svg text,
+      .blueprint-mode .canvas-svg .dim-text-m,
+      .blueprint-mode .canvas-svg .fill-current { fill: var(--bp-line) !important; color: var(--bp-line) !important; }
+      .blueprint-mode .canvas-svg .layer-mdf, .blueprint-mode .canvas-svg .layer-kiri, .blueprint-mode .canvas-svg .layer-cleat,
+      .blueprint-mode .canvas-svg .layer-pino, .blueprint-mode .canvas-svg .layer-mdf5, .blueprint-mode .canvas-svg polygon:not(.layer-decapado) {
+        fill: url(#blueprintHatch) !important; stroke: var(--bp-line) !important; stroke-width: 0.5px !important;
+      }
+      .blueprint-mode .canvas-svg .svg-layer.svg-volume-side { fill: url(#blueprintHatchSide) !important; stroke: var(--bp-line) !important; stroke-width: 0.5px !important; }
+      .blueprint-mode .canvas-svg .layer-cristal { fill: var(--bp-fill) !important; stroke: var(--bp-line) !important; stroke-width: 1px !important; }
+      .blueprint-mode .canvas-svg .layer-decapado { fill: rgba(255, 255, 255, 0.3) !important; filter: none !important; stroke: var(--bp-line) !important; stroke-width: 0.5px !important; }
+      .blueprint-mode .canvas-svg .layer-muro { fill: url(#concreteHatch) !important; stroke: var(--bp-line) !important; stroke-width: 0.5px !important; opacity: 0.7 !important; }
+      .hide-dims .dim-line, .hide-dims .dim-text-m, .hide-dims g.dim-line, .hide-dims .dim-group { opacity: 0 !important; transition: opacity 0.3s ease; }
+      .lights-off .layer-led, .lights-off [fill="url(#lightConeGrad)"] { opacity: 0 !important; transition: opacity 0.4s ease; }
+      .lights-off .layer-decapado { filter: none !important; fill: rgba(255, 255, 255, 0.4) !important; }
+      svg { transition: background-color 0.4s ease; }
+
+      /* Bloquear scroll global para restaurar el formato de App estricta (igual al HTML original) */
+      body {
+        height: 100dvh !important;
+        overflow: hidden !important;
+      }
+    </style>
+
+    <div class="flex flex-col-reverse lg:flex-row w-full flex-1 overflow-hidden min-h-0">
+      <!-- Sidebar with Specs -->
+      <aside class="w-full lg:w-[380px] h-2/5 lg:h-full bg-base-100 dark:bg-base-900 border-t lg:border-t-0 lg:border-r border-base-200 dark:border-base-800 flex flex-col p-4 lg:p-6 gap-2 lg:gap-4 overflow-y-auto z-10 shadow-lg shrink-0 min-h-0" id="sidebar">
+        <div class="flex justify-between items-center mb-2">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-base-500 dark:text-base-400">Desglose de Materiales</h2>
+          <span class="text-xs text-base-400">Pasa el ratón</span>
+        </div>
+
+        {renderCards.map((card) => (
+          <Tarjeta
+            title={card.title}
+            subtitle={card.subtitle}
+            dataTarget={card.dataTarget}
+            dataColor={card.dataColor}
+            hoverClasses={card.hoverClasses}
+            titleHoverClasses={card.titleHoverClasses}
+            extraClasses={card.extraClasses}
+          >
+            {card.description}
+          </Tarjeta>
+        ))}
+      </aside>
+
+      <!-- Main Content -->
+      <main id="main-canvas" class="flex-1 flex flex-col min-w-0 min-h-0 bg-base-200 dark:bg-base-950 relative overlay-pattern transition-colors duration-500">
+        <div class="absolute inset-0 pointer-events-none -z-10" style="background-image: linear-gradient(to right, var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px, transparent 1px), linear-gradient(to bottom, var(--fallback-bc, oklch(var(--bc) / 0.05)) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+        <div class="flex flex-col sm:flex-row w-full bg-base-100 dark:bg-base-900 border-b border-base-200 dark:border-base-800 shadow-sm z-10">
+          <div class="tabs tabs-box flex-1 justify-center sm:justify-start px-4 pt-4 rounded-none overflow-x-auto no-scrollbar border-b-0 bg-transparent">
+            <a class="tab tab-btn tab-active font-medium" data-view="view-corte">Perfil (Corte Transversal)</a>
+            <a class="tab tab-btn font-medium" data-view="view-frontal">Vista Frontal (Plan)</a>
+            <a class="tab tab-btn font-medium" data-view="view-despiece">Explosión Isométrica</a>
+          </div>
+          <div class="flex items-center justify-center gap-2 px-4 py-3 sm:py-0 border-t border-base-200 dark:border-base-800 sm:border-t-0 bg-base-100 dark:bg-base-900">
+            <div class="hidden sm:flex items-center gap-1 border-r border-base-200 dark:border-base-800 pr-2 mr-1">
+              <i data-lucide="zoom-out" class="w-4 h-4 text-base-content/70"></i>
+              <input id="zoom-slider" type="range" min="0.5" max="3" step="0.1" value="1" class="range range-xs range-primary w-24" />
+              <i data-lucide="zoom-in" class="w-4 h-4 text-base-content/70"></i>
+              <button id="zoom-reset" class="p-1.5 rounded-full hover:bg-base-200 dark:hover:bg-base-800 transition-colors text-base-content ml-1" title="Reset Zoom">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+            <button id="btn-blueprint" class="p-2 rounded-lg hover:bg-base-200 dark:hover:bg-base-800 transition-colors" title="Modo Blueprint"><i data-lucide="drafting-compass" class="w-4 h-4 text-blue-600 dark:text-sky-500"></i></button>
+            <button id="btn-lights" class="p-2 rounded-lg hover:bg-base-200 dark:hover:bg-base-800 transition-colors" title="Alternar Luces LED"><i id="icon-lights" data-lucide="lightbulb" class="w-4 h-4 text-amber-600 dark:text-yellow-500 fill-amber-600 dark:fill-yellow-500"></i></button>
+            <button id="btn-dims" class="p-2 rounded-lg hover:bg-base-200 dark:hover:bg-base-800 transition-colors" title="Ocultar/Mostrar Cotas"><i id="icon-dims" data-lucide="ruler" class="w-4 h-4 text-base-content"></i></button>
+          </div>
+        </div>
+
+        <svg width="0" height="0" class="absolute pointer-events-none">
+          <defs>
+            <linearGradient id="kiriGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#b45309" /><stop offset="50%" stop-color="#92400e" /><stop offset="100%" stop-color="#78350f" /></linearGradient>
+            <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#bae6fd" /><stop offset="100%" stop-color="#0284c7" /></linearGradient>
+            <linearGradient id="lightConeGrad" x1="0%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="#fef08a" stop-opacity="0.5" /><stop offset="100%" stop-color="#fef08a" stop-opacity="0" /></linearGradient>
+            <pattern id="blueprintHatch" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="2" /></pattern>
+            <pattern id="blueprintHatchSide" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="2" /></pattern>            
+            <pattern id="concreteHatch" patternUnits="userSpaceOnUse" width="20" height="20">
+              <path d="M 4,4 L 6,1 L 8,4 Z M 14,14 L 16,11 L 18,14 Z" stroke="currentColor" fill="none" stroke-width="0.5" />
+              <circle cx="12" cy="4" r="0.5" fill="currentColor" /><circle cx="4" cy="14" r="0.5" fill="currentColor" /><circle cx="10" cy="10" r="0.5" fill="currentColor" />
+            </pattern>
+            <pattern id="mdfTex" patternUnits="userSpaceOnUse" width="10" height="10"><rect width="10" height="10" fill="#78350f" /><circle cx="2" cy="2" r="1" fill="#451a03" opacity="0.4" /></pattern>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+            <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="15" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+          </defs>
+        </svg>
+
+      <div id="workspace-container" class="flex-1 flex relative p-4 lg:p-12 z-0 w-full min-h-0 overflow-hidden items-center justify-center transition-colors duration-500">
+          <!-- TAB 1: PERFIL (CORTE) -->
+          <div id="view-corte" class="view-panel active text-base-500 w-full h-full max-w-5xl zoom-area cursor-move active:cursor-grabbing">
+            <div id="zoom-container-corte" class="w-full h-full" style="transform-origin: center center">
+                <svg
+                    viewBox="280 10 570 200"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="canvas-svg w-full h-full text-base-500 dark:text-base-400"
+                    >
+                    <rect
+                        class="svg-layer layer-muro"
+                        x="250"
+                        y="150.5"
+                        width="650"
+                        height="40"
+                        fill="currentColor"
+                        opacity="0.1"
+                    />
+                    <text
+                        x="350"
+                        y="174"
+                        class="dim-text-m text-base-600 dark:text-base-300"
+                        font-size="10"
+                        font-weight="600"
+                        letter-spacing="0.2em"
+                    >
+                        MURO / PARED
+                    </text>
+
+                    <g
+                        transform="translate(290, 170.5)"
+                        stroke="currentColor"
+                        opacity="0.5"
+                        stroke-width="1.5"
+                        fill="none"
+                    >
+                        <path d="M 0,0 L -20,0 M -10,10 L -20,0 L -10,-10" />
+                        <text
+                        x="-25"
+                        y="3"
+                        text-anchor="end"
+                        font-size="8"
+                        font-weight="600"
+                        class="fill-current"
+                        stroke="none"
+                        >
+                        ARRIBA (Techo)
+                        </text>
+                    </g>
+                    <g
+                        transform="translate(560, 170.5)"
+                        stroke="currentColor"
+                        opacity="0.5"
+                        stroke-width="1.5"
+                        fill="none"
+                    >
+                        <path d="M 0,0 L 20,0 M 10,10 L 20,0 L 10,-10" />
+                        <text
+                        x="25"
+                        y="3"
+                        text-anchor="start"
+                        font-size="8"
+                        font-weight="600"
+                        class="fill-current"
+                        stroke="none"
+                        >
+                        ABAJO (Piso)
+                        </text>
+                    </g>
+
+                    <!-- Listón Francés: Amurado a Pared -->
+                    <g class="svg-layer layer-cleat">
+                        <polygon
+                        points="372,120.5 450,120.5 450,150.5 402,150.5"
+                        fill="#451a03"
+                        />
+                        <!-- Línea Guía: Pared -->
+                        <polyline
+                        points="425,135.5 445,170.5 480,170.5"
+                        class="dim-line"
+                        stroke-width="0.5"
+                        stroke-dasharray="2,2"
+                        fill="none"
+                        />
+                        <text
+                        x="485"
+                        y="172.5"
+                        font-size="5"
+                        fill="currentColor"
+                        class="text-stone-500"
+                        >
+                        Amurado a la pared
+                        </text>
+                    </g>
+
+                    <!-- Listón Francés: Atornillado MDF -->
+                    <g class="svg-layer layer-cleat">
+                        <polygon
+                        points="320,119.5 368,119.5 398,149.5 320,149.5"
+                        fill="#78350f"
+                        />
+                        <!-- Línea Guía: MDF -->
+                        <polyline
+                        points="335,134.5 355,198 480,198"
+                        class="dim-line"
+                        stroke-width="0.5"
+                        stroke-dasharray="2,2"
+                        fill="none"
+                        />
+                        <text
+                        x="485"
+                        y="200"
+                        font-size="5"
+                        fill="currentColor"
+                        class="text-stone-500"
+                        >
+                        Atornillado a Base MDF
+                        </text>
+                    </g>
+
+                    <!-- Base MDF -->
+                    <rect
+                        class="svg-layer layer-mdf"
+                        x="300"
+                        y="97"
+                        width="420"
+                        height="18"
+                        fill="url(#mdfTex)"
+                    />
+
+                    <!-- Reflector MDF 5.5mm -->
+                    <rect
+                        class="svg-layer layer-mdf5"
+                        x="250"
+                        y="115"
+                        width="519"
+                        height="5.5"
+                        fill="var(--c-mdf5)"
+                        stroke="#64748b"
+                        stroke-width="0.5"
+                    />
+
+                    <!-- Fuente Slim -->
+                    <rect
+                        class="svg-layer layer-led"
+                        x="500"
+                        y="97"
+                        width="60"
+                        height="18"
+                        fill="currentColor"
+                        opacity="0.2"
+                        stroke="currentColor"
+                        stroke-width="1"
+                    />
+                    <text
+                        class="svg-layer layer-led dim-text-m"
+                        x="530"
+                        y="108"
+                        text-anchor="middle"
+                        font-size="4"
+                    >
+                        FUENTE
+                    </text>
+
+                    <!-- Cristal VASA -->
+                    <rect
+                        class="svg-layer layer-cristal"
+                        x="300"
+                        y="92"
+                        width="450"
+                        height="4"
+                        fill="url(#glassGrad)"
+                    />
+
+                    <!-- Decapado -->
+                    <rect
+                        class="svg-layer layer-decapado"
+                        x="720"
+                        y="92"
+                        width="30"
+                        height="4"
+                        fill="rgba(255,255,255,0.9)"
+                        filter="url(#glow)"
+                    />
+
+                    <!-- LED COB -->
+                    <rect
+                        class="svg-layer layer-led"
+                        x="720"
+                        y="97"
+                        width="3"
+                        height="18"
+                        fill="var(--c-led)"
+                        filter="url(#glow)"
+                    />
+
+                    <!-- Bastidor de Pino -->
+                    <rect
+                        class="svg-layer layer-pino"
+                        x="751"
+                        y="97"
+                        width="18"
+                        height="18"
+                        fill="#fef08a"
+                        stroke="#b45309"
+                        stroke-width="0.5"
+                    />
+                    <line
+                        class="svg-layer layer-pino"
+                        x1="751"
+                        y1="97"
+                        x2="751"
+                        y2="115"
+                        stroke="#ffffff"
+                        stroke-width="2"
+                        filter="url(#glow)"
+                    />
+
+                    <line
+                        class="svg-layer layer-pino dim-line"
+                        x1="760"
+                        y1="115"
+                        x2="760"
+                        y2="155"
+                        stroke-width="0.5"
+                        stroke-dasharray="0"
+                    />
+                    <text
+                        class="svg-layer layer-pino text-yellow-600 dark:text-yellow-400"
+                        x="765"
+                        y="155"
+                        font-size="5"
+                        fill="currentColor"
+                    >
+                        Bastidor Pino 18x18
+                    </text>
+
+                    <!-- Haz de Luz -->
+                    <polygon
+                        class="svg-layer layer-led"
+                        points="723,106 751,97 751,115"
+                        fill="rgba(253, 224, 71, 0.4)"
+                        filter="url(#glow)"
+                    />
+                    <!-- Escape de Luz -->
+                    <polygon
+                        class="svg-layer layer-decapado"
+                        points="720,92 750,92 765,35 705,35"
+                        fill="url(#lightConeGrad)"
+                        filter="url(#glow)"
+                    />
+
+                    <!-- Marco Kiri -->
+                    <path
+                        class="svg-layer layer-kiri"
+                        d="M 815,97 L 755,97 L 755,92 L 745,92 L 745,87 Q 770,90 780,80 Q 795,74 815,77 Z"
+                        fill="url(#kiriGrad)"
+                        stroke="#451a03"
+                        stroke-width="0.5"
+                    />
+
+                    <!-- Anotaciones Dimensionales -->
+                    <g class="dim-group">
+                        <defs>
+                        <marker id="arrowDim" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                            <path d="M 0 2 L 10 5 L 0 8 z" fill="currentColor" />
+                        </marker>
+                        </defs>
+
+                        <line class="dim-line" x1="720" y1="120" x2="720" y2="138" />
+                        <line class="dim-line" x1="751" y1="120" x2="751" y2="148" />
+                        <line class="dim-line" x1="815" y1="100" x2="815" y2="148" />
+
+                        <!-- Ranura -->
+                        <line class="dim-line" x1="720" y1="135" x2="751" y2="135" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)" />
+                        <text
+                        x="735.5"
+                        y="132"
+                        class="dim-text-m"
+                        font-size="4"
+                        text-anchor="middle"
+                        >
+                        Ranura ~31mm
+                        </text>
+
+                        <!-- Cara Vista -->
+                        <line class="dim-line" x1="745" y1="145" x2="815" y2="145" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)" />
+                        <text
+                        x="780"
+                        y="142"
+                        class="dim-text-m"
+                        font-size="4"
+                        text-anchor="middle"
+                        >
+                        Cara Vista Marco 70mm
+                        </text>
+
+                        <!-- Profundidad -->
+                        <line class="dim-line" x1="820" y1="77" x2="830" y2="77" stroke-dasharray="0" />
+                        <line class="dim-line" x1="820" y1="97" x2="830" y2="97" stroke-dasharray="0" />
+                        <line class="dim-line" x1="825" y1="77" x2="825" y2="97" stroke-dasharray="0" />
+                        <text
+                        x="830"
+                        y="88"
+                        class="dim-text-m"
+                        font-size="4"
+                        text-anchor="start"
+                        >
+                        20mm (M.)
+                        </text>
+
+                        <line
+                        class="dim-line"
+                        x1="290"
+                        y1="150.5"
+                        x2="280"
+                        y2="150.5"
+                        stroke-dasharray="0"
+                        />
+                        <line class="dim-line" x1="290" y1="97" x2="280" y2="97" stroke-dasharray="0" />
+                        <line class="dim-line" x1="285" y1="97" x2="285" y2="150.5" stroke-dasharray="0" />
+                        <text
+                        x="275"
+                        y="126.5"
+                        class="dim-text-m"
+                        font-size="4"
+                        text-anchor="end"
+                        >
+                        38.5mm P.+MDF
+                        </text>
+                    </g>
+
+                    <!-- Labels Principales cortas -->
+                    <text
+                        x="705"
+                        y="110"
+                        class="dim-text-m text-burgundy-500"
+                        font-size="4"
+                        text-anchor="end"
+                        fill="currentColor"
+                    >
+                        LED COB Lateral
+                    </text>
+                    <text
+                        x="730"
+                        y="80"
+                        class="dim-text-m text-fuchsia-500"
+                        font-size="4"
+                        font-weight="bold"
+                        text-anchor="end"
+                        fill="currentColor"
+                    >
+                        Decapado 30mm
+                    </text>
+                </svg>
+            </div>
+          </div>
+
+          <!-- TAB 2: FRONTAL -->
+          <div id="view-frontal" class="view-panel w-full h-full max-w-4xl text-base-500 zoom-area cursor-move active:cursor-grabbing relative">
+            <div id="frontal-dim-overlay" class="absolute top-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-0 transition-all duration-300 ease-out -translate-y-4">
+              <div class="bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md px-6 py-4 rounded-2xl border border-base-200 dark:border-base-800 flex flex-col items-center text-center">
+                <span id="frontal-dim-title" class="text-sm font-bold uppercase tracking-widest text-base-content/70 mb-1"></span>
+                <span id="frontal-dim-value" class="text-3xl sm:text-4xl font-mono font-black text-base-content whitespace-nowrap"></span>
+              </div>
+            </div>
+            <div id="zoom-container-frontal" class="w-full h-full flex items-center justify-center" style="transform-origin: center center">
+              <svg
+                viewBox="-50 -50 1800 1000"
+                xmlns="http://www.w3.org/2000/svg"
+                class="canvas-svg w-full h-full text-base-500 dark:text-base-400"
+                >
+                <path
+                    class="svg-layer layer-kiri"
+                    d="M 35,35 h 1630 v 830 h -1630 Z M 105,105 v 690 h 1490 v -690 Z"
+                    fill="url(#kiriGrad)"
+                    fill-rule="evenodd"
+                />
+
+                <rect
+                    class="svg-layer layer-cristal"
+                    x="100"
+                    y="100"
+                    width="1500"
+                    height="700"
+                    fill="#bae6fd"
+                    opacity="0.3"
+                />
+
+                <path
+                    class="svg-layer layer-decapado"
+                    d="M 100,100 h 1500 v 700 h -1500 Z M 130,130 v 640 h 1440 v -640 Z"
+                    fill="rgba(255,255,255,0.8)"
+                    fill-rule="evenodd"
+                    filter="url(#glow)"
+                />
+
+                <rect
+                    class="svg-layer layer-mdf5"
+                    x="82"
+                    y="82"
+                    width="1536"
+                    height="736"
+                    stroke="currentColor"
+                    opacity="0.3"
+                    stroke-width="5"
+                    stroke-dasharray="20,20"
+                    fill="var(--c-mdf5)"
+                />
+                <text
+                    x="850"
+                    y="98"
+                    class="svg-layer layer-mdf5"
+                    font-size="20"
+                    fill="currentColor"
+                    opacity="0.6"
+                    text-anchor="middle"
+                    letter-spacing="0.1em"
+                >
+                    REFLECTOR MDF 1536 x 736
+                </text>
+
+                <rect
+                    class="svg-layer layer-mdf"
+                    x="130"
+                    y="130"
+                    width="1440"
+                    height="640"
+                    stroke="currentColor"
+                    opacity="0.4"
+                    stroke-width="6"
+                    stroke-dasharray="15,15"
+                    fill="none"
+                />
+                <text
+                    x="850"
+                    y="470"
+                    class="svg-layer layer-mdf"
+                    font-size="28"
+                    fill="currentColor"
+                    opacity="0.5"
+                    text-anchor="middle"
+                    letter-spacing="0.2em"
+                >
+                    BACKPLATE MDF 1440 x 640
+                </text>
+
+                <rect
+                    class="svg-layer layer-led"
+                    x="127"
+                    y="127"
+                    width="1446"
+                    height="646"
+                    fill="none"
+                    stroke="var(--c-led)"
+                    stroke-width="25"
+                    opacity="0.4"
+                    filter="url(#strongGlow)"
+                />
+
+                <g stroke="currentColor" opacity="0.5" stroke-width="2">
+                    <line x1="35" y1="15" x2="1665" y2="15" />
+                    <line x1="35" y1="5" x2="35" y2="25" />
+                    <line x1="1665" y1="5" x2="1665" y2="25" />
+                    <text
+                    x="850"
+                    y="-5"
+                    font-size="20"
+                    fill="currentColor"
+                    text-anchor="middle"
+                    stroke="none"
+                    >
+                    Marco Kiri Exterior: 1630mm
+                    </text>
+
+                    <line x1="15" y1="35" x2="15" y2="865" />
+                    <line x1="5" y1="35" x2="25" y2="35" />
+                    <line x1="5" y1="865" x2="25" y2="865" />
+                    <text
+                    x="-5"
+                    y="450"
+                    transform="rotate(-90 -5 450)"
+                    font-size="20"
+                    fill="currentColor"
+                    text-anchor="middle"
+                    stroke="none"
+                    >
+                    830mm Ext.
+                    </text>
+                </g>
+                </svg>
+            </div>
+          </div>
+
+          <!-- TAB 3: DESPIECE 3D -->
+          <div id="view-despiece" class="view-panel w-full h-full max-w-5xl text-base-500 relative overflow-hidden flex-col zoom-area cursor-move active:cursor-grabbing">
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 bg-base-100/90 dark:bg-base-900/90 backdrop-blur-md px-6 py-4 rounded-full border border-base-200 dark:border-base-800 shadow-[0_10px_40px_rgba(0,0,0,0.2)] flex items-center gap-4 cursor-auto" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+              <button id="despiece-reset-btn" class="p-1.5 rounded-full hover:bg-base-200 dark:hover:bg-base-800 transition-colors text-base-content -ml-1" title="Resetear Vista"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
+              <button id="despiece-play-btn" class="p-1.5 rounded-full hover:bg-base-200 dark:hover:bg-base-800 transition-colors text-base-content" title="Animar Ensamblado"><i data-lucide="play" class="w-4 h-4"></i></button>
+              <span class="text-xs font-bold uppercase tracking-widest text-base-content/70">Unido</span>
+              <input id="assemble-slider" type="range" min="0" max="100" value="100" class="range range-sm range-info w-32 sm:w-48 cursor-pointer" />
+              <span class="text-xs font-bold uppercase tracking-widest text-base-content/70">Separado</span>
+            </div>
+            <svg
+                viewBox="-200 0 2000 1300"
+                xmlns="http://www.w3.org/2000/svg"
+                class="canvas-svg w-full h-full text-base-500 dark:text-base-400"
+              >
+                <!-- Contenedor general para el paneo y zoom -->
+                <g
+                  id="zoom-container-despiece"
+                  style="
+                    transform-origin: center;
+                    transition: transform 0.1s ease-out;
+                  "
+                >
+                  <!-- Fijación Mural (Cleat - 15mm espesor) -->
+                  <g class="despiece-part" data-occluded="true" data-explode-y="1050" data-assemble-y="900" transform="translate(850, 1050)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-cleat" d="M -300,300 L 300,300 L 347,347 L -253,347 Z" fill="#290f02" />
+                      <path class="svg-layer svg-volume-side layer-cleat" d="M 300,300 L 300,-300 L 347,-253 L 347,347 Z" fill="#290f02" />
+                      <rect
+                        class="svg-layer layer-cleat"
+                        x="-300"
+                        y="-300"
+                        width="600"
+                        height="600"
+                        fill="url(#mdfTex)"
+                        opacity="0.9"
+                        stroke="#451a03"
+                        stroke-width="8"
+                      />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="currentColor" font-size="34" font-weight="600" text-anchor="middle">
+                        Fijación Mural (Cleat)
+                      </text>
+                    </g>
+                  </g>
+
+                  <!-- Reflector MDF (5.5mm espesor) -->
+                  <g class="despiece-part" data-occluded="true" data-explode-y="950" data-assemble-y="870" transform="translate(850, 950)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-mdf5" d="M -768,368 L 768,368 L 784,384 L -752,384 Z" fill="#cbd5e1" />
+                      <path class="svg-layer svg-volume-side layer-mdf5" d="M 768,368 L 768,-368 L 784,-352 L 784,384 Z" fill="#cbd5e1" />
+                      <rect
+                        class="svg-layer layer-mdf5"
+                        x="-768"
+                        y="-368"
+                        width="1536"
+                        height="736"
+                        fill="var(--c-mdf5)"
+                        opacity="0.95"
+                        stroke="#451a03"
+                        stroke-width="4"
+                      />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="#020617" font-size="34" font-weight="600" text-anchor="middle">
+                        Reflector MDF 5.5mm
+                      </text>
+                    </g>
+                  </g>
+
+                  <!-- Núcleo Portante MDF + LED (18mm espesor) -->
+                  <g class="despiece-part" data-occluded="true" data-explode-y="850" data-assemble-y="859" transform="translate(850, 850)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-mdf" d="M -720,320 L 720,320 L 777,377 L -663,377 Z" fill="#451a03" />
+                      <path class="svg-layer svg-volume-side layer-mdf" d="M 720,320 L 720,-320 L 777,-263 L 777,377 Z" fill="#451a03" />
+                      <rect
+                        class="svg-layer layer-mdf"
+                        x="-720"
+                        y="-320"
+                        width="1440"
+                        height="640"
+                        fill="url(#mdfTex)"
+                        opacity="0.95"
+                        stroke="#451a03"
+                        stroke-width="6"
+                      />
+                      <!-- Cinta LED en los cantos del MDF -->
+                      <path class="svg-layer layer-led" d="M 736,336 L 736,-304 L 761,-279 L 761,361 Z" fill="var(--c-led)" filter="url(#glow)" />
+                      <path class="svg-layer layer-led" d="M -704,336 L 736,336 L 761,361 L -679,361 Z" fill="var(--c-led)" filter="url(#glow)" />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="white" font-size="34" font-weight="600" text-anchor="middle">
+                        Núcleo Portante MDF + LED COB
+                      </text>
+                    </g>
+                  </g>
+
+                <!-- Bastidor de Pino (18mm espesor) - Se dibuja antes que el Kiri y el Vidrio -->
+                <g class="despiece-part" data-occluded="true" data-explode-y="675" data-assemble-y="824" transform="translate(850, 675)">
+                  <g transform="scale(1, 0.45) rotate(45)">
+                    <path class="svg-layer svg-volume-side layer-pino" d="M -750,-350 L 750,-350 L 807,-293 L -693,-293 Z" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5" />
+                    <path class="svg-layer svg-volume-side layer-pino" d="M -750,-350 L -750,350 L -693,407 L -693,-293 Z" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5" />
+                    <path class="svg-layer svg-volume-side layer-pino" d="M -770,370 L 770,370 L 827,427 L -713,427 Z" fill="#b45309" />
+                    <path class="svg-layer svg-volume-side layer-pino" d="M 770,-370 L 770,370 L 827,427 L 827,-313 Z" fill="#b45309" />
+                    <path class="svg-layer layer-pino" d="M -770,-370 h 1540 v 740 h -1540 Z M -750,-350 v 700 h 1500 v -700 Z" fill="#ca8a04" stroke="#78350f" stroke-width="2" fill-rule="evenodd" />
+                    <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="#451a03" font-size="34" font-weight="600" text-anchor="middle">
+                      Bastidor Reflector (Pino)
+                    </text>
+                  </g>
+                </g>
+
+                  <!-- Marco Kiri (Paredes Interiores - Se dibujan detrás del cristal para simular el galce) -->
+                  <g class="despiece-part" data-is-kiri-main="true" data-occluded="true" data-explode-y="200" data-assemble-y="819" transform="translate(850, 200)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M -745,-345 L 745,-345 L 808,-282 L -682,-282 Z" fill="#451a03" />
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M -745,-345 L -745,345 L -682,408 L -682,-282 Z" fill="#451a03" />
+                    </g>
+                  </g>
+
+                  <!-- Espejo Cristal (4mm espesor) -->
+                  <g class="despiece-part" data-explode-y="500" data-assemble-y="824" transform="translate(850, 500)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-cristal" d="M -750,350 L 750,350 L 763,363 L -737,363 Z" fill="#0284c7" opacity="0.5" />
+                      <path class="svg-layer svg-volume-side layer-cristal" d="M 750,350 L 750,-350 L 763,-337 L 763,363 Z" fill="#0284c7" opacity="0.5" />
+                      <rect class="svg-layer layer-cristal" x="-750" y="-350" width="1500" height="700" fill="#bae6fd" opacity="0.6" stroke="#fff" stroke-width="4" />
+                      <path class="svg-layer layer-decapado" d="M -750,-350 h 1500 v 700 h -1500 Z M -720,-320 v 640 h 1440 v -640 Z" fill="rgba(255,255,255,0.95)" filter="url(#glow)" fill-rule="evenodd" />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="#020617" font-size="34" font-weight="800" text-anchor="middle">
+                        Espejo Cristal 4mm (Voladizo perimetral)
+                      </text>
+                    </g>
+                  </g>
+
+                  <!-- Marco Kiri (Cara Superior y Paredes Exteriores) - NO es un despiece-part, es controlado por JS -->
+                  <g id="kiri-front-part" transform="translate(850, 200)">
+                    <g transform="scale(1, 0.45) rotate(45)">
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M -815,415 L 815,415 L 878,478 L -752,478 Z" fill="#451a03" />
+                      <path class="svg-layer svg-volume-side layer-kiri" d="M 815,-415 L 815,415 L 878,478 L 878,-352 Z" fill="#451a03" />
+                      <path class="svg-layer layer-kiri" d="M -815,-415 h 1630 v 830 h -1630 Z M -745,-345 v 690 h 1490 v -690 Z" fill="url(#kiriGrad)" fill-rule="evenodd" stroke="#78350f" stroke-width="4" />
+                      <text class="despiece-text" transform="rotate(-45) scale(1, 2.22)" x="0" y="30" fill="white" font-size="34" font-weight="600" text-anchor="middle">
+                        Moldura Flotante Kiri
+                      </text>
+                    </g>
+                  </g>
+
+                  <!-- Líneas Guía de Explosión -->
+                  <path
+                    class="despiece-guide"
+                    d="M 850,200 L 850,1050"
+                    stroke="currentColor"
+                    opacity="0.3"
+                    stroke-width="4"
+                    stroke-dasharray="15,15"
+                  />
+                  <path
+                    class="despiece-guide svg-layer layer-cristal layer-kiri"
+                    d="M 270,360 L 270,660"
+                    stroke="currentColor"
+                    opacity="0.3"
+                    stroke-width="3"
+                    stroke-dasharray="8,8"
+                  />
+                </g>
+              </svg>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Importamos las funciones de lucide para recrear íconos cuando actualizamos el botón de cotas dinámicamente
+      import { createIcons, icons } from 'lucide';
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- ESTADO DE ZOOM & PAN (Subimos variables para evitar errores TDZ) ---
+        let currentScale = 1;
+        let currentX = 0;
+        let currentY = 0;
+        let isDragging = false;
+        let startX = 0, startY = 0;
+
+        function updateTransform() {
+          const containers = [
+            document.getElementById("zoom-container-corte"),
+            document.getElementById("zoom-container-frontal"),
+            document.getElementById("zoom-container-despiece")
+          ];
+          containers.forEach(container => {
+            if (container) {
+              container.style.transition = isDragging ? "none" : "transform 0.1s ease-out";
+              container.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+            }
+          });
+        }
+
+        const zoomSlider = document.getElementById("zoom-slider") as HTMLInputElement | null;
+        const zoomReset = document.getElementById("zoom-reset");
+        const zoomAreas = document.querySelectorAll(".zoom-area");
+
+        // --- TABS LOGIC ---
+        const tabs = document.querySelectorAll(".tab-btn");
+        const views = document.querySelectorAll(".view-panel");
+
+        tabs.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("tab-active"));
+            views.forEach((v) => v.classList.remove("active"));
+
+            btn.classList.add("tab-active");
+            const btnElement = btn as HTMLElement;
+            if (btnElement.dataset.view) {
+              const targetView = document.getElementById(btnElement.dataset.view);
+              if (targetView) targetView.classList.add("active");
+            }
+
+            // Reset zoom when switching tabs
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            if (zoomSlider) {
+              zoomSlider.value = "1";
+            }
+            updateTransform();
+          });
+        });
+
+        // --- FUNCIONES PARA OVERLAY DE MEDIDAS (VISTA FRONTAL) ---
+        function showFrontalDimOverlay(specItem: HTMLElement) {
+          const dimOverlay = document.getElementById("frontal-dim-overlay");
+          if (!dimOverlay) return;
+          const titleText = specItem.querySelector('.font-semibold')?.textContent || '';
+          const spans = specItem.querySelectorAll('span');
+          const dimText = spans.length > 1 ? spans[1].textContent || '' : '';
+          
+          const dimTitle = document.getElementById("frontal-dim-title");
+          const dimValue = document.getElementById("frontal-dim-value");
+          
+          if (dimTitle && dimValue) {
+              dimTitle.textContent = titleText;
+              dimValue.textContent = dimText;
+          }
+          dimOverlay.classList.remove("opacity-0", "-translate-y-4");
+          dimOverlay.classList.add("opacity-100", "translate-y-0");
+        }
+
+        function hideFrontalDimOverlay() {
+          const dimOverlay = document.getElementById("frontal-dim-overlay");
+          if (dimOverlay) {
+              dimOverlay.classList.remove("opacity-100", "translate-y-0");
+              dimOverlay.classList.add("opacity-0", "-translate-y-4");
+          }
+        }
+
+        // --- HOVER (LAYERS) LOGIC ---
+        const specItems = document.querySelectorAll(".spec-item") as NodeListOf<HTMLElement>;
+        specItems.forEach((item) => {
+          item.addEventListener("mouseenter", () => {
+            const targetClass = item.dataset.target;
+            const mainColorClass = item.dataset.color;
+            document.body.classList.add("layer-highlight-mode");
+            item.classList.add("active-hover");
+
+            if (targetClass) {
+              document.querySelectorAll("." + targetClass).forEach((el) => {
+                el.classList.add("highlighted");
+                if (mainColorClass) el.classList.add(mainColorClass);
+              });
+            }
+            showFrontalDimOverlay(item);
+          });
+
+          item.addEventListener("mouseleave", () => {
+            const targetClass = item.dataset.target;
+            const mainColorClass = item.dataset.color;
+            document.body.classList.remove("layer-highlight-mode");
+            item.classList.remove("active-hover");
+
+            if (targetClass) {
+              document.querySelectorAll("." + targetClass).forEach((el) => {
+                el.classList.remove("highlighted");
+                if (mainColorClass) el.classList.remove(mainColorClass);
+              });
+            }
+            hideFrontalDimOverlay();
+          });
+        });
+
+        // --- TWO-WAY HOVER (SVG -> SIDEBAR) ---
+        const svgLayers = document.querySelectorAll(".svg-layer");
+        svgLayers.forEach((layer) => {
+          layer.addEventListener("mouseenter", () => {
+            const classList = Array.from(layer.classList);
+            const targetClass = classList.find((c) => c.startsWith("layer-"));
+            if (targetClass) {
+              const specItem = document.querySelector(`.spec-item[data-target="${targetClass}"]`) as HTMLElement | null;
+              if (specItem) {
+                const mainColorClass = specItem.dataset.color;
+                document.body.classList.add("layer-highlight-mode");
+                specItem.classList.add("active-hover");
+
+                // Trigger hover classes
+                if (!specItem.dataset.hoverClassesCached) {
+                  const hClass: string[] = [];
+                  Array.from(specItem.classList).forEach((c) => {
+                    if (c.startsWith("hover:")) hClass.push(c.replace("hover:", ""));
+                    if (c.startsWith("dark:hover:")) hClass.push(c.replace("dark:hover:", "dark:"));
+                  });
+                  specItem.dataset.hoverClasses = JSON.stringify(hClass);
+                  const titleSpan = specItem.querySelector("span") as HTMLElement | null;
+                  if (titleSpan) {
+                    const tClass: string[] = [];
+                    Array.from(titleSpan.classList).forEach((c) => {
+                      if (c.startsWith("group-hover:")) tClass.push(c.replace("group-hover:", ""));
+                      if (c.startsWith("dark:group-hover:")) tClass.push(c.replace("dark:group-hover:", "dark:"));
+                    });
+                    titleSpan.dataset.hoverClasses = JSON.stringify(tClass);
+                  }
+                  specItem.dataset.hoverClassesCached = "true";
+                }
+                const hoverClasses: string[] = JSON.parse(specItem.dataset.hoverClasses || "[]");
+                specItem.classList.remove("bg-base-50", "dark:bg-base-800/50", "border-base-200", "dark:border-base-700");
+                if (hoverClasses.length > 0) specItem.classList.add(...hoverClasses);
+
+                const titleSpan = specItem.querySelector("span") as HTMLElement | null;
+                if (titleSpan) {
+                  const titleHover: string[] = JSON.parse(titleSpan.dataset.hoverClasses || "[]");
+                  titleSpan.classList.remove("text-base-900", "dark:text-base-100");
+                  if (titleHover.length > 0) titleSpan.classList.add(...titleHover);
+                }
+
+                document.querySelectorAll("." + targetClass).forEach((el) => {
+                  el.classList.add("highlighted");
+                  if (mainColorClass) el.classList.add(mainColorClass);
+                });
+                specItem.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                showFrontalDimOverlay(specItem);
+              }
+            }
+          });
+
+          layer.addEventListener("mouseleave", () => {
+            const classList = Array.from(layer.classList);
+            const targetClass = classList.find((c) => c.startsWith("layer-"));
+            if (targetClass) {
+              const specItem = document.querySelector(`.spec-item[data-target="${targetClass}"]`) as HTMLElement | null;
+              if (specItem) {
+                const mainColorClass = specItem.dataset.color;
+                document.body.classList.remove("layer-highlight-mode");
+                specItem.classList.remove("active-hover");
+
+                const hoverClasses: string[] = JSON.parse(specItem.dataset.hoverClasses || "[]");
+                if (hoverClasses.length > 0) specItem.classList.remove(...hoverClasses);
+                specItem.classList.add("bg-base-50", "dark:bg-base-800/50", "border-base-200", "dark:border-base-700");
+
+                const titleSpan = specItem.querySelector("span") as HTMLElement | null;
+                if (titleSpan) {
+                  const titleHover: string[] = JSON.parse(titleSpan.dataset.hoverClasses || "[]");
+                  if (titleHover.length > 0) titleSpan.classList.remove(...titleHover);
+                  titleSpan.classList.add("text-base-900", "dark:text-base-100");
+                }
+
+                document.querySelectorAll("." + targetClass).forEach((el) => {
+                  el.classList.remove("highlighted");
+                  if (mainColorClass) el.classList.remove(mainColorClass);
+                });
+                hideFrontalDimOverlay();
+              }
+            }
+          });
+        });
+
+        // --- TOOLBAR BUTTONS ---
+        const mainCanvas = document.getElementById("main-canvas");
+        const btnBlueprint = document.getElementById("btn-blueprint");
+        const btnLights = document.getElementById("btn-lights");
+        const btnDims = document.getElementById("btn-dims");
+
+        if (btnBlueprint && mainCanvas) {
+          btnBlueprint.addEventListener("click", () => {
+            mainCanvas.classList.toggle("blueprint-mode");
+            btnBlueprint.classList.toggle("bg-blue-200");
+            btnBlueprint.classList.toggle("dark:bg-sky-500/20");
+          });
+        }
+
+        if (btnLights && mainCanvas) {
+          btnLights.addEventListener("click", () => {
+            mainCanvas.classList.toggle("lights-off");
+            const icon = document.getElementById("icon-lights");
+            if (icon) {
+              if (mainCanvas.classList.contains("lights-off")) {
+                icon.classList.remove("fill-amber-600", "text-amber-600", "dark:fill-yellow-500", "dark:text-yellow-500");
+                icon.classList.add("text-base-content/40");
+                btnLights.classList.add("bg-base-200", "dark:bg-base-800");
+              } else {
+                icon.classList.add("fill-amber-600", "text-amber-600", "dark:fill-yellow-500", "dark:text-yellow-500");
+                icon.classList.remove("text-base-content/40");
+                btnLights.classList.remove("bg-base-200", "dark:bg-base-800");
+              }
+            }
+          });
+        }
+
+        if (btnDims && mainCanvas) {
+          btnDims.addEventListener("click", () => {
+            mainCanvas.classList.toggle("hide-dims");
+            const icon = document.getElementById("icon-dims");
+            if (icon) {
+              if (mainCanvas.classList.contains("hide-dims")) {
+                icon.setAttribute("data-lucide", "eye-off");
+                icon.classList.remove("text-base-content");
+                icon.classList.add("text-base-content/40");
+                btnDims.classList.add("bg-base-200", "dark:bg-base-800");
+              } else {
+                icon.setAttribute("data-lucide", "ruler");
+                icon.classList.add("text-base-content");
+                icon.classList.remove("text-base-content/40");
+                btnDims.classList.remove("bg-base-200", "dark:bg-base-800");
+              }
+              createIcons({ icons });
+            }
+          });
+        }
+
+        // --- LOGICA DEL SLIDER DE ENSAMBLAJE (DESPIECE) ---
+        const assembleSlider = document.getElementById("assemble-slider") as HTMLInputElement | null;
+        const despieceParts = document.querySelectorAll(".despiece-part") as NodeListOf<HTMLElement | SVGElement>;
+        const despieceGuides = document.querySelectorAll(".despiece-guide") as NodeListOf<HTMLElement | SVGElement>;
+        const despieceTexts = document.querySelectorAll(".despiece-text") as NodeListOf<HTMLElement | SVGElement>;
+        const kiriFrontPart = document.getElementById("kiri-front-part");
+        const despieceResetBtn = document.getElementById("despiece-reset-btn");
+        const kiriMainPart = document.querySelector('[data-is-kiri-main="true"]');
+        const despiecePlayBtn = document.getElementById("despiece-play-btn");
+
+        if (assembleSlider) {
+          assembleSlider.addEventListener("input", (e) => {
+            const target = e.target as HTMLInputElement;
+            const progress = parseFloat(target.value) / 100;
+            despieceParts.forEach(part => {
+              const explodeY = parseFloat(part.getAttribute("data-explode-y") || "0");
+              const assembleY = parseFloat(part.getAttribute("data-assemble-y") || "0");
+              const currentY = assembleY + (explodeY - assembleY) * progress;
+              part.setAttribute("transform", `translate(850, ${currentY})`);
+              if (part.getAttribute("data-occluded") === "true") {
+                part.style.opacity = Math.min(1, progress * 5).toString();
+              }
+            });
+            if (kiriMainPart && kiriFrontPart) {
+                const transformAttr = kiriMainPart.getAttribute('transform');
+                if (transformAttr) kiriFrontPart.setAttribute('transform', transformAttr);
+            }
+            despieceGuides.forEach(guide => { guide.style.opacity = (progress * 0.3).toString(); });
+            despieceTexts.forEach(txt => {
+              txt.style.opacity = Math.min(1, progress * 2).toString();
+            });
+          });
+        }
+
+        if (despieceResetBtn && assembleSlider) {
+          despieceResetBtn.addEventListener('click', () => {
+              const duration = 600;
+              const startSlider = parseFloat(assembleSlider.value);
+              const startScale = currentScale;
+              const startX = currentX;
+              const startY = currentY;
+              let startTime: number | null = null;
+              function animateReset(timestamp: number) {
+                  if (!startTime) startTime = timestamp;
+                  const elapsed = timestamp - startTime;
+                  const progress = Math.min(elapsed / duration, 1);
+                  const easeProgress = 1 - Math.pow(1 - progress, 4);
+                  if (assembleSlider) {
+                    assembleSlider.value = (startSlider + (100 - startSlider) * easeProgress).toString();
+                    assembleSlider.dispatchEvent(new Event('input', { bubbles:true }));
+                  }
+                  currentScale = startScale + (1 - startScale) * easeProgress;
+                  currentX = startX + (0 - startX) * easeProgress;
+                  currentY = startY + (0 - startY) * easeProgress;
+                  if (zoomSlider) zoomSlider.value = currentScale.toString();
+                  updateTransform();
+                  if (progress < 1) requestAnimationFrame(animateReset);
+              }
+              requestAnimationFrame(animateReset);
+          });
+        }
+
+        if (despiecePlayBtn && assembleSlider) {
+          despiecePlayBtn.addEventListener('click', () => {
+              const duration = 800;
+              const startSlider = parseFloat(assembleSlider.value);
+              let startTime: number | null = null;
+              function animateAssemble(timestamp: number) {
+                  if (!startTime) startTime = timestamp;
+                  const elapsed = timestamp - startTime;
+                  const progress = Math.min(elapsed / duration, 1);
+                  const easeProgress = 1 - Math.pow(1 - progress, 3);
+                  if (assembleSlider) {
+                    assembleSlider.value = (startSlider + (0 - startSlider) * easeProgress).toString();
+                    assembleSlider.dispatchEvent(new Event('input', { bubbles:true }));
+                  }
+                  if (progress < 1) requestAnimationFrame(animateAssemble);
+              }
+              requestAnimationFrame(animateAssemble);
+          });
+        }
+
+        // --- ZOOM & PAN LOGIC BINDINGS ---
+        if (zoomSlider) {
+          zoomSlider.addEventListener("input", (e) => {
+            const target = e.target as HTMLInputElement;
+            currentScale = parseFloat(target.value);
+            updateTransform();
+          });
+
+          if (zoomReset) {
+            zoomReset.addEventListener("click", () => {
+              currentScale = 1; currentX = 0; currentY = 0;
+              zoomSlider.value = "1";
+              updateTransform();
+            });
+          }
+
+          zoomAreas.forEach(zoomArea => {
+            zoomArea.addEventListener("mousedown", (e) => {
+              const mouseEvent = e as MouseEvent;
+              isDragging = true;
+              startX = mouseEvent.clientX - currentX;
+              startY = mouseEvent.clientY - currentY;
+            });
+            zoomArea.addEventListener("wheel", (e) => {
+              const wheelEvent = e as WheelEvent;
+              wheelEvent.preventDefault();
+              const zoomStep = 0.1;
+              if (wheelEvent.deltaY < 0) {
+                currentScale = Math.min(parseFloat(zoomSlider.max), currentScale + zoomStep);
+              } else {
+                currentScale = Math.max(parseFloat(zoomSlider.min), currentScale - zoomStep);
+              }
+              zoomSlider.value = currentScale.toString();
+              updateTransform();
+            });
+          });
+
+          window.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX - startX;
+            currentY = e.clientY - startY;
+            updateTransform();
+          });
+
+          window.addEventListener("mouseup", () => {
+            isDragging = false;
+            updateTransform();
+          });
+        }
+      });
+    </script>
+</Layout>

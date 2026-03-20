@@ -1,0 +1,78 @@
+{
+  "materials": [
+    {
+      "id": "mat_kiri_70x20",
+      "name": "Varilla de Kiri 70x20mm",
+      "category": "Madera Maciza",
+      "supplier": "Maderera Estándar",
+      "specifications": {
+        "sectionWidth": 70,
+        "sectionDepth": 20,
+        "unit": "mm"
+      }
+    },
+    {
+      "id": "mat_pino_18x18",
+      "name": "Varilla de Pino 18x18mm",
+      "category": "Madera Maciza",
+      "supplier": "Maderera Estándar",
+      "specifications": {
+        "sectionWidth": 18,
+        "sectionDepth": 18,
+        "unit": "mm"
+      }
+    },
+    {
+      "id": "mat_madera_dura_15",
+      "name": "Listón de Madera Dura 15mm",
+      "category": "Madera Maciza",
+      "specifications": {
+        "thickness": 15,
+        "unit": "mm"
+      }
+    },
+    {
+      "id": "mat_cristal_vasa_4",
+      "name": "Cristal VASA 4mm",
+      "category": "Vidrio",
+      "specifications": {
+        "thickness": 4,
+        "unit": "mm"
+      }
+    },
+    {
+      "id": "mat_mdf_5_5",
+      "name": "Placa MDF Fino 5.5mm",
+      "category": "Placa",
+      "specifications": {
+        "thickness": 5.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "id": "mat_mdf_18",
+      "name": "Placa MDF Estructural 18mm",
+      "category": "Placa",
+      "specifications": {
+        "thickness": 18,
+        "unit": "mm"
+      }
+    },
+    {
+      "id": "mat_elec_led_cob",
+      "name": "Tira LED COB 12V Alta Densidad",
+      "category": "Electrónica",
+      "specifications": {
+        "type": "Iluminación"
+      }
+    },
+    {
+      "id": "mat_elec_fuente",
+      "name": "Fuente de Alimentación Slim 12V",
+      "category": "Electrónica",
+      "specifications": {
+        "type": "Alimentación"
+      }
+    }
+  ]
+}
