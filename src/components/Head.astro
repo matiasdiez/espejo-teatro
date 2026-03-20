@@ -72,3 +72,31 @@ const imageUrl = new URL(makeUrl(image), Astro.site ?? Astro.url);
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
+
+<!--Bloquear cargar darkmode -->
+<script is:inline>
+    const theme = (() => {
+      // 1. Revisar si hay un tema guardado en localStorage
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      // 2. Si no hay, revisar la preferencia del sistema operativo
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      // 3. Por defecto, claro
+      return 'light';
+    })();
+    
+    // Inyectar el tema inmediatamente en el HTML o Body
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    
+    // Guardar para que otras partes del código (como FlyonUI) estén sincronizadas
+    window.localStorage.setItem('theme', theme);
+  </script>
