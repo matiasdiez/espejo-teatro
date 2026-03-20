@@ -33,7 +33,7 @@ const { showPrintButton = false } = Astro.props;
     <div class="navbar-start w-auto">
         <!-- Mobile Menu Dropdown -->
         <div class="relative sm:hidden group">
-            <button tabindex="0" class="p-2 rounded-full text-base-content hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors">
+            <button tabindex="0" aria-label="Abrir menú principal" aria-haspopup="true" class="p-2 rounded-full text-base-content hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors">
                 <i data-lucide="menu" class="h-5 w-5"></i>
             </button>
             <ul class="menu menu-sm absolute left-0 top-full mt-2 w-52 p-2 shadow-xl bg-calcareo-100 dark:bg-calcareo-800 rounded-box z-[55] opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 border border-calcareo-200 dark:border-calcareo-800 pointer-events-none group-focus-within:pointer-events-auto">
