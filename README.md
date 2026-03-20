@@ -26,14 +26,14 @@ Para facilitar la construcción y cortes en taller (CNC/Ingletadora), este proye
 
 ## Tecnologías utilizadas
 
-- HTML / CSS3 (vainilla)
-- JavaScript (sin frameworks, lógica nativa para controlar los SVG)
+- **Astro**: Framework web principal rápido y orientado a componentes.
+- **Tailwind CSS v4**: Framework de estilos de utilidad integrados.
+- **FlyonUI**: Librería de componentes UI interactivos.
+- **Lucide Icons**: Librería de íconos limpios y adaptables.
+- **TypeScript / JavaScript**: Estructuración de datos y lógica nativa del lado del cliente para controlar los SVG.
 - SVG (Scalable Vector Graphics)
-- Lucide Icons (librería de iconos)
-- FlyonUI (librería de componentes UI)
-- Tailwind CSS (framework de estilos)
 
-### Funciones del Visor Web (`espejo.html`)
+### Funciones del Visor Web (`/espejo`)
 
 - **Vista de Corte (Perfil)**: Muestra el sándwich de materiales capa por capa.
 - **Vista Frontal**: Plano constructivo 2D tradicional.
@@ -44,16 +44,25 @@ Para facilitar la construcción y cortes en taller (CNC/Ingletadora), este proye
 ### Estructura del proyecto
 
 /
-├── espejo.html # Página principal del visor del espejo
-├── PLANTILLA_PLANOS.md # Plantilla base con el motor de zoom/pan y estética blueprint
-├── shared.css # Estilos globales de la aplicación
-└── ...
+├── src/
+│   ├── pages/        # Rutas principales (index.astro, espejo.astro, detalles.astro)
+│   ├── components/   # Componentes UI reutilizables (Navbar, Tarjeta)
+│   ├── layouts/      # Plantilla base y metadatos de HTML (Layout.astro)
+│   └── styles/       # Variables CSS globales y configuración de temas
+├── datos_espejo.json # Datos dimensionales e informativos estructurales
+├── package.json      # Dependencias y scripts del entorno
+└── astro.config.mjs  # Configuración del framework
 
 ### Cómo visualizar los planos
 
-1. Descarga o clona este directorio/repositorio.
-2. No requiere instalación de programas adicionales ni servidores.
-3. Abre el archivo `espejo.html` (o ingresa desde `index.html`) utilizando cualquier navegador web (Chrome, Firefox, Safari) en PC o móvil.
+**Opción 1: Visor Online (Recomendado)**
+El proyecto se compila y despliega automáticamente vía GitHub Actions. Puedes verlo sin instalar nada visitando la URL de GitHub Pages provista en este repositorio.
+
+**Opción 2: Desarrollo Local**
+1. Asegúrate de tener **Node.js** (v22.12 o superior) instalado en tu computadora.
+2. Clona este repositorio y abre una terminal en su directorio.
+3. Ejecuta `npm install` para instalar las dependencias (Astro, Tailwind, etc).
+4. Ejecuta `npm run dev` para iniciar el servidor local y abre `http://localhost:4321` en tu navegador.
 
 ### Créditos
 
