@@ -75,7 +75,7 @@ const { showPrintButton = false } = Astro.props;
         )}
         <!-- Dark Mode Toggle -->
         <label class="swap swap-rotate p-2 rounded-full hover:bg-calcareo-200 dark:hover:bg-calcareo-800 transition-colors print-hide cursor-pointer text-base-content">
-            <input type="checkbox" id="theme-toggle" />
+            <input type="checkbox" id="theme-toggle" aria-label="Alternar modo oscuro" />
             <i data-lucide="sun" class="swap-on w-4 h-4 text-amber-500"></i>
             <i data-lucide="moon" class="swap-off w-4 h-4"></i>
         </label>
