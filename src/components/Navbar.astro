@@ -10,7 +10,13 @@ const currentPath = normalizePath(pathname);
 const base = import.meta.env.BASE_URL;
 
 // Funciones helper para crear links dinámicos y chequear si están activos
-const makeUrl = (path: string) => path === '/' ? base : `${base}${path.replace(/^\//, '')}`;
+const makeUrl = (path: string) => {
+    // Removemos la barra final de la base (si la tiene)
+    const cleanBase = base.replace(/\/$/, '');
+    // Aseguramos que el path siempre empiece con una barra
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${cleanBase}${cleanPath}`;
+};
 const checkActive = (target: string) => {
     const targetUrl = makeUrl(target);
     return currentPath === normalizePath(targetUrl);
